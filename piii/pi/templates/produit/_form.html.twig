@@ -1,0 +1,13 @@
+{{ form_start(form) }}
+
+<div class="form-group">
+    {{ form_label(form.products) }}
+
+    <div class="product-container">  {# New container for products #}
+        {{ form_widget(form.products, { 'attr': {'multiple': 'multiple', 'class': 'form-control'} }) }}
+    </div>
+
+</div>
+
+<button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

@@ -1,0 +1,170 @@
+{% block title %}Create New Panier{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        /* General reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            background-color: #1877f2;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 60px;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .navbar .search-bar input {
+            padding: 8px;
+            border-radius: 20px;
+            border: none;
+            width: 250px;
+            font-size: 14px;
+        }
+
+        /* Sidebar Styling */
+        .container {
+            display: flex;
+            margin-top: 70px; /* Add margin to prevent overlap with navbar */
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: white;
+            padding: 25px 20px;
+            height: 100vh;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 60px;
+            left: 0;
+            z-index: 500;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 12px 15px;
+            color: #333;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 12px;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            background-color: #e4e6eb;
+        }
+
+        /* Main content area */
+        .content {
+            flex-grow: 1;
+            padding: 40px 30px;
+            margin-left: 270px; /* Give space for sidebar */
+        }
+
+        .page-title {
+            color: #1877f2;
+            font-size: 2.2em;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Button Styling */
+        .btn {
+            display: inline-block;
+            background-color: #1877f2;
+            color: white;
+            padding: 15px 20px;
+            margin-top: 25px;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: #155ab6;
+            transform: scale(1.05);
+        }
+
+        .btn-back {
+            background-color: #95a5a6;
+            font-size: 1rem;
+        }
+
+        .btn-back:hover {
+            background-color: #7f8c8d;
+        }
+
+        /* Actions Section Styling */
+        .actions {
+            text-align: center;
+            margin-top: 30px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="navbar">
+        <div class="logo">MyApp</div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search...">
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <a href="#"><i class="fa fa-home"></i> Home</a>
+            <a href="#"><i class="fa fa-user"></i> Profile</a>
+            <a href="#"><i class="fa fa-bell"></i> Notifications</a>
+            <a href="#"><i class="fa fa-cog"></i> Settings</a>
+        </div>
+
+        <div class="content">
+            <h1 class="page-title">Create New Panier</h1>
+
+            <div class="form-container">
+                {{ include('panier/_form.html.twig') }}
+            </div>
+
+            <div class="actions">
+                <a href="{{ path('app_panier_index') }}" class="btn btn-back">⬅ Back to List</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

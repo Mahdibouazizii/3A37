@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire</title>
+    <style>
+        /* General reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Container for the form */
+        .form-container {
+            max-width: 700px; /* Increased width for a wider container */
+            width: 100%;
+            padding: 20px; /* Reduced padding for a shorter height */
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            height: auto; /* Allow container to adjust height based on content */
+        }
+
+        .form-container h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px; /* Reduced margin for less height */
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Styling the form inputs and widgets */
+        .form-container input,
+        .form-container select,
+        .form-container textarea {
+            width: 100%;
+            padding: 14px; /* Keep padding the same for comfortable input */
+            margin-bottom: 16px; /* Reduced bottom margin to reduce height */
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #f9f9f9;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-container input:focus,
+        .form-container select:focus,
+        .form-container textarea:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        /* Button Styling */
+        .form-container button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            font-size: 18px;
+            border-radius: 8px;
+            width: 100%;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .form-container button:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+
+        .form-container button:active {
+            background-color: #1f6f8b;
+        }
+
+        /* Error message style for form validation */
+        .form-container .error {
+            color: red;
+            font-size: 14px;
+            margin-top: -10px;
+        }
+
+        /* Scrollable container for product list */
+        .product-list {
+            max-height: 300px; /* Maximum height for the scrollable area */
+            overflow-y: auto; /* Enable vertical scrolling */
+            padding-right: 15px; /* Padding to prevent scrollbar from overlapping */
+            margin-bottom: 20px; /* Space below the list */
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Formulaire</h2>
+
+        {# Symfony form start and widget rendering with button #}
+        {{ form_start(form) }}
+        
+        {# Scrollable list of products from the database in a listbox (select) */}
+        <div class="product-list">
+            <label for="products">Select Products:</label>
+            <select name="products" id="products" multiple>
+                {# Loop through the product collection and create options for the listbox */}
+                {% for product in form.products %}
+                    <option value="{{ product.value }}">{{ product.label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        {# Render the rest of the form and submit button #}
+        {{ form_widget(form) }}
+        
+        {# Save button with default or custom label #}
+        <button type="submit">{{ button_label|default('Save') }}</button>
+        
+        {{ form_end(form) }}
+    </div>
+
+</body>
+</html>

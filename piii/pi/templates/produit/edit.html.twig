@@ -1,0 +1,22 @@
+
+{% block title %}Edit Produit{% endblock %}  {# Set the title #}
+
+{% block body %}  {# Start the body block #}
+
+    <h1>Edit Produit</h1>
+
+    {{ form_start(form) }}
+    <div class="form-group">
+        {{ form_label(form.products) }}
+        <div class="product-container">  {# The container for the products #}
+            {{ form_widget(form.products, { 'attr': {'multiple': 'multiple', 'class': 'form-control'} }) }}
+        </div>
+    </div>
+    <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('app_produit_index') }}" class="btn btn-secondary mt-3">Back to list</a>
+
+    {{ include('produit/_delete_form.html.twig') }} {# Include the delete form #}
+
+{% endblock %}  {# End the body block #}

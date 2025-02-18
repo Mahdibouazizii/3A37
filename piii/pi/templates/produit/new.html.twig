@@ -1,0 +1,31 @@
+{% block body %}
+    <style>
+        .product-container {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            overflow-y: auto;
+            max-height: 200px;
+        }
+
+        .product-container label {
+            display: block;
+            margin-bottom: 5px;
+        }
+    </style>
+
+    <h1>Create new Produit</h1>
+
+    {{ form_start(form) }}
+    <div class="form-group">
+        {{ form_label(form.products) }}
+        <div class="product-container">
+            {{ form_widget(form.products, { 'attr': {'multiple': 'multiple', 'class': 'form-control'} }) }}
+        </div>
+    </div>
+    <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('app_produit_index') }}">back to list</a>
+
+{% endblock %}

@@ -1,0 +1,148 @@
+{% block title %}Utilisateur{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="title">Détails de l'utilisateur</h1>
+
+        <div class="table-container">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ utilisateur.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nom</th>
+                        <td>{{ utilisateur.nom }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ utilisateur.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Mot de passe</th>
+                        <td>{{ utilisateur.motDePasse }}</td>
+                    </tr>
+                    <tr>
+                        <th>Rôle</th>
+                        <td>{{ utilisateur.role }}</td>
+                    </tr>
+                    <tr>
+                        <th>Date d'inscription</th>
+                        <td>{{ utilisateur.dateInscription ? utilisateur.dateInscription|date('Y-m-d') : 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Téléphone</th>
+                        <td>{{ utilisateur.telephone }}</td>
+                    </tr>
+                    <tr>
+                        <th>Date de naissance</th>
+                        <td>{{ utilisateur.dateNaissance ? utilisateur.dateNaissance|date('Y-m-d') : 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Genre</th>
+                        <td>{{ utilisateur.genre }}</td>
+                    </tr>
+                    <tr>
+                        <th>Photo de profil</th>
+                        <td>
+                            {% if utilisateur.photoProfil %}
+                                <img src="{{ asset('uploads/' ~ utilisateur.photoProfil) }}" alt="Photo de profil" class="profile-pic">
+                            {% else %}
+                                Aucune photo
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="actions">
+            <a href="{{ path('app_utilisateur_index') }}" class="btn btn-back">Retour à la liste</a>
+            <a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}" class="btn btn-edit">Modifier</a>
+            {{ include('utilisateur/_delete_form.html.twig') }}
+        </div>
+    </div>
+
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff9f2; /* Beige clair */
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .title {
+            text-align: center;
+            color: #2c3e50; /* Couleur gris foncé */
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+        }
+
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #eaf2f1; /* Vert clair */
+            color: #2c3e50;
+        }
+
+        .profile-pic {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .actions {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 5px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            font-weight: bold;
+        }
+
+        .btn-back {
+            background-color: #2ecc71; /* Vert */
+            color: white;
+        }
+
+        .btn-back:hover {
+            background-color: #27ae60; /* Vert foncé */
+        }
+
+        .btn-edit {
+            background-color: #f39c12; /* Jaune/orange */
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background-color: #e67e22; /* Orange foncé */
+        }
+
+        .btn:hover {
+            background-color: #2980b9; /* Bleu pour tous les boutons */
+        }
+    </style>
+{% endblock %}

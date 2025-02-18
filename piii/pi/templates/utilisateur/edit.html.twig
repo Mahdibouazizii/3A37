@@ -1,0 +1,63 @@
+
+
+{% block title %}Modifier Utilisateur{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="title">Modifier l'utilisateur</h1>
+
+        <div class="form-container">
+            {{ include('utilisateur/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+        </div>
+
+        <div class="actions">
+            <a href="{{ path('app_utilisateur_index') }}" class="btn">⬅ Retour à la liste</a>
+            {{ include('utilisateur/_delete_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block styles %}
+    <style>
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .title {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .actions {
+            margin-top: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 10px 15px;
+            margin: 5px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+    </style>
+{% endblock %}

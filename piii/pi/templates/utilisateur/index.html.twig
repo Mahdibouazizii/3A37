@@ -1,0 +1,220 @@
+{% block title %}Utilisateur Index{% endblock %}
+
+{% block body %}
+    <nav class="navbar">
+        <ul>
+            <li><a href="{{ path('acceuil') }}" class="nav-link">Home</a></li>
+            <li><a href="{{ path('app_utilisateur_index') }}" class="nav-link">Utilisateurs</a></li>
+            <li><a href="{{ path('app_utilisateur_new') }}" class="nav-link">Create Utilisateur</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1 class="page-title">Utilisateurs</h1>
+
+        <div class="cards-container">
+            {% for utilisateur in utilisateurs %}
+                <div class="user-card">
+                    <div class="card-header">
+                        <h3>{{ utilisateur.nom }}</h3>
+                        <p>{{ utilisateur.email }}</p>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Role:</strong> {{ utilisateur.role }}</p>
+                        <p><strong>Téléphone:</strong> {{ utilisateur.telephone }}</p>
+                        <p><strong>Date de naissance:</strong> {{ utilisateur.dateNaissance ? utilisateur.dateNaissance|date('Y-m-d') : 'Non renseignée' }}</p>
+                        <p><strong>Genre:</strong> {{ utilisateur.genre }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="photo-container">
+                            {% if utilisateur.photoProfil %}
+                                <img src="{{ asset('uploads/' ~ utilisateur.photoProfil) }}" alt="Photo de profil" class="profile-pic">
+                            {% else %}
+                                <div class="no-photo">Aucune photo</div>
+                            {% endif %}
+                        </div>
+                        <div class="actions">
+                            <a href="{{ path('app_utilisateur_show', {'id': utilisateur.id}) }}" class="btn btn-show">Voir</a>
+                            <a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}" class="btn btn-edit">Modifier</a>
+
+                            <!-- Delete Button -->
+                            <form action="{{ path('app_utilisateur_delete', {'id': utilisateur.id}) }}" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-delete" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')">Supprimer</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="no-records">Aucun utilisateur trouvé.</div>
+            {% endfor %}
+        </div>
+
+        <div class="add-new">
+            <a href="{{ path('app_utilisateur_new') }}" class="btn btn-create">Créer un nouvel utilisateur</a>
+        </div>
+    </div>
+
+    <style>
+        .navbar {
+            background-color: #2ecc71; /* Vert */
+            padding: 10px;
+            text-align: center;
+        }
+
+        .navbar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar li {
+            display: inline;
+            margin: 0 15px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: white;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: #27ae60;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4; /* Gris clair */
+        }
+
+        .page-title {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .user-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .user-card:hover {
+            transform: scale(1.05);
+        }
+
+        .card-header {
+            background-color: #2ecc71; /* Vert */
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .card-header h3 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .card-body {
+            padding: 15px;
+            background-color: #ecf0f1; /* Gris clair */
+        }
+
+        .card-body p {
+            margin: 5px 0;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: #fff;
+        }
+
+        .photo-container {
+            flex-basis: 20%;
+        }
+
+        .profile-pic {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .no-photo {
+            color: #7f8c8d;
+        }
+
+        .actions {
+            flex-basis: 75%;
+            text-align: right;
+        }
+
+        .btn {
+            padding: 8px 12px;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-left: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-show {
+            background-color: #3498db; /* Bleu */
+        }
+
+        .btn-show:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-edit {
+            background-color: #f39c12; /* Jaune-orange */
+        }
+
+        .btn-edit:hover {
+            background-color: #e67e22;
+        }
+
+        .btn-create {
+            background-color: #2ecc71; /* Vert */
+            display: block;
+            width: 100%;
+            text-align: center;
+            margin-top: 30px;
+            padding: 12px;
+            font-weight: bold;
+        }
+
+        .btn-create:hover {
+            background-color: #27ae60;
+        }
+
+        .btn-delete {
+            background-color: #e74c3c; /* Rouge */
+        }
+
+        .btn-delete:hover {
+            background-color: #c0392b;
+        }
+
+        .no-records {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 1.2rem;
+        }
+    </style>
+{% endblock %}
