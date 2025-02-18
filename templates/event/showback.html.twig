@@ -1,0 +1,169 @@
+{% extends "back.html.twig" %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+    <h1></h1>
+
+    <div class="container">
+        <div class="image-container">
+            {% if event.image %}
+                <img src="/uploads/images/{{ event.image }}" alt="Event Image">
+            {% else %}
+                <p>No image available</p>
+            {% endif %}
+        </div>
+
+        <div class="event-details">
+            <h2>{{ event.nom }}</h2>
+            <p>{{ event.description }}</p>
+
+            <div class="date-container">
+                <div class="date-box">
+                    <strong>Heure début</strong><br>
+                    {{ event.heurDebut ? event.heurDebut|date('Y-m-d H:i:s') : 'N/A' }}
+                </div>
+                <div class="date-box">
+                    <strong>Heure fin</strong><br>
+                    {{ event.heurFin ? event.heurFin|date('Y-m-d H:i:s') : 'N/A' }}
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <div class="action-buttons">
+                <a href="{{ path('app_event_edit', {'id': event.id}) }}" class="btn btn-edit">Modifier</a>
+                <a class="btn btn-back" href="{{ path('app_event_index_back') }}">⬅ Retour</a>
+                {{ include('event/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+
+<style>
+    body {
+        background-color: #e0f7fa; 
+        background-image: url("{{ asset('images/background1.webp') }}"); 
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+        color: #333;
+        padding: 50px;
+        font-family: 'Poppins', Arial, sans-serif;
+    }
+
+    h1 {
+        color: #004d40;
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 2.5rem; 
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); 
+    }
+
+    .container {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 30px;
+        border-radius: 10px;
+        max-width: 600px;
+        margin: 0 auto;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
+    }
+
+    .image-container {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+    }
+
+    .event-details {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: left;
+    }
+
+    .event-details h2 {
+        margin: 10px 0;
+        color: #004d40;
+        text-align: center;
+    }
+
+    .event-details p {
+        margin: 5px 0;
+        font-size: 16px;
+    }
+
+    .date-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 15px;
+    }
+
+    .date-box {
+        padding: 10px;
+        border-radius: 5px;
+        width: 48%;
+        text-align: center;
+        background: #f9f9f9; 
+        border: 1px solid #ccc; 
+    }
+
+    .actions {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .btn {
+        color: white;
+        text-decoration: none;
+        display: inline-block;
+        padding: 12px 20px; /* Increased padding for better appearance */
+        border-radius: 5px;
+        margin: 5px;
+        font-weight: bold; /* Bold text for emphasis */
+        transition: all 0.3s ease; /* Smooth transition for all properties */
+    }
+
+    .btn:hover {
+        transform: scale(1.05); /* Slightly scale up on hover */
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Shadow on hover */
+    }
+
+    .btn-edit {
+        background: #f39c12; 
+    }
+
+    .btn-edit:hover {
+        background: #e67e22; 
+    }
+
+    .btn-delete {
+        background: #e74c3c; /* Red background for delete button */
+    }
+
+    .btn-delete:hover {
+        background: #c0392b; /* Darker red on hover */
+    }
+
+    .btn-back {
+        background: #007acc; 
+    }
+
+    .btn-back:hover {
+        background: #00599c; 
+    }
+
+    .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 10px; 
+        margin-top: 15px;
+    }
+</style>
+{% endblock %}

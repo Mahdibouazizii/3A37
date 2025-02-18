@@ -1,0 +1,118 @@
+{% extends "back.html.twig" %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+    <h1></h1>
+
+    <div class="container">
+        <div class="event-details">
+            <div class="detail-item">
+                <strong>Âge :</strong>
+                <p>{{ participation.age }}</p>
+            </div>
+
+            <div class="detail-item">
+                <strong>Nombre de places :</strong>
+                <p>{{ participation.nbrplace }}</p>
+            </div>
+
+            <div class="detail-item">
+                <strong>Statut :</strong>
+                <p>{{ participation.statut }}</p>
+            </div>
+        </div>
+
+        <div class="actions">
+            <a class="btn btn-back" href="{{ path('app_participation_index_back') }}">⬅ Retour</a>
+            <a class="btn btn-edit" href="{{ path('app_participation_edit', {'id': participation.id}) }}">✏ Modifier</a>
+        </div>
+
+        {{ include('participation/_delete_form.html.twig') }}
+    </div>
+
+<style>
+    body {
+        background-color: #f0f8ff;
+        background-image: url("{{ asset('images/background1.webp') }}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+        color: #333;
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        padding: 20px;
+        margin: 0;
+    }
+
+    h1 {
+        color: #34495e;
+        text-align: center;
+        font-size: 36px; /* Increased font size for better visibility */
+        margin-bottom: 30px; /* Added more margin for spacing */
+    }
+
+    .container {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 40px; /* Increased padding for a spacious look */
+        border-radius: 10px;
+        width: calc(100% - 260px); /* Adjustment for sidebar */
+        max-width: 700px;
+        margin: 20px auto;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1); /* Enhanced shadow for depth */
+    }
+
+    .event-details {
+        background: white;
+        padding: 30px; /* Increased padding for detail section */
+        border-radius: 10px;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px; /* Added margin for spacing from actions */
+    }
+
+    .detail-item {
+        margin: 20px 0; /* Increased margin for better spacing */
+        font-size: 20px; /* Increased font size for readability */
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .detail-item:last-child {
+        border-bottom: none;
+    }
+
+    .actions {
+        text-align: center;
+        margin-top: 30px; /* Increased margin for spacing */
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 12px 25px; /* Increased padding for larger buttons */
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 18px; /* Slightly increased font size for buttons */
+        margin: 10px; /* Increased margin for better button spacing */
+        transition: all 0.3s ease;
+    }
+
+    .btn-back {
+        background: #7f8c8d;
+    }
+
+    .btn-back:hover {
+        background: #626e70;
+        transform: scale(1.05);
+    }
+
+    .btn-edit {
+        background: #f39c12;
+    }
+
+    .btn-edit:hover {
+        background: #e67e22;
+        transform: scale(1.05);
+    }
+</style>
+{% endblock %}

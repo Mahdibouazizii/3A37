@@ -1,0 +1,60 @@
+{% extends "back.html.twig" %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+    
+    <h1>Edit Event</h1>
+
+    <div class="container">
+        {{ include('event/_form.html.twig', {'button_label': 'Update'}) }}
+
+        {{ include('event/_delete_form.html.twig') }}
+
+               
+                            <a class="btn btn-back" href="{{ path('app_event_index_back') }}">⬅ Retour</a>
+
+
+    </div>
+   
+
+
+<style>
+        body {
+            background-color: #f0f8ff; 
+            background-image: url("{{ asset('images/background1.webp') }}"); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            color: #333;
+            padding: 50px;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        a {
+            color: #2980b9;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    {% endblock %}

@@ -1,0 +1,83 @@
+    {% extends "baseextend.html.twig" %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+    <h1>Create new Participation</h1>
+
+    <div class="container">
+        {{ include('participation/_form.html.twig') }}
+    </div>
+
+    <a href="{{ path('app_event_index_front') }}" class="back-link" aria-label="Back to Event list">Back to list</a>
+
+<style>
+    body {
+        background-color: #f8fcff;
+        background-image: url("{{ asset('images/background1.webp') }}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+        color: #333;
+        padding: 20px;
+        font-family: 'Poppins', Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    h1 {
+        color: #1f2e44;
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 2rem;
+    }
+
+    .container {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 25px;
+        border-radius: 12px;
+        max-width: 500px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        width: 100%;
+    }
+
+    a.back-link {
+        color: #007acc;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+        margin-top: 20px;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: color 0.3s ease;
+    }
+
+    a.back-link:hover {
+        color: #005a99;
+        text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            padding: 20px;
+            width: 90%;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        h1 {
+            font-size: 1.25rem;
+        }
+
+        a.back-link {
+            font-size: 0.9rem;
+        }
+    }
+</style>
+{% endblock %}
