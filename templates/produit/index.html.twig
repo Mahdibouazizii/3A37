@@ -1,0 +1,123 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Produits{% endblock %}
+
+{% block content %}
+
+<style>
+    /* Customize Carousel Arrows */
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        filter: invert(100%); /* Make arrows visible */
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+        background-color: rgba(0, 0, 0, 0.3); /* Slightly dark background */
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+    }
+
+    .carousel-control-prev:hover,
+    .carousel-control-next:hover {
+        background-color: rgba(0, 0, 0, 0.5); /* Darker on hover */
+    }
+</style>
+
+<!-- ads slider -->
+<!-- Check if there are products with a promo percentage -->
+{% set produitsEnPromo = produits|filter(p => p.promoPercentage is not null and p.promoPercentage > 0) %}
+
+{% if produitsEnPromo|length > 0 %}
+    <h2 class="text-center my-4">🔥 Produits en Promotion 🔥</h2>
+    <div id="promoCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            {% for produit in produitsEnPromo %}
+                <div class="carousel-item {% if loop.first %}active{% endif %}">
+                    <div class="d-flex justify-content-center">
+                        <div class="card mx-2" style="width: 18rem;">
+                            <div style="position: relative;">
+                                <img src="{{ asset('uploads/produits/' ~ produit.image) }}" class="card-img-top" alt="{{ produit.nom }}">
+                                <span class="badge bg-danger" style="position: absolute; top: 10px; left: 10px;">
+                                    Promo -{{ produit.promoPercentage }}%
+                                </span>
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title">{{ produit.nom }}</h5>
+                                <p class="card-text">
+                                    <del class="text-muted">{{ produit.prix }} TND</del>
+                                    <strong class="text-success"> 
+                                        {{ produit.prix - (produit.prix * produit.promoPercentage / 100) }} TND
+                                    </strong>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Navigation Arrows -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#promoCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#promoCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+{% else %}
+    <p class="text-center text-muted">Aucun produit en promotion pour le moment.</p>
+{% endif %}
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Nos Produits</h1>
+
+    <!-- Add New Product Button (if admin) -->
+    {% if 'ROLE_ADMIN' in app.user.roles %}
+        <div class="text-end mb-3">
+            <a href="{{ path('produit_new') }}" class="btn btn-success">Ajouter un Produit</a>
+        </div>
+    {% endif %}
+
+    <div class="row">
+        {% for produit in produits %}
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm">
+                    <!-- Product Image -->
+                    {% if produit.image %}
+                        <img src="{{ asset('uploads/produits/' ~ produit.image) }}" class="card-img-top" alt="{{ produit.nom }}" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                        <img src="{{ asset('images/default-product.jpg') }}" class="card-img-top" alt="Produit par défaut" style="height: 200px; object-fit: cover;">
+                    {% endif %}
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{ produit.nom }}</h5>
+                        <p class="card-text text-muted">{{ produit.description|slice(0, 100) ~ '...' }}</p>
+                        <p class="card-text"><strong>Prix:</strong> {{ produit.prix }} TND</p>
+                        <p class="card-text"><strong>Stock:</strong> {{ produit.stock }}</p>
+                        <p class="card-text"><strong>Poids:</strong> {{ produit.poids }} kg</p>
+                        <p class="card-text"><strong>Feedbacks:</strong> {{ produit.feedbacks|length }}</p>
+
+                        <a href="{{ path('produit_show', {'id': produit.id}) }}" class="btn btn-primary">Voir</a>
+
+                        {% if 'ROLE_ADMIN' in app.user.roles %}
+                            <a href="{{ path('admin_produit_edit', {'id': produit.id}) }}" class="btn btn-warning">Modifier</a>
+                            <form method="post" action="{{ path('produit_delete', {'id': produit.id}) }}" style="display:inline;" onsubmit="return confirm('Êtes-vous sûr ?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ produit.id) }}">
+                                <button type="submit" class="btn btn-danger">Supprimer</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="col-12 text-center">
+                <p class="text-muted">Aucun produit disponible.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

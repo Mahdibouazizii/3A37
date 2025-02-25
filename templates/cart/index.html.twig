@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Panier{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">🛒 Mon Panier</h2>
+
+    {% if cart|length == 0 %}
+        <div class="alert alert-warning">Votre panier est vide.</div>
+    {% else %}
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Image</th>
+                    <th>Produit</th>
+                    <th>Prix Unitaire</th>
+                    <th>Quantité</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% set total = 0 %}
+                {% for id, item in cart %}
+                    {% set product_total = item.quantity * item.produit.prix %}
+                    {% set total = total + product_total %}
+
+                    <tr>
+                        <td>
+                            <img src="{{ asset('uploads/produits/' ~ item.produit.image) }}" 
+                                 alt="{{ item.produit.nom }}" 
+                                 class="img-thumbnail" 
+                                 style="width: 80px; height: 80px;">
+                        </td>
+                        <td>{{ item.produit.nom }}</td>
+                        <td>{{ item.produit.prix }} TND</td>
+                        <td>
+                            <form method="post" action="{{ path('add_to_cart', {id: id}) }}">
+                                <input type="hidden" name="_method" value="POST">
+                                <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="form-control d-inline-block" style="width: 60px;">
+                                <button type="submit" class="btn btn-sm btn-primary">Modifier</button>
+                            </form>
+                        </td>
+                        <td>{{ product_total|number_format(2, '.', ',') }} TND</td>
+                        <td>
+                            <a href="{{ path('remove_from_cart', {id: id}) }}" class="btn btn-danger btn-sm">🗑 Supprimer</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="4" class="text-right">Total</th>
+                    <th colspan="2"><strong>{{ total|number_format(2, '.', ',') }} TND</strong></th>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div class="d-flex justify-content-between mt-4">
+            <a href="{{ path('produit_index') }}" class="btn btn-secondary">← Continuer vos achats</a>
+            <a href="{{ path('place_order') }}" class="btn btn-success">✅ Effectuer Commande</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

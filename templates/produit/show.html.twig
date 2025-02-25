@@ -1,0 +1,139 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produit - {{ produit.nom }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg mb-4">
+                <div class="row no-gutters">
+                    <!-- Image on the left -->
+                    <div class="col-md-5">
+                        <img src="{{ asset('uploads/produits/' ~ produit.image) }}" class="card-img" alt="{{ produit.nom }}" style="object-fit: cover; height: 100%; width: 100%; border-radius: 8px;">
+                    </div>
+                    <!-- Product details on the right -->
+                    <div class="col-md-7">
+                        <div class="card-body">
+                            <h2 class="card-title" style="color: #FFB200;">{{ produit.nom }}</h2>
+
+                            <p class="card-text"><strong>Description:</strong> {{ produit.description }}</p>
+                            <p class="card-text"><strong>Prix:</strong> {{ produit.prix }} TND</p>
+                            <p class="card-text"><strong>Stock:</strong> {{ produit.stock }}</p>
+                            <p class="card-text"><strong>Poids:</strong> {{ produit.poids }} kg</p>
+                            <p class="card-text"><strong>Nombre de feedbacks:</strong> {{ produit.feedbacks|length }}</p>
+                            <!-- Adjusted Add to Cart Button with Icon -->
+                            <div class="d-flex justify-content-center mt-3">
+                                <a href="{{ path('add_to_cart', { id: produit.id }) }}" class="btn btn-warning btn-lg d-flex align-items-center">
+    <i class="fas fa-cart-plus me-2"></i> Ajouter au Panier
+</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedbacks Section -->
+    <div class="mt-5">
+        <h3 class="mb-3">Feedbacks</h3>
+        {% if produit.feedbacks is not empty %}
+            <ul class="list-group">
+                {% for feedback in produit.feedbacks %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>{{ feedback.user.nom }}</strong> ({{ feedback.rating }}/5) 
+                            <p class="mb-1">{{ feedback.commentaire }}</p>
+                            <small class="text-muted">Ajouté le {{ feedback.createdAt|date('d/m/Y H:i') }}</small>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Aucun feedback pour ce produit.</p>
+        {% endif %}
+    </div>
+
+    <!-- Feedback Form Section -->
+    <div class="mt-5">
+        <h3>Laisser un Feedback</h3>
+        {{ form_start(feedback_form) }}
+        <div class="mb-3">
+            {{ form_label(feedback_form.rating, 'Note (1-5)', {'label_attr': {'class': 'form-label'}}) }}
+            <div class="star-rating">
+                {{ form_widget(feedback_form.rating) }}
+            </div>
+        </div>
+        <div class="mb-3">
+            {{ form_label(feedback_form.commentaire, 'Commentaire', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(feedback_form.commentaire, {'attr': {'class': 'form-control', 'rows': 4}}) }}
+        </div>
+        <button type="submit" class="btn btn-success">Soumettre</button>
+        {{ form_end(feedback_form) }}
+    </div>
+</div>
+
+<style>
+    .star-rating input {
+        display: none;
+    }
+
+    .star-rating label {
+        font-size: 1.5rem;
+        color: #ccc;
+        cursor: pointer;
+    }
+
+    .star-rating input:checked ~ label {
+        color: gold;
+    }
+
+    .star-rating label:hover,
+    .star-rating label:hover ~ label {
+        color: gold;
+    }
+
+    .star-rating label:before {
+        content: "\f005"; /* Font Awesome star icon */
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+    }
+
+    .star-rating input:checked + label:before {
+        color: gold; /* Selected star color */
+    }
+
+    .star-rating label:hover,
+    .star-rating input:checked + label:hover ~ label {
+        color: gold; /* Hover effect for stars */
+    }
+
+    /* Adjusted button styling */
+    .btn-warning {
+        background-color: #FFB200; /* Ergonomic orange color */
+        border: none;
+        color: white;
+        padding: 12px 20px;
+        font-size: 16px;
+        border-radius: 50px;
+    }
+
+    .btn-warning:hover {
+        background-color: #FFA500; /* Darker shade of orange on hover */
+    }
+
+    .btn-warning:focus {
+        box-shadow: 0 0 0 0.25rem rgba(255, 82, 0, 0.5);
+    }
+
+    /* FontAwesome icon styles */
+    .fas {
+        font-size: 20px;
+    }
+
+    .me-2 {
+        margin-right: 8px; /* Spacing between icon and text */
+    }
+</style>
+{% endblock %}

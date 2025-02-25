@@ -1,0 +1,53 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Gérer les Produits{% endblock %}
+
+{% block content %}
+    <h2 class="mb-4">Gérer les Produits</h2>
+
+    <!-- Product Table -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Image</th>
+                <th>Prix</th>
+                <th>Stock</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for produit in produits %}
+                <tr>
+                    <td>{{ produit.nom }}</td>
+                    <td>
+                        {% if produit.image %}
+                            <img src="{{ asset('uploads/produits/' ~ produit.image) }}" width="50" alt="Image">
+                        {% else %}
+                            Pas d'image
+                        {% endif %}
+                    </td>
+                    <td>{{ produit.prix }} TND</td>
+                    <td>{{ produit.stock }}</td>
+                    <td>
+                        <a href="{{ path('admin_produit_edit', {'id': produit.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
+                        
+                        <form method="post" action="{{ path('admin_produit_delete', {'id': produit.id}) }}" style="display:inline;" onsubmit="return confirm('Êtes-vous sûr ?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ produit.id) }}">
+                            <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5" class="text-center">Aucun produit disponible.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Button to add a new product -->
+    <div class="text-center mt-4">
+        <a href="{{ path('admin_produit_new') }}" class="btn btn-success">Ajouter un Produit</a>
+    </div>
+{% endblock %}

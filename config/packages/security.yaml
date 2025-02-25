@@ -1,0 +1,44 @@
+security:
+    enable_authenticator_manager: true
+
+    password_hashers:
+        App\Entity\User: 'auto'
+
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            lazy: true
+            provider: app_user_provider
+
+            # ✅ IMPORTANT: Reference our custom UserChecker class
+            user_checker: App\Security\UserChecker
+
+            entry_point: App\Security\LoginAuthenticator
+            custom_authenticator: App\Security\LoginAuthenticator
+
+            form_login:
+                login_path: app_login
+                check_path: app_login
+                always_use_default_target_path: false
+
+            logout:
+                path: app_logout
+
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800
+                path: /
+                always_remember_me: true
+
+    access_control:
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/profile, roles: ROLE_USER }

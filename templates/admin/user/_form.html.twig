@@ -1,0 +1,197 @@
+{# templates/admin/user/_form.html.twig #}
+
+{{ form_start(form, {
+    'attr': {
+        'onsubmit': 'return validateUserForm(event)',
+        'novalidate': 'novalidate'  # Disable default HTML5 validation
+    }
+}) }}
+
+<div class="mb-3">
+    {{ form_label(form.nom) }}
+    {{ form_widget(form.nom, {
+        'attr': {
+            'class': 'form-control',
+            'id': form.nom.vars.id,
+            'placeholder': 'Enter user last name'
+        }
+    }) }}
+    <div class="text-danger" style="font-size: 0.875rem; margin-top: 5px;"
+         id="error-{{ form.nom.vars.full_name }}">
+    </div>
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.prenom) }}
+    {{ form_widget(form.prenom, {
+        'attr': {
+            'class': 'form-control',
+            'id': form.prenom.vars.id,
+            'placeholder': 'Enter user first name'
+        }
+    }) }}
+    <div class="text-danger" style="font-size: 0.875rem; margin-top: 5px;"
+         id="error-{{ form.prenom.vars.full_name }}">
+    </div>
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.email) }}
+    {{ form_widget(form.email, {
+        'attr': {
+            'class': 'form-control',
+            'id': form.email.vars.id,
+            'placeholder': 'Enter user email'
+        }
+    }) }}
+    <div class="text-danger" style="font-size: 0.875rem; margin-top: 5px;"
+         id="error-{{ form.email.vars.full_name }}">
+    </div>
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.adresse) }}
+    {{ form_widget(form.adresse, {
+        'attr': {
+            'class': 'form-control',
+            'id': form.adresse.vars.id,
+            'placeholder': 'Enter user address'
+        }
+    }) }}
+    <div class="text-danger" style="font-size: 0.875rem; margin-top: 5px;"
+         id="error-{{ form.adresse.vars.full_name }}">
+    </div>
+</div>
+
+{# If you wish to make password optional on "edit",
+   you can skip validation if no password is provided #}
+<div class="mb-3">
+    {{ form_label(form.plainPassword) }}
+    {{ form_widget(form.plainPassword, {
+        'attr': {
+            'class': 'form-control',
+            'id': form.plainPassword.vars.id,
+            'placeholder': 'Enter password (leave blank if not changing)'
+        }
+    }) }}
+    <div class="text-danger" style="font-size: 0.875rem; margin-top: 5px;"
+         id="error-{{ form.plainPassword.vars.full_name }}">
+    </div>
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.profilePicture) }}
+    {{ form_widget(form.profilePicture, {
+        'attr': {
+            'class': 'form-control',
+            'id': form.profilePicture.vars.id
+        }
+    }) }}
+    <div class="text-danger" style="font-size: 0.875rem; margin-top: 5px;"
+         id="error-{{ form.profilePicture.vars.full_name }}">
+    </div>
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.roles) }}
+    {{ form_widget(form.roles, {
+        'attr': {
+            'class': 'form-select',
+            'id': form.roles.vars.id
+        }
+    }) }}
+    <div class="text-danger" style="font-size: 0.875rem; margin-top: 5px;"
+         id="error-{{ form.roles.vars.full_name }}">
+    </div>
+</div>
+
+{# Use a plain button element (not tied to a "submit" field) #}
+<button type="submit" class="btn btn-success w-100">
+    {{ button_label|default('Save') }}
+</button>
+
+{{ form_end(form) }}
+
+{% block user_form_validation %}
+<script>
+function validateUserForm(event) {
+    event.preventDefault(); // Stop default submission
+    let isValid = true;
+
+    // Clear previous errors
+    document.querySelectorAll('.text-danger').forEach(el => el.textContent = '');
+
+    // Helper function: Email format
+    function validateEmail(email) {
+        let regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    }
+
+    // Validate "nom" (last name)
+    let nomInput = document.getElementById('{{ form.nom.vars.id }}');
+    if (nomInput && !nomInput.value.trim()) {
+        isValid = false;
+        document.getElementById('error-{{ form.nom.vars.full_name }}').textContent =
+            "Last name cannot be empty.";
+    }
+
+    // Validate "prenom" (first name)
+    let prenomInput = document.getElementById('{{ form.prenom.vars.id }}');
+    if (prenomInput && !prenomInput.value.trim()) {
+        isValid = false;
+        document.getElementById('error-{{ form.prenom.vars.full_name }}').textContent =
+            "First name cannot be empty.";
+    }
+
+    // Validate "email" - not empty + correct format
+    let emailInput = document.getElementById('{{ form.email.vars.id }}');
+    if (emailInput) {
+        if (!emailInput.value.trim()) {
+            isValid = false;
+            document.getElementById('error-{{ form.email.vars.full_name }}').textContent =
+                "Email cannot be empty.";
+        } else if (!validateEmail(emailInput.value)) {
+            isValid = false;
+            document.getElementById('error-{{ form.email.vars.full_name }}').textContent =
+                "Invalid email format.";
+        }
+    }
+
+    // Validate "adresse"
+    let adresseInput = document.getElementById('{{ form.adresse.vars.id }}');
+    if (adresseInput && !adresseInput.value.trim()) {
+        isValid = false;
+        document.getElementById('error-{{ form.adresse.vars.full_name }}').textContent =
+            "Address cannot be empty.";
+    }
+
+    // Validate password (only if user typed something, especially for "edit")
+    let passwordInput = document.getElementById('{{ form.plainPassword.vars.id }}');
+    if (passwordInput) {
+        if (passwordInput.value.trim() && passwordInput.value.trim().length < 6) {
+            isValid = false;
+            document.getElementById('error-{{ form.plainPassword.vars.full_name }}').textContent =
+                "Password must be at least 6 characters long.";
+        }
+    }
+
+    // Validate profile picture extension if a file is chosen
+    let pictureInput = document.getElementById('{{ form.profilePicture.vars.id }}');
+    if (pictureInput && pictureInput.files.length > 0) {
+        let allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+        if (!allowedExtensions.test(pictureInput.value)) {
+            isValid = false;
+            document.getElementById('error-{{ form.profilePicture.vars.full_name }}').textContent =
+                "Invalid file format. Use JPG or PNG.";
+        }
+    }
+
+    // Validate roles if necessary (for multiple roles, ensure at least one selected, etc.)
+
+    if (isValid) {
+        event.target.submit(); // If all checks pass, submit
+    }
+    return false; // Prevent default submission fallback
+}
+</script>
+{% endblock %}

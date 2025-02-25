@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Passer la Commande{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Finaliser la Commande</h2>
+
+    <div class="row">
+        <div class="col-md-6">
+            {{ form_start(form) }}
+                <div class="mb-3">
+                    {{ form_label(form.adresse) }}
+                    {{ form_widget(form.adresse, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_label(form.typePaiement) }}
+                    {{ form_widget(form.typePaiement) }}
+                </div>
+                <button type="submit" class="btn btn-success">Confirmer la Commande</button>
+            {{ form_end(form) }}
+        </div>
+
+        <div class="col-md-6">
+            <h3>Résumé du Panier</h3>
+            <ul class="list-group">
+                {% for id, item in cart %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ item.produit.nom }} - {{ item.quantity }} x {{ item.produit.prix }} TND
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

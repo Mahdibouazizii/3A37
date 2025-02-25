@@ -1,0 +1,235 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="row w-100">
+        <div class="col-md-6 col-lg-5 mx-auto">
+            <div class="card shadow-lg p-4">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">Register</h2>
+
+                    {# Display any flash error messages #}
+                    {% for message in app.flashes('error') %}
+                        <div class="alert alert-danger text-center">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+
+                    {{ form_start(registrationForm, {
+                        'attr': {
+                            'enctype': 'multipart/form-data',
+                            'onsubmit': 'return validateForm(event)',
+                            'novalidate': 'novalidate'
+                        }
+                    }) }}
+
+                    {# ---- Nom ---- #}
+                    <div class="mb-3">
+                        {{ form_label(registrationForm.nom) }}
+                        {{ form_widget(registrationForm.nom, {
+                            'attr': {
+                                'class': 'form-control',
+                                'id': registrationForm.nom.vars.id,
+                                'name': registrationForm.nom.vars.full_name,
+                                'placeholder': 'Enter your last name'
+                            }
+                        }) }}
+                        <div class="error-message"
+                             id="error-{{ registrationForm.nom.vars.full_name }}"
+                             style="color: red; font-size: 0.875rem; margin-top: 5px;"></div>
+                    </div>
+
+                    {# ---- Prenom ---- #}
+                    <div class="mb-3">
+                        {{ form_label(registrationForm.prenom) }}
+                        {{ form_widget(registrationForm.prenom, {
+                            'attr': {
+                                'class': 'form-control',
+                                'id': registrationForm.prenom.vars.id,
+                                'name': registrationForm.prenom.vars.full_name,
+                                'placeholder': 'Enter your first name'
+                            }
+                        }) }}
+                        <div class="error-message"
+                             id="error-{{ registrationForm.prenom.vars.full_name }}"
+                             style="color: red; font-size: 0.875rem; margin-top: 5px;"></div>
+                    </div>
+
+                    {# ---- Email ---- #}
+                    <div class="mb-3">
+                        {{ form_label(registrationForm.email) }}
+                        {{ form_widget(registrationForm.email, {
+                            'attr': {
+                                'class': 'form-control',
+                                'id': registrationForm.email.vars.id,
+                                'name': registrationForm.email.vars.full_name,
+                                'placeholder': 'Enter your email'
+                            }
+                        }) }}
+                        <div class="error-message"
+                             id="error-{{ registrationForm.email.vars.full_name }}"
+                             style="color: red; font-size: 0.875rem; margin-top: 5px;"></div>
+                    </div>
+
+                    {# ---- Adresse ---- #}
+                    <div class="mb-3">
+                        {{ form_label(registrationForm.adresse) }}
+                        {{ form_widget(registrationForm.adresse, {
+                            'attr': {
+                                'class': 'form-control',
+                                'id': registrationForm.adresse.vars.id,
+                                'name': registrationForm.adresse.vars.full_name,
+                                'placeholder': 'Enter your address'
+                            }
+                        }) }}
+                        <div class="error-message"
+                             id="error-{{ registrationForm.adresse.vars.full_name }}"
+                             style="color: red; font-size: 0.875rem; margin-top: 5px;"></div>
+                    </div>
+
+                    {# ---- Password (RepeatedType -> first) ---- #}
+                    <div class="mb-3">
+                        {{ form_label(registrationForm.plainPassword.first) }}
+                        {{ form_widget(registrationForm.plainPassword.first, {
+                            'attr': {
+                                'class': 'form-control',
+                                'id': registrationForm.plainPassword.first.vars.id,
+                                'name': registrationForm.plainPassword.first.vars.full_name,
+                                'placeholder': 'Enter your password'
+                            }
+                        }) }}
+                        <div class="error-message"
+                             id="error-{{ registrationForm.plainPassword.first.vars.full_name }}"
+                             style="color: red; font-size: 0.875rem; margin-top: 5px;"></div>
+                    </div>
+
+                    {# ---- Confirm Password (RepeatedType -> second) ---- #}
+                    <div class="mb-3">
+                        {{ form_label(registrationForm.plainPassword.second) }}
+                        {{ form_widget(registrationForm.plainPassword.second, {
+                            'attr': {
+                                'class': 'form-control',
+                                'id': registrationForm.plainPassword.second.vars.id,
+                                'name': registrationForm.plainPassword.second.vars.full_name,
+                                'placeholder': 'Confirm your password'
+                            }
+                        }) }}
+                        <div class="error-message"
+                             id="error-{{ registrationForm.plainPassword.second.vars.full_name }}"
+                             style="color: red; font-size: 0.875rem; margin-top: 5px;"></div>
+                    </div>
+
+                    {# ---- Profile Picture ---- #}
+                    <div class="mb-3">
+                        {{ form_label(registrationForm.profilePicture) }}
+                        {{ form_widget(registrationForm.profilePicture, {
+                            'attr': {
+                                'class': 'form-control',
+                                'id': registrationForm.profilePicture.vars.id,
+                                'name': registrationForm.profilePicture.vars.full_name
+                            }
+                        }) }}
+                        <div class="error-message"
+                             id="error-{{ registrationForm.profilePicture.vars.full_name }}"
+                             style="color: red; font-size: 0.875rem; margin-top: 5px;"></div>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-warning">Register</button>
+                    </div>
+
+                    {{ form_end(registrationForm) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function validateForm(event) {
+    // Prevent default submission to perform client-side checks
+    event.preventDefault();
+
+    let isValid = true;
+    // Clear previous error messages
+    document.querySelectorAll('.error-message').forEach(error => error.textContent = '');
+
+    // Check if any required field is empty
+    document.querySelectorAll('.form-control').forEach(input => {
+        if (!input || !input.name) return;
+
+        let errorField = document.getElementById(`error-${input.name}`);
+        // If you have array-like names, you may want to replace [] with underscores for the ID:
+        // e.g. `errorField = document.getElementById("error-" + input.name.replace(/\[/g, "_").replace(/\]/g, "_"));`
+
+        if (!input.value.trim()) {
+            isValid = false;
+            if (errorField) {
+                errorField.textContent = `${input.placeholder} cannot be empty.`;
+            }
+        }
+    });
+
+    // Validate Email format
+    let emailInput = document.querySelector("[name='registration_form[email]']");
+    if (emailInput && emailInput.value.trim() && !validateEmail(emailInput.value)) {
+        isValid = false;
+        let errorField = document.getElementById("error-registration_form[email]");
+        if (errorField) {
+            errorField.textContent = "Invalid email format.";
+        }
+    }
+
+    // Validate Password length
+    let passwordFirst = document.querySelector("[name='registration_form[plainPassword][first]']");
+    if (passwordFirst && passwordFirst.value.trim() && passwordFirst.value.length < 6) {
+        isValid = false;
+        let errorField = document.getElementById("error-registration_form[plainPassword][first]");
+        if (errorField) {
+            errorField.textContent = "Password must be at least 6 characters long.";
+        }
+    }
+
+    // Validate Password match
+    let passwordSecond = document.querySelector("[name='registration_form[plainPassword][second]']");
+    if (passwordSecond && passwordFirst && passwordSecond.value !== passwordFirst.value) {
+        isValid = false;
+        let errorField = document.getElementById("error-registration_form[plainPassword][second]");
+        if (errorField) {
+            errorField.textContent = "Passwords do not match.";
+        }
+    }
+
+    // Validate profile picture format
+    let profilePicture = document.querySelector("[name='registration_form[profilePicture]']");
+    if (profilePicture && profilePicture.files.length > 0) {
+        let allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+        if (!allowedExtensions.test(profilePicture.value)) {
+            isValid = false;
+            let errorField = document.getElementById("error-registration_form[profilePicture]");
+            if (errorField) {
+                errorField.textContent = "Invalid file format. Please upload a JPG or PNG image.";
+            }
+        }
+    }
+
+    if (!isValid) {
+        // Stop submission on client side if validation fails
+        return false;
+    }
+
+    // If everything is valid, submit the form normally:
+    event.target.submit();
+
+    return false; // Only needed if you’re stopping normal submission entirely.
+}
+
+function validateEmail(email) {
+    let regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+}
+</script>
+
+{% endblock %}

@@ -1,0 +1,214 @@
+{# templates/admin/produits/new.html.twig #}
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}
+  {% if produit is defined and produit.id %}
+    Modifier un Produit
+  {% else %}
+    Ajouter un Produit
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <h2>
+    {% if produit is defined and produit.id %}
+      Modifier un Produit
+    {% else %}
+      Ajouter un Produit
+    {% endif %}
+  </h2>
+
+  <div class="card p-4">
+    {{ form_start(form, {
+      attr: {
+        # Attach our custom JS validation:
+        onsubmit: 'return validateProduitForm(event)',
+        enctype: 'multipart/form-data',
+        novalidate: 'novalidate'
+      }
+    }) }}
+
+      <div class="mb-3">
+        {{ form_label(form.nom, 'Nom du Produit') }}
+        {{ form_widget(form.nom, {
+          attr: {
+            class: 'form-control',
+            id: 'nom'
+          }
+        }) }}
+        <div class="text-danger" id="nomError" style="font-size: 0.875rem; margin-top: 5px;"></div>
+      </div>
+
+      <div class="mb-3">
+        {{ form_label(form.description, 'Description') }}
+        {{ form_widget(form.description, {
+          attr: {
+            class: 'form-control',
+            id: 'description'
+          }
+        }) }}
+        <div class="text-danger" id="descriptionError" style="font-size: 0.875rem; margin-top: 5px;"></div>
+      </div>
+
+      <div class="mb-3">
+        {{ form_label(form.prix, 'Prix (TND)') }}
+        {{ form_widget(form.prix, {
+          attr: {
+            class: 'form-control',
+            id: 'prix'
+          }
+        }) }}
+        <div class="text-danger" id="prixError" style="font-size: 0.875rem; margin-top: 5px;"></div>
+      </div>
+
+      <div class="mb-3">
+        {{ form_label(form.stock, 'Stock') }}
+        {{ form_widget(form.stock, {
+          attr: {
+            class: 'form-control',
+            id: 'stock'
+          }
+        }) }}
+        <div class="text-danger" id="stockError" style="font-size: 0.875rem; margin-top: 5px;"></div>
+      </div>
+
+      <div class="mb-3">
+        {{ form_label(form.image, 'Image du Produit') }}
+        {{ form_widget(form.image, {
+          attr: {
+            class: 'form-control',
+            id: 'image'
+          }
+        }) }}
+        <div class="text-danger" id="imageError" style="font-size: 0.875rem; margin-top: 5px;"></div>
+      </div>
+
+      <div class="mb-3">
+        {{ form_label(form.poids, 'Poids (kg)') }}
+        {{ form_widget(form.poids, {
+          attr: {
+            class: 'form-control',
+            id: 'poids'
+          }
+        }) }}
+        <div class="text-danger" id="poidsError" style="font-size: 0.875rem; margin-top: 5px;"></div>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100">
+        {% if produit is defined and produit.id %}
+          Mettre à jour
+        {% else %}
+          Créer
+        {% endif %}
+      </button>
+
+    {{ form_end(form) }}
+  </div>
+
+  <div class="mt-3 text-center">
+    <a href="{{ path('admin_produits') }}" class="btn btn-secondary">Retour à la Liste</a>
+  </div>
+
+{% endblock %}
+
+{% block produit_form_validation %}
+<script>
+function validateProduitForm(event) {
+  event.preventDefault(); // Stop default form submission
+  let isValid = true;
+
+  // Clear old error messages
+  document.getElementById("nomError").textContent = "";
+  document.getElementById("descriptionError").textContent = "";
+  document.getElementById("prixError").textContent = "";
+  document.getElementById("stockError").textContent = "";
+  document.getElementById("imageError").textContent = "";
+  document.getElementById("poidsError").textContent = "";
+
+  // Grab the form elements
+  const nomEl = document.getElementById("nom");
+  const descEl = document.getElementById("description");
+  const prixEl = document.getElementById("prix");
+  const stockEl = document.getElementById("stock");
+  const imageEl = document.getElementById("image");
+  const poidsEl = document.getElementById("poids");
+
+  // Get the values
+  const nom = nomEl ? nomEl.value.trim() : "";
+  const description = descEl ? descEl.value.trim() : "";
+  const prix = prixEl ? prixEl.value : "";
+  const stock = stockEl ? stockEl.value : "";
+  const poidsVal = poidsEl ? poidsEl.value : "";
+  const imageFile = (imageEl && imageEl.files.length > 0) ? imageEl.files[0] : null;
+
+  // Validate: Nom (Product Name) - Ensure it's not empty
+  if (nom.length < 3) {
+    document.getElementById("nomError").textContent =
+      "Le nom doit contenir au moins 3 caractères.";
+    isValid = false;
+  }
+
+  // Validate: Description
+  if (description.length < 10) {
+    document.getElementById("descriptionError").textContent =
+      "La description doit contenir au moins 10 caractères.";
+    isValid = false;
+  }
+
+  // Validate: Prix (Price)
+  if (!prix || isNaN(prix) || parseFloat(prix) <= 0) {
+    document.getElementById("prixError").textContent =
+      "Le prix doit être un nombre positif.";
+    isValid = false;
+  }
+
+  // Validate: Stock (Quantity)
+  if (!stock || isNaN(stock) || parseInt(stock) < 0) {
+    document.getElementById("stockError").textContent =
+      "Le stock doit être un entier positif ou zéro.";
+    isValid = false;
+  }
+
+  // Validate: Poids (Weight)
+  if (!poidsVal || isNaN(poidsVal) || parseFloat(poidsVal) <= 0) {
+    document.getElementById("poidsError").textContent =
+      "Le poids doit être un nombre positif.";
+    isValid = false;
+  }
+
+  // Check if we're creating or editing: validate image if needed
+  {% if produit is defined and produit.id %}
+    // Editing => image is optional
+    if (imageFile) {
+      let allowedTypes = ["image/jpeg", "image/png"];
+      if (!allowedTypes.includes(imageFile.type)) {
+        document.getElementById("imageError").textContent =
+          "Veuillez télécharger une image au format JPEG ou PNG.";
+        isValid = false;
+      }
+    }
+  {% else %}
+    // Creating => image is required
+    if (!imageFile) {
+      document.getElementById("imageError").textContent =
+        "Veuillez sélectionner une image.";
+      isValid = false;
+    } else {
+      let allowedTypes = ["image/jpeg", "image/png"];
+      if (!allowedTypes.includes(imageFile.type)) {
+        document.getElementById("imageError").textContent =
+          "Veuillez télécharger une image au format JPEG ou PNG.";
+        isValid = false;
+      }
+    }
+  {% endif %}
+
+  // If the form is valid, submit it
+  if (isValid) {
+    event.target.submit();
+  }
+
+  return false; // Prevent form submission by default
+}
+</script>
+{% endblock %}

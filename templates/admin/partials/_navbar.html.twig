@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+        <!-- Brand Logo -->
+        <a class="navbar-brand d-flex align-items-center" href="{{ path('admin_dashboard') }}">
+            <img src="{{ asset('assets/images/logo.svg') }}" alt="logo" class="logo-dark me-2" style="height: 30px;">
+            <span class="fw-bold text-white">Stellar</span>
+        </a>
+
+        <!-- Centered Title -->
+        <h5 class="mb-0 fw-medium d-none d-lg-block text-white">Welcome to Dashboard!</h5>
+
+        <!-- User Profile and Logout -->
+        <ul class="navbar-nav d-flex align-items-center">
+            {% if app.user %}
+                <li class="nav-item me-3 d-flex align-items-center">
+                    <!-- Profile Picture -->
+                    {% if app.user.profilePicture %}
+                        <img class="img-xs rounded-circle me-2" src="{{ asset('uploads/profile_pictures/' ~ app.user.profilePicture) }}" alt="Profile image" style="width: 40px; height: 40px;">
+                    {% else %}
+                        <img class="img-xs rounded-circle me-2" src="{{ asset('assets/images/default-profile.jpg') }}" alt="Default Profile" style="width: 40px; height: 40px;">
+                    {% endif %}
+                    <!-- Username -->
+                    <span class="fw-normal text-white">{{ app.user.nom }} {{ app.user.prenom }}</span>
+                </li>
+                <!-- Logout Button -->
+                <li class="nav-item">
+                    <a href="{{ path('app_logout') }}" class="btn btn-danger btn-sm">Logout</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>

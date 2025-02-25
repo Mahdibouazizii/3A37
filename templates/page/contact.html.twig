@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact{% endblock %}
+
+{% block content %}
+    <div class="layout_padding contact_section">
+        <div class="container">
+            <h1 class="contact_text">Contact Us</h1>
+            <form>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Your Name">
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control" placeholder="Your Email">
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" placeholder="Your Message"></textarea>
+                </div>
+                <button class="btn btn-primary">Send</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
