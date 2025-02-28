@@ -1,4 +1,4 @@
-{% extends "back.html.twig" %}
+{% extends "backextend.html.twig" %}
 
 {% block title %}Create New Event{% endblock %}
 
@@ -9,7 +9,7 @@
         {{ include('event/_form.html.twig') }}
     </div>
             <a class="btn btn-back" href="{{ path('app_event_index_back') }}">⬅ Retour</a>
-v
+
 <style>
     body {
         background-color: #f8fcff;

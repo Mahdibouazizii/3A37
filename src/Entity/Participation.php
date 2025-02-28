@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ParticipationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ParticipationRepository::class)]
 class Participation
@@ -22,14 +23,20 @@ class Participation
     private ?User $iduser = null;
 
     #[ORM\Column]
+    #[Assert\NotNull(message: "L'âge est requis.")]
+    #[Assert\GreaterThanOrEqual(value: 18, message: "L'âge doit être supérieur ou égal à 18 ans.")]
     private ?int $age = null;
 
     #[ORM\Column]
+    #[Assert\NotNull(message: "Le nombre de places est requis.")]
+    #[Assert\GreaterThanOrEqual(value: 1, message: "Le nombre de places doit être supérieur ou égal à 1.")]
     private ?int $nbrplace = null;
 
-    #[Assert\Choice(choices: ['premium', 'standard'], message: "Le statut doit être 'premium' ou 'standard'.")]
     #[ORM\Column(length: 20)]
-    private ?string $statut = 'standard';
+#[Assert\NotBlank(message: "Le statut est requis.")]
+#[Assert\Choice(choices: ['premium', 'standard'], message: "Le statut doit être 'premium' ou 'standard'.")]
+private ?string $statut = null; // Initialiser à null pour forcer le choix
+
 
     public function getId(): ?int
     {
@@ -44,19 +51,17 @@ class Participation
     public function setIdevenement(?Event $idevenement): static
     {
         $this->idevenement = $idevenement;
-
         return $this;
     }
 
-    public function getIduser(): ?user
+    public function getIduser(): ?User
     {
         return $this->iduser;
     }
 
-    public function setIduser(?user $iduser): static
+    public function setIduser(?User $iduser): static
     {
         $this->iduser = $iduser;
-
         return $this;
     }
 
@@ -68,7 +73,6 @@ class Participation
     public function setAge(int $age): static
     {
         $this->age = $age;
-
         return $this;
     }
 
@@ -80,7 +84,6 @@ class Participation
     public function setNbrplace(int $nbrplace): static
     {
         $this->nbrplace = $nbrplace;
-
         return $this;
     }
 
@@ -92,7 +95,6 @@ class Participation
     public function setStatut(string $statut): static
     {
         $this->statut = $statut;
-
         return $this;
     }
 }

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <title>{% block title %}GreenTech Dashboard{% endblock %}</title>
+    
+    <!-- plugins:css -->
+    {% block css %}
+    
+    <link rel="stylesheet" href="{{ asset('css/stylee.css') }}">
+    
+    {% endblock %}
+</head>
+<body>
+    <div class="container-scroller">
+        <!-- Navbar -->
+        <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+                <a class="navbar-brand brand-logo" href="{{ path('home') }}" style="color: green; font-weight: bold; font-size: 24px;">GreenTech</a>
+                <a class="navbar-brand brand-logo-mini" href="{{ path('home') }}" style="color: green; font-weight: bold; font-size: 20px;">GT</a>
+                <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                    <span class="icon-menu"></span>
+                </button>
+            </div>
+        </nav>
+
+        <div class="container-fluid page-body-wrapper">
+            <!-- Sidebar -->
+            <nav class="sidebar sidebar-offcanvas" id="sidebar">
+                <ul class="nav">
+                    <li class="nav-item nav-profile">
+                        <a href="#" class="nav-link">
+                            <div class="profile-image">
+                                <img class="img-xs rounded-circle" src="{{ asset('assets/images/faces/face8.jpg') }}" alt="profile image">
+                                <div class="dot-indicator bg-success"></div>
+                            </div>
+                            <div class="text-wrapper">
+                                <p class="profile-name">Henry Klein</p>
+                                <p class="designation">Administrator</p>
+                            </div>
+                            <div class="icon-container">
+                                <i class="icon-bubbles"></i>
+                                <div class="dot-indicator bg-danger"></div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-category">
+                        <span class="nav-link">Events</span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_event_index_back') }}">
+                            <span class="menu-title">Events</span>
+                            <i class="icon-screen-desktop menu-icon"></i>
+                        </a>
+                        <a class="nav-link" href="{{ path('app_participation_index_back') }}">
+                        <span class="menu-title">Participation</span>
+                        <i class="icon-screen-desktop menu-icon"></i>
+                    </a>
+                    </li>
+                </ul> <!-- 🔹 Ajout de la fermeture de la liste -->
+
+            </nav>
+
+            
+        </div>
+        
+    </div>
+
+
+    <!-- Scripts -->
+    {% block js %}
+    
+    {% endblock %}
+</body>
+
+</html>
+{% block body %}
+{% endblock %}
+    

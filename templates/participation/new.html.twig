@@ -1,66 +1,81 @@
-{% extends "back.html.twig" %}
+{% extends "baseextend.html.twig" %}
 
-{% block title %}{% endblock %}
+{% block title %}Créer une Participation{% endblock %}
 
 {% block body %}
-    <h1>Create new Participation</h1>
+    <div class="participation-container">
+        <h1>Créer une nouvelle Participation</h1>
+        
+        <div class="form-container">
+            {{ include('participation/_form.html.twig') }}
+        </div>
 
-    <div class="container">
-        {{ include('participation/_form.html.twig') }}
+        <a href="{{ path('app_participation_index_back') }}" class="back-link">
+            ⬅ Retour à la liste
+        </a>
     </div>
-
-    <a href="{{ path('app_participation_index_back') }}" class="back-link" aria-label="Back to participation list">Back to list</a>
 
 <style>
     body {
-        background-color: #f8fcff;
+        background: linear-gradient(to right, #eef2f3, #cfd9df);
         background-image: url("{{ asset('images/background1.webp') }}");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         min-height: 100vh;
-        color: #333;
-        padding: 20px;
-        font-family: 'Poppins', Arial, sans-serif;
         display: flex;
-        flex-direction: column;
+        justify-content: center;
         align-items: center;
+        font-family: 'Poppins', Arial, sans-serif;
+        padding: 20px;
+        color: #1f2e44;
+    }
+
+    .participation-container {
+        text-align: center;
+        width: 100%;
+        max-width: 550px;
+        background: rgba(255, 255, 255, 0.85);
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(10px);
     }
 
     h1 {
-        color: #1f2e44;
-        text-align: center;
-        margin-bottom: 20px;
         font-size: 2rem;
+        margin-bottom: 20px;
+        color: #1f2e44;
     }
 
-    .container {
-        background: rgba(255, 255, 255, 0.95);
-        padding: 25px;
+    .form-container {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 20px;
         border-radius: 12px;
-        max-width: 500px;
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        width: 100%;
     }
 
-    a.back-link {
-        color: #007acc;
-        text-decoration: none;
+    .back-link {
         display: inline-block;
-        text-align: center;
         margin-top: 20px;
-        font-weight: 600;
+        padding: 10px 15px;
         font-size: 1rem;
-        transition: color 0.3s ease;
+        font-weight: 600;
+        color: #007acc;
+        background: #eaf4fc;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.3s ease-in-out;
     }
 
-    a.back-link:hover {
-        color: #005a99;
-        text-decoration: underline;
+    .back-link:hover {
+        background: #007acc;
+        color: white;
+        text-decoration: none;
     }
 
     @media (max-width: 768px) {
-        .container {
+        .participation-container {
             padding: 20px;
             width: 90%;
         }
@@ -72,12 +87,14 @@
 
     @media (max-width: 480px) {
         h1 {
-            font-size: 1.25rem;
+            font-size: 1.3rem;
         }
 
-        a.back-link {
+        .back-link {
             font-size: 0.9rem;
+            padding: 8px 12px;
         }
     }
 </style>
+
 {% endblock %}

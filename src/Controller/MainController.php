@@ -13,5 +13,5 @@ class MainController extends AbstractController
     {
       //return $this->render('base.html.twig'); // S'assurer que ce fichier existe
          return $this->render('base.html.twig'); // S'assurer que ce fichier existe
-    }
+    } 
 }

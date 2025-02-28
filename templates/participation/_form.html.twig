@@ -1,4 +1,18 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<form action="{{ path('app_participation_new_front', { id: participation.idevenement.id }) }}" method="POST">
+    {{ form_start(form) }}
+
+    <div class="form-group">
+        {{ form_widget(form) }}
+    </div>
+
+    <!-- Google reCAPTCHA -->
+    <div class="g-recaptcha" data-sitekey="6LdCeuIqAAAAADFIuJwVYLApy0rgcGUKh6r6fr6n"></div>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+    <!-- Submit Button -->
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">{{ button_label|default('Save') }}</button>
+    </div>
+
+    {{ form_end(form) }}
+</form>

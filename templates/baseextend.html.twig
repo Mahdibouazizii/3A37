@@ -1,103 +1,178 @@
 
-{% block title %}{% endblock %}
 <!DOCTYPE html>
 <html lang="en">
-   <head>
-      <!-- basic -->
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <!-- mobile metas -->
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-      <!-- site metas -->
+<head>
+<!-- basic -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- mobile metas -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- site metas -->
+<title>   {% block title %}GreenTech{% endblock %}</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">	
+<!-- bootstrap css -->
+   {% block css %}
 
-      <meta name="keywords" content="">
-      <meta name="description" content="">
-      <meta name="author" content="">
-      <!-- bootstrap css -->
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<!-- style css -->
+<link rel="stylesheet" type="text/css" href="{{ asset('../css/style.css') }}">
+<!-- Responsive-->
+<link rel="stylesheet" href="css/responsive.css">
+<!-- fevicon -->
+<link rel="icon" href="images/fevicon.png" type="image/gif" />
+<!-- Scrollbar Custom CSS -->
+<link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
+<!-- owl stylesheets --> 
+<link rel="stylesheet" href="css/owl.carousel.min.css">
+<link rel="stylesheet" href="css/owl.theme.default.min.css">
+   {% endblock %}
 
-    {% block css%}
-      <link rel="stylesheet" href="css/bootstrap.min.css">
-      <!-- style css -->
-      <!-- Responsive-->
-      <link rel="stylesheet" href="css/responsive.css">
-      <!-- fevicon -->
-      <link rel="icon" href="images/fevicon.png" type="image/gif" />
-      <!-- Scrollbar Custom CSS -->
-      <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
-      <!-- Tweaks for older IEs-->
-      <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
-    {% endblock %}
-    
-      <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
-    
-   </head>
-
-   <!-- body -->
-   <body class="main-layout">
-      
-      <header>
-         <!-- header inner -->
-        <div  class="head_top">
-            <div class="header">
-               <div class="container">
-                  <div class="row">
-                     <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
-                        <div class="full">
-                           <div class="center-desk">
-                              <div class="logo">
-                                 <a href="index.html" style="font-size: 24px; font-weight: bold; color: #28a745; text-decoration: none;">GreenTech</a>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
-                        <nav class="navigation navbar navbar-expand-md navbar-dark ">
-                           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
-                           <span class="navbar-toggler-icon"></span>
-                           </button>
-                           <div class="collapse navbar-collapse" id="navbarsExample04">
-                              <ul class="navbar-nav mr-auto">
-                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ path('app_event_index_front') }}">Events</a>
-                                 </li>
-                                  <li class="nav-item">
-                                    <a class="nav-link" href="{{ path('app_participation_index') }}">Participation</a>
-                                 </li>
-                                 <li class="nav-item">
-                                    <a class="nav-link" href="#about">About</a>
-                                 </li>
-                                 <li class="nav-item">
-                                    <a class="nav-link" href="https://wa.me/21624767358" target="_blank">Contact us</a>
-                                </li>
-                              </ul>
-                              <div class="sign_btn"><a href="#">Sign in</a></div>
-                           </div>
-                        </nav>
-                     </div>
-                  </div>
+</head>
+<body>
+	<!--header section start -->
+	<div class="header_section">
+		<div class="container-fluid">
+			<div class="row">
+			  <div class="col-sm-12 col-lg-3">
+               <div class="logo green-bold-logo">
+                  GreenTech
                </div>
             </div>
-           
-      <!-- end footer -->
-      <!-- Javascript files-->
+			    <div class="col-sm-4 col-lg-5">
+			    	<div class="menu-area">
+                        <nav class="navbar navbar-expand-lg ">
+                            <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <i class="fa fa-bars"></i>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav mr-auto">
+                                    <li class="nav-item active">
+                                    <a class="nav-link active" href="{{ path('home') }}">Home<span class="sr-only">(current)</span></a>
+                                    <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('app_event_index_front') }}">Event</a>
+                                    <li class="nav-item">
+                                    <a class="nav-link" href="about.html">About</a></li>
+                                    <a class="nav-link" href="furnitures.html">Product</a></li>
+                                    <li class="nav-item">
+                                    <a class="nav-link" href="contact.html">Contact</a></li>
+                                </ul>
+                            </div>  
+                        </nav>
+                    </div>
+			    </div>
+                    <div class="col-sm-8 col-lg-4">
+                        <div class="togle_3">
+                            <div class="left_main">
+                                <div class="menu_main">
+                                    <a href="#"><i class="fa fa-fw fa-user"></i> Login / Register</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+		    </div>
+		</div>
+      </div>
+
       {% block js %}
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
       <script src="js/jquery.min.js"></script>
       <script src="js/popper.min.js"></script>
       <script src="js/bootstrap.bundle.min.js"></script>
       <script src="js/jquery-3.0.0.min.js"></script>
       <script src="js/plugin.js"></script>
-      <!-- sidebar -->
       <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
       <script src="js/custom.js"></script>
-      <script src="https:cdnjs  .cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
       {% endblock %}
    </body>
 </html>
 
+<style>
+/*--------------------------------------------------------------------- import Fonts ---------------------------------------------------------------------*/
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700');
 
+/*--------------------------------------------------------------------- skeleton ---------------------------------------------------------------------*/
+* {
+     box-sizing: border-box;
+     transition: ease all 0.5s;
+}
+
+body {
+     color: #666666;
+     font-size: 14px;
+     font-family: 'Poppins', sans-serif;
+     line-height: 1.8;
+     overflow-x: hidden;
+}
+
+a {
+     color: #1f1f1f;
+     text-decoration: none !important;
+     transition: all .3s ease-in-out;
+}
+
+h1, h2, h3, h4, h5, h6 {
+     color: #111111;
+     margin: 0;
+}
+
+.header_section {
+       position: relative; /* Ajoutez cette ligne */
+    z-index: 1; /* Ajoutez cette ligne */
+
+	width: 100%;
+	background-image: url(../images/banner-bg.png);
+	height: auto;
+	background-size: cover;
+	background-repeat: no-repeat;
+    padding: 25px 0;
+}
+
+.green-bold-logo {
+    font-size: 24px;
+    color: green;
+    font-weight: bold;
+}
+
+.menu_main a {
+    color: #ffffff;
+}
+
+.navbar-expand-lg .navbar-nav .nav-link {
+   padding: 0 16px; 
+   font-size: 20px;
+   color: #ffffff;
+} 
+
+.nav-link:focus, .nav-link:hover {
+    color: #000 !important;
+}
+
+.footer_section {
+	width: 100%;
+	background-color: #303330;
+	height: auto;
+	margin-top: 90px;
+    padding-bottom: 90px;
+}
+.nav-link {
+    pointer-events: auto; /* Assurez-vous que les événements de clic sont activés */
+}
+
+.copyright_text {
+	width: 100%;
+	text-align: center;
+	font-size: 16px;
+	color: #ffffff;
+}
+.copyright_text a {
+	color: #ffffff;
+}
+.copyright_text a:hover {
+	color: #000000;
+}
+</style>
 {% block body %}
 {% endblock %}

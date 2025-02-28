@@ -60,6 +60,10 @@ class EventType extends AbstractType
                     new Assert\NotNull([
                         'message' => 'The start date and time cannot be empty.',
                     ]),
+                    new Assert\GreaterThanOrEqual([
+                        'value' => 'today',
+                        'message' => 'The start date and time must be in the future.',
+                    ]),
                 ],
             ])
             ->add('heur_fin', DateTimeType::class, [
@@ -71,6 +75,10 @@ class EventType extends AbstractType
                 'constraints' => [
                     new Assert\NotNull([
                         'message' => 'The end date and time cannot be empty.',
+                    ]),
+                    new Assert\GreaterThan([
+                        'propertyPath' => 'parent.all[heur_debut].data',
+                        'message' => 'The end date and time must be after the start date and time.',
                     ]),
                 ],
             ])

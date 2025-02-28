@@ -1,16 +1,16 @@
-{% extends "back.html.twig" %}
+{% extends "backextend.html.twig" %}
 
-{% block title %}{% endblock %}
+{% block title %}Détails de l'Événement{% endblock %}
 
 {% block body %}
-    <h1></h1>
+    <h1>Détails de l'Événement</h1>
 
     <div class="container">
         <div class="image-container">
             {% if event.image %}
-                <img src="/uploads/images/{{ event.image }}" alt="Event Image">
+                <img src="/uploads/images/{{ event.image }}" alt="Image de l'Événement">
             {% else %}
-                <p>No image available</p>
+                <p>Aucune image disponible</p>
             {% endif %}
         </div>
 
@@ -34,136 +34,146 @@
             <div class="action-buttons">
                 <a href="{{ path('app_event_edit', {'id': event.id}) }}" class="btn btn-edit">Modifier</a>
                 <a class="btn btn-back" href="{{ path('app_event_index_back') }}">⬅ Retour</a>
-                {{ include('event/_delete_form.html.twig') }}
+                <div class="btn-delete">
+                    {{ include('event/_delete_form.html.twig') }}
+                </div>
+                <a href="{{ path('event_pdf', {'id': event.id}) }}" class="btn btn-pdf">📄 Télécharger PDF</a>
+
             </div>
         </div>
     </div>
 
-<style>
-    body {
-        background-color: #e0f7fa; 
-        background-image: url("{{ asset('images/background1.webp') }}"); 
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        min-height: 100vh;
-        color: #333;
-        padding: 50px;
-        font-family: 'Poppins', Arial, sans-serif;
-    }
+    <style>
+        body {
+            background-color: #e0f7fa; 
+            background-image: url("{{ asset('images/background1.webp') }}"); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            color: #333;
+            padding: 50px;
+            font-family: 'Poppins', Arial, sans-serif;
+        }
 
-    h1 {
-        color: #004d40;
-        text-align: center;
-        margin-bottom: 30px;
-        font-size: 2.5rem; 
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); 
-    }
+        h1 {
+            color: #004d40;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem; 
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); 
+        }
 
-    .container {
-        background: rgba(255, 255, 255, 0.95);
-        padding: 30px;
-        border-radius: 10px;
-        max-width: 600px;
-        margin: 0 auto;
-        text-align: center;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
-    }
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
+        }
 
-    .image-container {
-        text-align: center;
-        margin-bottom: 20px;
-    }
+        .image-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-    img {
-        max-width: 100%;
-        height: auto;
-        border-radius: 8px;
-    }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
 
-    .event-details {
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        text-align: left;
-    }
+        .event-details {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: left;
+        }
 
-    .event-details h2 {
-        margin: 10px 0;
-        color: #004d40;
-        text-align: center;
-    }
+        .event-details h2 {
+            margin: 10px 0;
+            color: #004d40;
+            text-align: center;
+        }
 
-    .event-details p {
-        margin: 5px 0;
-        font-size: 16px;
-    }
+        .event-details p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
 
-    .date-container {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 15px;
-    }
+        .date-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
 
-    .date-box {
-        padding: 10px;
-        border-radius: 5px;
-        width: 48%;
-        text-align: center;
-        background: #f9f9f9; 
-        border: 1px solid #ccc; 
-    }
+        .date-box {
+            padding: 10px;
+            border-radius: 5px;
+            width: 48%;
+            text-align: center;
+            background: #f9f9f9; 
+            border: 1px solid #ccc; 
+        }
 
-    .actions {
-        text-align: center;
-        margin-top: 20px;
-    }
+        .actions {
+            text-align: center;
+            margin-top: 20px;
+        }
 
-    .btn {
-        color: white;
-        text-decoration: none;
-        display: inline-block;
-        padding: 12px 20px; /* Increased padding for better appearance */
-        border-radius: 5px;
-        margin: 5px;
-        font-weight: bold; /* Bold text for emphasis */
-        transition: all 0.3s ease; /* Smooth transition for all properties */
-    }
+        .btn {
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            padding: 12px 20px; 
+            border-radius: 5px;
+            margin: 5px;
+            font-weight: bold; 
+            transition: all 0.3s ease; 
+        }
 
-    .btn:hover {
-        transform: scale(1.05); /* Slightly scale up on hover */
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Shadow on hover */
-    }
+        .btn:hover {
+            transform: scale(1.05); 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); 
+        }
 
-    .btn-edit {
-        background: #f39c12; 
-    }
+        .btn-edit {
+            background: #f39c12; 
+        }
 
-    .btn-edit:hover {
-        background: #e67e22; 
-    }
+        .btn-edit:hover {
+            background: #e67e22; 
+        }
 
-    .btn-delete {
-        background: #e74c3c; /* Red background for delete button */
-    }
+        .btn-back {
+            background: #007acc; 
+        }
 
-    .btn-delete:hover {
-        background: #c0392b; /* Darker red on hover */
-    }
+        .btn-back:hover {
+            background: #00599c; 
+        }
 
-    .btn-back {
-        background: #007acc; 
-    }
+        .btn-delete {
+            background: #e74c3c; /* Red background */
+            padding: 8px 16px; /* Reduced padding for a smaller button */
+            border-radius: 5px;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+        }
 
-    .btn-back:hover {
-        background: #00599c; 
-    }
+        .btn-delete:hover {
+            background: #c0392b; /* Darker red on hover */
+        }
 
-    .action-buttons {
-        display: flex;
-        justify-content: center;
-        gap: 10px; 
-        margin-top: 15px;
-    }
-</style>
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px; 
+            margin-top: 15px;
+        }
+    </style>
 {% endblock %}

@@ -27,11 +27,13 @@ class Event
 
     #[Assert\NotBlank(message: "L'heure de début est obligatoire")]
     #[Assert\Type(type: "\DateTimeInterface", message: "Format de date invalide")]
+    #[Assert\GreaterThanOrEqual("today", message: "L'heure de début doit être supérieure ou égale à la date actuelle.")]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $heur_debut = null;
 
     #[Assert\NotBlank(message: "L'heure de fin est obligatoire")]
     #[Assert\Type(type: "\DateTimeInterface", message: "Format de date invalide")]
+    #[Assert\GreaterThan(propertyPath: "heur_debut", message: "L'heure de fin doit être après l'heure de début.")]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $heur_fin = null;
 

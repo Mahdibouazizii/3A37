@@ -4,7 +4,18 @@
 
 {% block body %}
     <h1>Événements</h1>
+
+    <!-- Champ de recherche -->
+    <div class="search-container">
+        <label for="search">🔎 Rechercher un événement :</label>
+        <input type="text" id="search" placeholder="Tapez un nom d'événement...">
+    </div>
+<div class="create-button-container">
+    <a class="btn btn-participation" href="{{ path('app_participation_index') }}">Voir les participations</a>
+</div>
+
     <div class="container">
+    
         <div class="event-list">
             {% for event in events %}
                 <div class="card">
@@ -28,7 +39,7 @@
                         </div>
                         <div class="actions">
                             <a class="btn" href="{{ path('app_event_show', {'id': event.id}) }}">Voir plus</a>
-                            <a class="btn" href="{{ path('app_participation_new_front') }}">Participer</a>
+                            <a class="btn" href="{{ path('app_participation_new_front', {'id': event.id}) }}">Participer</a>
 
                         </div>
                     </div>
@@ -38,123 +49,276 @@
             {% endfor %}
         </div>
     </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchInput = document.getElementById("search");
+        const eventCards = document.querySelectorAll(".card");
+
+        searchInput.addEventListener("input", function () {
+            const searchText = searchInput.value.toLowerCase();
+
+            eventCards.forEach(card => {
+                const eventName = card.querySelector("h2").textContent.toLowerCase();
+                
+                if (eventName.includes(searchText)) {
+                    card.style.display = "block"; // Afficher l'événement correspondant
+                } else {
+                    card.style.display = "none"; // Masquer les autres événements
+                }
+            });
+        });
+    });
+</script>
 
 <style>
-    body {
-        background-color: #f4f7f9;
-        background-image: url("{{ asset('images/background1.webp') }}");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        min-height: 100vh;
-        color: #333;
-        padding: 50px;
-        font-family: 'Arial', sans-serif;
-    }
+  body {
+    background-color: #f0f8ff;
+    background-image: url("{{ asset('images/background1.webp') }}");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    color: #333;
+    padding: 50px;
+    font-family: 'Poppins', Arial, sans-serif;
+}
 
-    h1 {
-        color: #2c3e50;
-        text-align: center;
-        margin-bottom: 30px;
-    }
+h1 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2.5rem;
+    font-weight: bold;
+}
 
-    .container {
-        background: rgba(255, 255, 255, 0.9);
-        padding: 20px;
-        border-radius: 10px;
-        max-width: 1000px;
-        margin: 0 auto;
-    }
+.container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 1000px;
+    margin: 0 auto;
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+}
 
-    .event-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-        justify-content: center;
-    }
+.search-container {
+    text-align: center;
+    margin-bottom: 30px;
+}
 
+.search-container label {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 8px;
+}
+
+.search-container input {
+    width: 80%;
+    max-width: 400px;
+    padding: 12px 18px;
+    font-size: 1rem;
+    border: 2px solid #2980b9;
+    border-radius: 25px;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-container input:focus {
+    border-color: #1c6ea4;
+    box-shadow: 0 0 10px rgba(41, 128, 185, 0.5);
+}
+
+.event-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex: 1 1 calc(33.333% - 30px);
+    max-width: calc(33.333% - 30px);
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.card img {
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.card img:hover {
+    transform: scale(1.1);
+}
+
+.card h2 {
+    color: #2c3e50;
+    font-size: 1.6rem;
+    margin: 15px 0;
+    font-weight: bold;
+}
+
+.card p {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+.date-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.date-box {
+    width: 48%;
+    text-align: center;
+    padding: 15px;
+    background: #ecf0f1;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #2980b9;
+}
+
+.actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.actions .btn {
+    padding: 12px 20px;
+    background: #2980b9;
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.actions .btn:hover {
+    background: #1c6ea4;
+    transform: translateY(-3px);
+}
+
+.actions .btn-edit {
+    background: #f39c12;
+}
+
+.actions .btn-edit:hover {
+    background: #e67e22;
+}
+
+.create-button-container {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.create-button {
+    padding: 15px 30px;
+    background: #2ecc71;
+    color: white;
+    border-radius: 10px;
+    width: 250px;
+    font-size: 1.2rem;
+    transition: background 0.3s ease, transform 0.3s ease;
+    text-decoration: none;
+}
+
+.create-button:hover {
+    background: #27ae60;
+    transform: translateY(-3px);
+}
+
+.no-events {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+    margin-top: 20px;
+}
+
+@media screen and (max-width: 1024px) {
     .card {
-        background: white;
-        padding: 15px;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-        text-align: center;
-        width: 300px;
-        transition: transform 0.3s ease;
+        flex: 1 1 calc(50% - 30px);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .card {
+        flex: 1 1 calc(50% - 20px);
     }
 
-    .card:hover {
-        transform: scale(1.05);
+    .search-container input {
+        width: 90%;
+        font-size: 14px;
     }
 
-    .card img {
+    .create-button {
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .card {
+        flex: 1 1 100%;
+    }
+
+    .search-container input {
+        width: 95%;
+        font-size: 14px;
+    }
+
+    .create-button {
         width: 100%;
-        max-height: 200px;
-        object-fit: cover;
-        border-radius: 5px;
     }
+}
+.create-button-container {
+    text-align: center;
+    margin-top: 30px;
+    padding-bottom: 30px; /* Ajouter un peu d'espace sous le bouton */
+}
 
-    .no-image {
-        color: #888;
-        font-style: italic;
-        padding: 20px;
-    }
+.create-button-container .btn-participation {
+    padding: 12px 24px;
+    background-color: #8e44ad;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 8px;
+    display: inline-block;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
 
-    .card-content {
-        padding: 10px;
-    }
+.create-button-container .btn-participation:hover {
+    background-color: #732d91;
+    transform: translateY(-3px);
+}
 
-    .card h2 {
-        color: #2c3e50;
-        font-size: 20px;
-        margin: 10px 0;
-    }
+.create-button-container .btn-participation:active {
+    background-color: #5e227f;
+    transform: translateY(1px);
+}
 
-    .card p {
-        font-size: 14px;
-        color: #555;
-        margin-bottom: 15px;
-    }
-
-    .date-container {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 15px;
-    }
-
-    .date-box {
-        width: 48%;
-        text-align: center;
-        padding: 10px;
-        background: #ecf0f1;
-        border-radius: 5px;
-        font-size: 14px;
-    }
-
-    .actions {
-        margin-top: 15px;
-    }
-
-    .btn {
-        display: inline-block;
-        padding: 10px 15px;
-        background: #2980b9;
-        color: white;
-        border-radius: 5px;
-        text-decoration: none;
-        font-weight: bold;
-        transition: background 0.3s;
-    }
-
-    .btn:hover {
-        background: #1c6ea4;
-    }
-
-    .no-events {
-        text-align: center;
-        font-size: 18px;
-        color: #666;
-        margin-top: 20px;
-    }
 </style>
 {% endblock %}
