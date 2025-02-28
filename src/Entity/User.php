@@ -17,4 +17,18 @@ class User
     {
         return $this->id;
     }
+    #[ORM\Column(type: 'string', length: 180, unique: true)]
+    private ?string $email = null;
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+        return $this;
+    }   
+
 }

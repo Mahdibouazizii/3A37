@@ -198,8 +198,7 @@ use Symfony\Component\HttpClient\HttpClient;
             // Rediriger vers la page 'back.html.twig' après la suppression
             return $this->redirectToRoute('app_participation_index');
         }
-
-       
+        
         
 
     }

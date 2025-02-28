@@ -8,7 +8,13 @@ parameters:
   
 
 services:
-    # default configuration for services in *this* file
+    # default configuration for services in *this* file*
+    App\Service\EmailAlert:
+        arguments:
+            $mailer: '@mailer.mailer'
+            $entityManager: '@doctrine.orm.entity_manager'
+            $params: '@parameter_bag'
+
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.

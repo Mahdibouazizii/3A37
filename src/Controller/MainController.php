@@ -12,6 +12,6 @@ class MainController extends AbstractController
     public function index(): Response
     {
       //return $this->render('base.html.twig'); // S'assurer que ce fichier existe
-         return $this->render('base.html.twig'); // S'assurer que ce fichier existe
+         return $this->render('back.html.twig'); // S'assurer que ce fichier existe
     } 
 }

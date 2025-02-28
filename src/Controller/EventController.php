@@ -13,14 +13,27 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Knp\Snappy\Pdf;
+use App\Entity\User;  // Assurez-vous que c'est l'entité User, pas le contrôleur
 
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use App\Service\EmailAlert;
+use App\Repository\UserRepository;
 
 #[Route('/event')]
 final class EventController extends AbstractController
 {
+
+    private $emailAlert;
+    private $userRepository;
+
+    public function __construct(EmailAlert $emailAlert, UserRepository $userRepository)
+    {
+        $this->emailAlert = $emailAlert;
+        $this->userRepository = $userRepository;
+    }
+
     #[Route(name: 'app_event_index_front', methods: ['GET'])]
     public function frontIndex(EventRepository $eventRepository): Response
     {
@@ -39,7 +52,7 @@ final class EventController extends AbstractController
 
     
 
-    #[Route('/new', name: 'app_event_new', methods: ['GET', 'POST'])]
+    #[Route("/new", name: "app_event_new", methods: ["GET", "POST"])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $event = new Event();
@@ -64,14 +77,23 @@ final class EventController extends AbstractController
             $entityManager->persist($event);
             $entityManager->flush();
     
+            // Send an email alert to all users
+            $users = $entityManager->getRepository(User::class)->findAll(); // Get all users
+            foreach ($users as $user) {
+                if ($user->getEmail()) {
+                    $this->emailAlert->sendEventAlert($user->getEmail(), $event->getNom()); // Send email alert
+                }
+            }
+    
             return $this->redirectToRoute('app_event_index_back');
         }
     
         return $this->render('event/new.html.twig', [
             'event' => $event,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
+    
     
    
     #[Route('/{id}', name: 'app_event_show', methods: ['GET'])]
