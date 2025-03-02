@@ -1,0 +1,59 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}User Details{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="my-4">User Details</h2>
+
+    <div class="card p-4">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>ID</th>
+                    <td>{{ user.id }}</td>
+                </tr>
+                <tr>
+                    <th>Nom</th>
+                    <td>{{ user.nom }}</td>
+                </tr>
+                <tr>
+                    <th>Prénom</th>
+                    <td>{{ user.prenom }}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ user.email }}</td>
+                </tr>
+                <tr>
+                    <th>Adresse</th>
+                    <td>{{ user.adresse }}</td>
+                </tr>
+                <tr>
+                    <th>Profile Picture</th>
+                    <td>
+                        {% if user.profilePicture %}
+                            <img src="{{ asset(user.profilePicture) }}" class="img-thumbnail" width="100">
+                        {% else %}
+                            No image available
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Roles</th>
+                    <td>{{ user.roles ? user.roles|json_encode : 'No roles assigned' }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-3">
+        <a href="{{ path('user_index') }}" class="btn btn-secondary">Back to list</a>
+        <a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-primary">Edit</a>
+    </div>
+
+    <div class="mt-3">
+        {{ include('admin/user/_delete_form.html.twig') }}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,190 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produit - {{ produit.nom }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg mb-4">
+                <div class="row no-gutters">
+                    <div class="col-md-5">
+                        <img src="{{ asset('uploads/produits/' ~ produit.image) }}" class="card-img" alt="{{ produit.nom }}" style="object-fit: cover; height: 100%; width: 100%; border-radius: 8px;">
+                    </div>
+                    <div class="col-md-7">
+                        <div class="card-body">
+                            <h2 class="card-title" style="color: #FFB200;">{{ produit.nom }}</h2>
+
+                            <p class="card-text"><strong>Description:</strong> {{ produit.description }}</p>
+                            <p class="card-text"><strong>Prix:</strong> {{ produit.prix }} TND</p>
+                            <p class="card-text"><strong>Stock:</strong> {{ produit.stock }}</p>
+                            <p class="card-text"><strong>Poids:</strong> {{ produit.poids }} kg</p>
+                            <p class="card-text"><strong>Nombre de feedbacks:</strong> {{ produit.feedbacks|length }}</p>
+
+                            <div class="d-flex justify-content-center mt-3">
+                                <a href="{{ path('add_to_cart', { id: produit.id }) }}" class="btn btn-warning btn-lg d-flex align-items-center">
+                                    <i class="fas fa-cart-plus me-2"></i> Ajouter au Panier
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedbacks Section -->
+    <div class="mt-5">
+        <h3 class="mb-3">Feedbacks</h3>
+        {% if produit.feedbacks is not empty %}
+            <ul class="list-group">
+                {% for feedback in produit.feedbacks %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>{{ feedback.user.nom }}</strong> ({{ feedback.rating }}/5) 
+                            <p class="mb-1">{{ feedback.commentaire }}</p>
+                            <small class="text-muted">Ajouté le {{ feedback.createdAt|date('d/m/Y H:i') }}</small>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Aucun feedback pour ce produit.</p>
+        {% endif %}
+    </div>
+
+    <!-- Feedback Form Section -->
+    <div class="mt-5">
+        <h3>Laisser un Feedback</h3>
+        {{ form_start(feedback_form, { 'attr': {'id': 'feedbackForm'} }) }}
+        
+        <div class="mb-3">
+            {{ form_label(feedback_form.rating, 'Note (1-5)', {'label_attr': {'class': 'form-label'}}) }}
+            <div class="star-rating">
+                {{ form_widget(feedback_form.rating) }}
+            </div>
+        </div>
+
+        <div class="mb-3">
+    {{ form_label(feedback_form.commentaire, 'Commentaire', {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(feedback_form.commentaire, {'attr': {'class': 'form-control', 'rows': 4, 'id': 'commentaire'}}) }}
+    <div id="commentError" style="color: red; font-size: 0.875rem; margin-top: 5px;"></div>
+    </div>
+
+
+        <button type="submit" class="btn btn-success">Soumettre</button>
+        
+        {{ form_end(feedback_form) }}
+    </div>
+</div>
+
+<!-- JavaScript for Bad Word Filtering -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    let form = document.getElementById("feedbackForm");
+
+    if (!form) {
+        console.error("Form element not found!");
+        return;
+    }
+
+    form.addEventListener("submit", function (event) {
+        event.preventDefault(); // Prevent submission while checking
+
+        let commentInput = document.getElementById("feedback_commentaire");
+
+        if (!commentInput) {
+            console.error("Comment input not found!");
+            return;
+        }
+
+        let commentText = commentInput.value.trim();
+
+        if (commentText === "") {
+            document.getElementById("commentError").innerText = "Le commentaire ne peut pas être vide.";
+            return;
+        }
+
+        let apiUrl = `https://www.purgomalum.com/service/containsprofanity?text=${encodeURIComponent(commentText)}`;
+
+        fetch(apiUrl)
+            .then(response => response.text())
+            .then(isProfane => {
+                if (isProfane === "true") {
+                    document.getElementById("commentError").innerText = "Votre commentaire contient des mots inappropriés. Veuillez le modifier.";
+                } else {
+                    document.getElementById("commentError").innerText = "";
+                    form.submit(); // Submit the form if no profanity is found
+                }
+            })
+            .catch(error => {
+                console.error("Error checking profanity:", error);
+                document.getElementById("commentError").innerText = "Erreur lors de la vérification du commentaire.";
+            });
+    });
+});
+
+</script>
+
+<style>
+    .star-rating input {
+        display: none;
+    }
+
+    .star-rating label {
+        font-size: 1.5rem;
+        color: #ccc;
+        cursor: pointer;
+    }
+
+    .star-rating input:checked ~ label {
+        color: gold;
+    }
+
+    .star-rating label:hover,
+    .star-rating label:hover ~ label {
+        color: gold;
+    }
+
+    .star-rating label:before {
+        content: "\f005";
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+    }
+
+    .star-rating input:checked + label:before {
+        color: gold;
+    }
+
+    .star-rating label:hover,
+    .star-rating input:checked + label:hover ~ label {
+        color: gold;
+    }
+
+    .btn-warning {
+        background-color: #FFB200;
+        border: none;
+        color: white;
+        padding: 12px 20px;
+        font-size: 16px;
+        border-radius: 50px;
+    }
+
+    .btn-warning:hover {
+        background-color: #FFA500;
+    }
+
+    .btn-warning:focus {
+        box-shadow: 0 0 0 0.25rem rgba(255, 82, 0, 0.5);
+    }
+
+    .fas {
+        font-size: 20px;
+    }
+
+    .me-2 {
+        margin-right: 8px;
+    }
+</style>
+
+{% endblock %}

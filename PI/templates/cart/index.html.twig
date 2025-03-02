@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Votre Panier{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Votre Panier</h2>
+
+    {% if cart is empty %}
+        <p class="alert alert-warning">Votre panier est vide.</p>
+    {% else %}
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Quantité</th>
+                    <th>Prix Unitaire</th>
+                    <th>Total</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% set total = 0 %}
+                {% for id, item in cart %}
+                    {% set product_total = item.quantity * item.price %}
+                    {% set total = total + product_total %}
+                    <tr>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.price }} TND</td>
+                        <td>{{ product_total }} TND</td>
+                        <td>
+                            <a href="{{ path('remove_from_cart', { id: id }) }}" class="btn btn-danger btn-sm">Retirer</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="3"><strong>Total:</strong></td>
+                    <td><strong>{{ total }} TND</strong></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a href="{{ path('place_order') }}" class="btn btn-success">Passer la Commande</a>
+    {% endif %}
+</div>
+{% endblock %}

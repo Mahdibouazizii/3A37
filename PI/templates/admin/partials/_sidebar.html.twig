@@ -1,0 +1,38 @@
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+    <ul class="nav">
+        <li class="nav-item nav-category"><span class="nav-link">Dashboard</span></li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('admin_dashboard') }}">
+                <span class="menu-title">Dashboard</span>
+                <i class="icon-screen-desktop menu-icon"></i>
+            </a>
+        </li>
+        <li class="nav-item nav-category"><span class="nav-link">Management</span></li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('user_index') }}">
+                <span class="menu-title">Users</span>
+                <i class="icon-user menu-icon"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('admin_produits') }}">
+                <span class="menu-title">products</span>
+                <i class="icon-user menu-icon"></i>
+            </a>
+        </li>
+       <li class="nav-item">
+            <a class="nav-link" href="{{ path('admin_produit_index') }}">
+                <span class="menu-title">Promotions</span>
+                <i class="icon-user menu-icon"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+    <a class="nav-link" href="{{ path('admin_commandes') }}">
+        
+        <span class="menu-title">Commandes</span>
+    </a>
+</li>
+
+
+    </ul>
+</nav>

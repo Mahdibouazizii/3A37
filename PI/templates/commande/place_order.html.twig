@@ -1,0 +1,147 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Passer la Commande{% endblock %}
+
+{% block content %}
+{% if stockWarnings is not empty %}
+    <div class="alert alert-danger">
+        <strong>Attention !</strong> Certains produits ne sont pas disponibles en quantité suffisante :
+        <ul>
+            {% for warning in stockWarnings %}
+                <li>
+                    <strong>{{ warning.name }}</strong> (Stock disponible: {{ warning.available_stock }}, Quantité demandée: {{ warning.requested_quantity }})
+                </li>
+            {% endfor %}
+        </ul>
+        <p>Veuillez ajuster votre commande.</p>
+    </div>
+{% endif %}
+
+<div class="container mt-4">
+    <h2>Finaliser la Commande</h2>
+
+    <div class="row">
+        <div class="col-md-6">
+            {{ form_start(form, {'attr': {'id': 'orderForm'}}) }}
+                <div class="mb-3">
+                    {{ form_label(form.adresse) }}
+                    {{ form_widget(form.adresse, {'attr': {'class': 'form-control', 'id': 'commande_adresse'}}) }}
+                </div>
+                <div id="map" style="height: 300px;"></div>
+
+                <!-- Hidden input to store payment type -->
+                <input type="hidden" name="commande[typePaiement]" id="commande_typePaiement">
+
+                <input type="hidden" name="_token" value="{{ csrf_token('place_order') }}">
+
+                <!-- Buttons to select payment method -->
+                <button type="submit" class="btn btn-success" id="cashOnDeliveryButton">
+                    Paiement à la livraison
+                </button>
+            {{ form_end(form) }}
+
+            <!-- Separate button for Stripe payment -->
+            <button id="stripeCheckoutButton" class="btn btn-primary mt-2">
+                Payer avec Carte Bancaire
+            </button>
+        </div>
+
+        <div class="col-md-6">
+            <h3>Résumé du Panier</h3>
+            <ul class="list-group">
+                {% for id, item in cart %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ item.name }} - {{ item.quantity }} x {{ item.price }} TND
+                    </li>
+                {% else %}
+                    <li class="list-group-item">Votre panier est vide.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var adresseInput = document.getElementById('commande_adresse');
+
+        var map = L.map('map').setView([36.8065, 10.1815], 13); // Default location: Tunis
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        var marker = L.marker([36.8065, 10.1815], { draggable: true }).addTo(map);
+
+        // ✅ Function to update the address input with latitude/longitude
+        function updateAddress(lat, lng) {
+            console.log(`Fetching address for: Lat=${lat}, Lng=${lng}`);
+
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log("API Response:", data);
+
+                    if (data && data.display_name) {
+                        adresseInput.value = `Lat: ${lat}, Lng: ${lng}, ${data.display_name}`;
+                    } else {
+                        adresseInput.value = `Lat: ${lat}, Lng: ${lng}`; // Fallback
+                        console.warn("No address found, using fallback coordinates.");
+                    }
+                    console.log("Updated address field:", adresseInput.value);
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la récupération de l\'adresse:', error);
+                    adresseInput.value = `Lat: ${lat}, Lng: ${lng}`; // Fallback
+                });
+        }
+
+        // ✅ When the user moves the marker, update the address field
+        marker.on('dragend', function () {
+            var position = marker.getLatLng();
+            updateAddress(position.lat, position.lng);
+        });
+
+        // ✅ Ensure address is populated when the page loads
+        updateAddress(marker.getLatLng().lat, marker.getLatLng().lng);
+    });
+</script>
+<script>
+document.getElementById('cashOnDeliveryButton').addEventListener('click', function(event) {
+    document.getElementById('commande_typePaiement').value = "Paiement à la livraison";
+});
+
+document.getElementById('stripeCheckoutButton').addEventListener('click', function(event) {
+    event.preventDefault();
+
+    let adresseField = document.getElementById('commande_adresse');
+    
+    if (!adresseField || adresseField.value.trim() === '') {
+        alert('Veuillez entrer une adresse avant de procéder.');
+        return;
+    }
+
+    fetch("{{ path('create_checkout_session') }}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
+        },
+        body: JSON.stringify({
+            adresse: adresseField.value,
+            typePaiement: "Carte Bancaire"
+        })
+    }).then(response => response.json())
+      .then(data => {
+          if (data.checkoutUrl) {
+              window.location.href = data.checkoutUrl; // Redirect to Stripe Checkout
+          } else {
+              alert('Erreur lors de la création de la session Stripe.');
+          }
+      }).catch(error => {
+          console.error('Erreur:', error);
+          alert('Une erreur est survenue. Veuillez réessayer.');
+      });
+});
+</script>
+
+{% endblock %}

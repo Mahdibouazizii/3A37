@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Verify Reset Code{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="row w-100">
+        <div class="col-md-6 col-lg-4 mx-auto">
+            <div class="card shadow-lg p-4">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">Enter Reset Code</h2>
+                    <p class="text-center">Check your email for the reset code.</p>
+
+                    {% for message in app.flashes('error') %}
+                        <div class="alert alert-danger text-center">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+
+                    {{ form_start(form) }}
+                        <div class="mb-3">
+                            {{ form_label(form.reset_code) }}
+                            {{ form_widget(form.reset_code, {'attr': {'class': 'form-control', 'placeholder': 'Enter the reset code'}}) }}
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Verify Code</button>
+                        </div>
+                    {{ form_end(form) }}
+
+                    <div class="text-center mt-3">
+                        <a href="{{ path('app_reset_password') }}" class="text-decoration-none">Request a new code</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

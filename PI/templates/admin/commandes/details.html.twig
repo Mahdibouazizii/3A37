@@ -1,0 +1,50 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Détails de la Commande #{{ commande.id }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h3 class="page-title">Détails de la Commande</h3>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Commande #{{ commande.id }}</h4>
+        
+        <ul class="list-group mb-4">
+            <li class="list-group-item"><strong>Utilisateur:</strong> {{ commande.user.username }}</li>
+            <li class="list-group-item"><strong>Adresse:</strong> {{ commande.adresse }}</li>
+            <li class="list-group-item"><strong>Type de Paiement:</strong> {{ commande.typePaiement }}</li>
+            <li class="list-group-item"><strong>Date:</strong> {{ commande.date|date('d/m/Y H:i') }}</li>
+        </ul>
+
+        <h4>Produits commandés</h4>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Nom du Produit</th>
+                        <th>Quantité</th>
+                        <th>Prix Unitaire</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in commande.commandeProduits %}
+                        <tr>
+                            <td>{{ item.produit.nom }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.produit.prix|number_format(2, ',', ' ') }} €</td>
+                            <td>{{ (item.quantity * item.produit.prix)|number_format(2, ',', ' ') }} €</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-end mt-4">
+            <a href="{{ path('admin_commandes') }}" class="btn btn-secondary">Retour</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
