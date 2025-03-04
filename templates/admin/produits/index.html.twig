@@ -1,0 +1,48 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Gestion des Promotions{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center">Gestion des Promotions</h2>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prix</th>
+                <th>Promo (%)</th>
+                <th>Prix Final</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for produit in produits %}
+                <tr>
+                    <td>{{ produit.nom }}</td>
+                    <td>{{ produit.prix }} TND</td>
+                    <td>{{ produit.promoPercentage is not null ? produit.promoPercentage ~ '%' : 'Aucune promo' }}</td>
+                    <td>
+                        {% if produit.promoPercentage %}
+                            <strong class="text-success">
+                                {{ produit.prix - (produit.prix * produit.promoPercentage / 100) }} TND
+                            </strong>
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ path('admin_produit_promo', {'id': produit.id}) }}" class="btn btn-warning btn-sm">
+                            Gérer la Promotion
+                        </a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5" class="text-center">Aucun produit disponible.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

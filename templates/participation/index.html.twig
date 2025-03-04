@@ -1,0 +1,200 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Liste des Produits{% endblock %}
+
+{% block content %}
+<style>
+    /* Customize Carousel Arrows */
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        filter: invert(100%); /* Make arrows visible */
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+        background-color: rgba(0, 0, 0, 0.3); /* Slightly dark background */
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+    }
+
+    .carousel-control-prev:hover,
+    .carousel-control-next:hover {
+        background-color: rgba(0, 0, 0, 0.5); /* Darker on hover */
+    }
+
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: 'Poppins', sans-serif;
+        background-color: #f0f8ff;
+        background-image: url("{{ asset('images/background1.webp') }}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        color: #2c3e50;
+        overflow-x: hidden;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: #2980b9;
+    }
+
+    .container {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 30px;
+        border-radius: 12px;
+        max-width: 90vw;
+        margin: 20px auto;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    .table th, .table td {
+        padding: 12px;
+        text-align: left;
+        border: 1px solid #ddd;
+        transition: all 0.3s ease;
+    }
+
+    .table th {
+        background-color: #2980b9;
+        color: white;
+        text-transform: uppercase;
+    }
+
+    .table td {
+        background-color: #ecf0f1;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f1f1f1;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn {
+        padding: 10px 15px;
+        background: #2980b9;
+        color: white;
+        border-radius: 6px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        font-weight: bold;
+    }
+
+    .btn:hover {
+        background: #1c6ea4;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        transform: translateY(-2px);
+    }
+
+    .btn:active {
+        transform: translateY(0);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .sort-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+        padding: 12px;
+        background: rgba(41, 128, 185, 0.15);
+        border-radius: 8px;
+        width: 320px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .sort-container label {
+        font-weight: bold;
+        margin-right: 10px;
+        color: #2980b9;
+    }
+
+    .sort-container select {
+        padding: 8px;
+        font-size: 14px;
+        border-radius: 6px;
+        border: 2px solid #2980b9;
+        background: white;
+        cursor: pointer;
+        transition: 0.3s ease;
+    }
+
+    .sort-container select:hover {
+        border-color: #1c6ea4;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            max-width: 95vw;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2rem;
+        }
+
+        .table {
+            font-size: 0.9rem;
+        }
+    }
+</style>
+
+<h1>Participation</h1>
+
+<div class="container">
+    <!-- Tri -->
+    <div class="sort-container">
+        <label for="sort">Trier par :</label>
+        <form method="get" action="{{ path('app_participation_index') }}">
+            <select id="sort" name="sort" onchange="this.form.submit()">
+                <option value="age_asc" {% if sort == 'age_asc' %}selected{% endif %}>Age (Croissant)</option>
+                <option value="age_desc" {% if sort == 'age_desc' %}selected{% endif %}>Age (Décroissant)</option>
+                <option value="statut_asc" {% if sort == 'statut_asc' %}selected{% endif %}>Enplacement (Décroissant)</option>
+                <option value="statut_desc" {% if sort == 'statut_desc' %}selected{% endif %}>Enplacement (Croissant)</option>
+            </select>
+        </form>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Age</th>
+                <th>Nombre de place</th>
+                <th>Enplacement</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for participation in participations %}
+            <tr>
+                <td>{{ participation.age }}</td>
+                <td>{{ participation.nbrplace }}</td>
+                <td>{{ participation.statut }}</td>
+                <td>
+                    <a class="btn" href="{{ path('app_participation_show', {'id': participation.id}) }}">Voir</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Aucune participation trouvée</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

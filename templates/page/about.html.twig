@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}About Us{% endblock %}
+
+{% block content %}
+    <div class="layout_padding about_section">
+        <div class="container">
+            <h1 class="about_taital">About <span style="background-color: #fee421; color: #fff; padding: 0px 5px;">Us</span></h1>
+            <p class="market_text">Making it look like readable English.</p>
+            <div class="about_bg">
+                <div class="row">
+                    <div class="col-md-8">
+                        <p class="about_long_text">Lorem ipsum text here...</p>
+                        <button class="about_bt">ABOUT MORE</button>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="table_img"><img src="{{ asset('images/about-img.png') }}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

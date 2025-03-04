@@ -1,0 +1,128 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="row w-100">
+        <div class="col-md-6 col-lg-4 mx-auto">
+            <div class="card shadow-lg p-4">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">Login</h2>
+
+                    {# ✅ Display Symfony Flash Messages for Errors (including banned users) #}
+                    {% for message in app.flashes('error') %}
+                        <div class="alert alert-danger text-center">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+
+                    {# ✅ Display Symfony Authentication Errors (Invalid credentials, etc.) #}
+                    {% if error %}
+                        <div class="alert alert-danger text-center">
+                            {{ error.messageKey|trans(error.messageData, 'security') }}
+                        </div>
+                    {% endif %}
+
+                    {# ✅ Login Form #}
+                    <form method="post" onsubmit="return validateLoginForm(event)" novalidate>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input 
+                                type="email" 
+                                name="email" 
+                                id="email" 
+                                class="form-control"
+                                placeholder="Enter your email" 
+                                required 
+                                autofocus
+                            />
+                            <div class="error-message" 
+                                 id="error-email" 
+                                 style="color: red; font-size: 0.875rem; margin-top: 5px;">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input 
+                                type="password" 
+                                name="password" 
+                                id="password" 
+                                class="form-control"
+                                placeholder="Enter your password" 
+                                required
+                            />
+                            <div class="error-message" 
+                                 id="error-password" 
+                                 style="color: red; font-size: 0.875rem; margin-top: 5px;">
+                            </div>
+                        </div>
+
+                        {# ✅ CSRF TOKEN for Security #}
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-dark">Login</button>
+
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <small>Forgot your password?</small>
+                        <a href="{{ path('app_reset_password') }}" class="text-decoration-none">Reset it here</a>
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <small>Don't have an account?</small>
+                        <a href="{{ path('app_register') }}" class="text-decoration-none">Register</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# ✅ JavaScript Validation for Login Form #}
+<script>
+function validateLoginForm(event) {
+    event.preventDefault(); // Stop form submission for validation
+
+    let isValid = true;
+
+    // Clear previous error messages
+    document.querySelectorAll('.error-message').forEach(error => error.textContent = '');
+
+    // Get input fields
+    let emailInput = document.getElementById('email');
+    let passwordInput = document.getElementById('password');
+
+    // 🔹 Check if email is empty
+    if (!emailInput.value.trim()) {
+        isValid = false;
+        document.getElementById('error-email').textContent = "Email cannot be empty.";
+    } else if (!validateEmail(emailInput.value)) {
+        isValid = false;
+        document.getElementById('error-email').textContent = "Invalid email format.";
+    }
+
+    // 🔹 Check if password is empty
+    if (!passwordInput.value.trim()) {
+        isValid = false;
+        document.getElementById('error-password').textContent = "Password cannot be empty.";
+    }
+
+    if (!isValid) {
+        return false; // Stop form submission if validation fails
+    }
+
+    event.target.submit(); // Submit the form if all checks pass
+    return false; 
+}
+
+function validateEmail(email) {
+    let regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+}
+</script>
+{% endblock %}

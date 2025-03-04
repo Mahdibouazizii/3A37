@@ -1,0 +1,44 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Liste des Participations{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h3 class="page-title">Liste des Participations</h3>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Toutes les Participations</h4>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Age</th>
+                        <th>Nombre de places</th>
+                        <th>Empacement</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for participation in participations %}
+                        <tr>
+                            <td>{{ participation.age }}</td>
+                            <td>{{ participation.nbrplace }}</td>
+                            <td>{{ participation.statut }}</td>
+                            <td>
+                                <a href="{{ path('app_participation_show_back', { 'id': participation.id }) }}" class="btn btn-info btn-sm">Voir</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="4" class="text-center">Aucune participation trouvée.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

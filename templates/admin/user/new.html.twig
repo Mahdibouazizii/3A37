@@ -1,0 +1,21 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Create New User{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="my-4">Create New User</h2>
+
+    <div class="card p-4">
+        {# Include the shared user form partial #}
+        {{ include('admin/user/_form.html.twig', {
+            form: form,
+            button_label: 'Create User'
+        }) }}
+    </div>
+
+    <div class="mt-3">
+        <a href="{{ path('user_index') }}" class="btn btn-secondary">Back to list</a>
+    </div>
+</div>
+{% endblock %}

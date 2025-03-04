@@ -1,0 +1,44 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Modifier Participation{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-4">Modifier la Participation</h1>
+
+    <div class="card shadow-lg border-0">
+        
+        {{ form_start(form) }}
+        
+        <!-- Form Fields -->
+        <div class="mb-3">
+            {{ form_label(form.age, 'Âge', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.age, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.nbrplace, 'Nombre de places', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.nbrplace, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.statut, 'Statut', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.statut, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <!-- Submit Button -->
+        <div class="d-flex justify-content-between mb-4">
+            <button type="submit" class="btn btn-primary w-100">Mettre à jour</button>
+        </div>
+
+        <!-- End form -->
+        {{ form_end(form) }}
+
+        <!-- Buttons below the form -->
+        <div class="mb-3 text-center">
+            <a href="{{ path('app_participation_index') }}" class="btn btn-outline-secondary w-100">⬅ Retour à la liste</a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

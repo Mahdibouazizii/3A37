@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un Produit{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Créer un Nouveau Produit</h1>
+
+    <div class="card p-4 shadow">
+        {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+        
+            <div class="mb-3">
+                {{ form_label(form.nom, 'Nom du Produit') }}
+                {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.description, 'Description') }}
+                {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.prix, 'Prix') }}
+                {{ form_widget(form.prix, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.stock, 'Stock') }}
+                {{ form_widget(form.stock, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.poids, 'Poids (kg)') }}
+                {{ form_widget(form.poids, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.image, 'Image du Produit') }}
+                {{ form_widget(form.image, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Créer</button>
+        
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}

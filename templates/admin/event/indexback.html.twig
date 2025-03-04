@@ -1,0 +1,269 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Gestion des Événements{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="my-4 d-flex justify-content-between align-items-center">
+        Gestion des Événements
+        <a href="{{ path('app_event_new') }}" class="btn btn-success">+ Créer un Nouvel Événement</a>
+    </h2>
+
+     <!-- Bouton Statistiques -->
+        <div class="stats-container">
+            <button id="show-statistics">📊 Voir les Statistiques</button>
+        </div>
+
+        <!-- Sélecteur de Mois -->
+        <div class="month-filter-container">
+            <label for="month-filter">Filtrer par Mois 🔄:</label>
+            <select id="month-filter">
+                <option value="all">Tous les Mois</option>
+                <option value="01">Janvier</option>
+                <option value="02">Février</option>
+                <option value="03">Mars</option>
+                <option value="04">Avril</option>
+                <option value="05">Mai</option>
+                <option value="06">Juin</option>
+                <option value="07">Juillet</option>
+                <option value="08">Août</option>
+                <option value="09">Septembre</option>
+                <option value="10">Octobre</option>
+                <option value="11">Novembre</option>
+                <option value="12">Décembre</option>
+            </select>
+        </div>
+
+    <div class="row">
+        <div class="event-grid" id="event-grid">
+            {% for event in events %}
+                <div class="card" data-month="{{ event.heurDebut ? event.heurDebut|date('m') : 'all' }}">
+
+                    {% if event.image %}
+                        <img src="/uploads/images/{{ event.image }}" alt="Image de l'Événement">
+                    {% else %}
+                        <p>Aucune image disponible</p>
+                    {% endif %}
+
+                    <h2>{{ event.nom }}</h2>
+                    <p>{{ event.description }}</p>
+
+                    <div class="date-container">
+                        <div class="date-box">
+                            <strong>Heure de Début</strong><br>
+                            {{ event.heurDebut ? event.heurDebut|date('d/m/Y H:i') : 'N/A' }}
+                        </div>
+                        <div class="date-box">
+                            <strong>Heure de Fin</strong><br>
+                            {{ event.heurFin ? event.heurFin|date('d/m/Y H:i') : 'N/A' }}
+                        </div>
+                    </div>
+
+                    <div class="actions">
+                        <!-- Changed class to btn btn-primary for blue color -->
+                        <a class="btn btn-primary" href="{{ path('app_event_show_back', {'id': event.id}) }}">Voir</a>
+                        <a class="btn btn-edit" href="{{ path('app_event_edit', {'id': event.id}) }}">Modifier</a>
+                    </div>
+                </div>
+            {% else %}
+                <p>Aucun événement trouvé</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Canvas pour le Graphique -->
+    <div id="chart-container" style="display: none; text-align: center; margin-top: 5px;">
+        <canvas id="eventChart" width="300" height="300"></canvas>
+    </div>
+
+    <script>
+        document.getElementById('month-filter').addEventListener('change', function() {
+            var selectedMonth = this.value;
+            var events = document.querySelectorAll('.card');
+            events.forEach(function(event) {
+                var eventMonth = event.getAttribute('data-month');
+                event.style.display = (selectedMonth === 'all' || eventMonth === selectedMonth) ? 'block' : 'none';
+            });
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        document.getElementById('show-statistics').addEventListener('click', function() {
+            fetch('{{ path("app_event_statistics") }}')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Erreur lors de la récupération des statistiques : " + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (!data || Object.keys(data).length === 0) {
+                        alert("Aucune donnée disponible pour les statistiques.");
+                        return;
+                    }
+
+                    document.getElementById('chart-container').style.display = 'block';
+
+                    var canvas = document.getElementById('eventChart');
+                    var ctx = canvas.getContext('2d');
+
+                    if (window.myChart) {
+                        window.myChart.destroy();
+                    }
+
+                    window.myChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: [
+                                'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+                                'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
+                            ],
+                            datasets: [{
+                                label: 'Nombre d\'événements',
+                                data: Object.values(data),
+                                backgroundColor: [
+                                    '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
+                                    '#9966FF', '#FF9F40', '#E7E9ED', '#8A89A6',
+                                    '#E15759', '#6A3D9A', '#B5BD61', '#9C755F'
+                                ],
+                                hoverOffset: 5
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            animation: {
+                                animateRotate: true,
+                                animateScale: true
+                            },
+                            plugins: {
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            return `${context.label}: ${context.raw} événements`;
+                                        }
+                                    }
+                                },
+                                legend: {
+                                    position: 'bottom'
+                                }
+                            }
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Erreur lors du chargement des statistiques:', error);
+                    alert("Une erreur est survenue lors du chargement des statistiques. Veuillez réessayer plus tard.");
+                });
+        });
+    </script>
+
+    <style>
+        /* Add custom styles for the layout */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .stats-container, .month-filter-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .stats-container button, .month-filter-container select {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+
+        .event-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 300px;
+            text-align: center;
+            padding: 15px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .card h2 {
+            font-size: 20px;
+            margin: 10px 0;
+        }
+
+        .date-container {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .actions .btn {
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            color: white;
+            transition: background 0.3s ease;
+        }
+
+        .actions .btn:hover {
+            opacity: 0.8;
+        }
+
+        .btn-edit {
+            background-color: #ffc107;
+        }
+
+        #chart-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+    </style>
+{% endblock %}
