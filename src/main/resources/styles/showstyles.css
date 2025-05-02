@@ -1,0 +1,311 @@
+/* ==========================================================================
+   Show Styles (showtyles.css)
+   ========================================================================== */
+
+/**
+ * Global Styles
+ */
+.root {
+    -fx-background-color: #f4f4f4; /* Light Gray - Consistent background */
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 14px;
+}
+
+/**
+ * Header Container
+ */
+.header-container {
+    -fx-background-color: #2E8B57; /* Sea Green - Consistent header */
+}
+
+/**
+ * Small Header Label (e.g., "Ecoselect")
+ */
+.label-header-small {
+    -fx-font-size: 1.8em;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+}
+
+/**
+ * Card Style for Detail View
+ */
+.card {
+    -fx-background-color: #ffffff; /* White card for content */
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 8, 0.1, 0, 2); /* Subtle shadow */
+    -fx-padding: 20px; /* Increased padding for detail view */
+    -fx-alignment: top-center; /* Centers content within the card */
+}
+
+/**
+ * Sub-header Label (e.g., Title)
+ */
+.label-subheader {
+    -fx-font-size: 1.6em; /* Larger subheader for detail */
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333; /* Dark Gray */
+    -fx-alignment: center;  /* Center alignment for title */
+    -fx-margin-bottom: 15px; /* Add space below title */
+    -fx-wrap-text: true; /* Ensure long titles wrap */
+    -fx-max-width: 90%; /* Limit width and use wrap-text */
+}
+
+/**
+ * Body Label (e.g., Description)
+ */
+.label-body-small {
+    -fx-font-size: 1.1em; /* Slightly larger body text */
+    -fx-text-fill: #555555; /* Medium Gray */
+    -fx-alignment: center;
+    -fx-wrap-text: true; /* Ensure descriptions wrap */
+    -fx-max-width: 90%;
+}
+
+/**
+ * Info Label (e.g., Dates, Location)
+ */
+.label-info-small {
+    -fx-font-size: 1.0em; /* Slightly larger info text */
+    -fx-text-fill: #777777; /* Light Gray */
+    -fx-margin-bottom: 5px;
+}
+
+/**
+ * Rounded Image View Style
+ */
+.image-view-rounded {
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 3, 0.1, 0, 1); /* Add a very subtle shadow */
+}
+
+/**
+ * QR Code Container
+ */
+.qr-container-small {
+    -fx-background-color: #f9f9f9;
+    -fx-border-color: #dddddd;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-alignment: center;
+    -fx-padding: 15px;
+    -fx-margin-top: 20px;
+}
+
+/**
+  * QR Label
+  */
+.qr-container-small > Label {
+    -fx-font-size: 0.9em;
+    -fx-text-fill: #888888;
+}
+
+/**
+ * Primary Button Style (e.g., Print)
+ */
+.button--primary-small {
+    -fx-background-color: #2E8B57;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 1.0em; /* increased font size */
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-cursor: hand;
+}
+
+.button--primary-small:hover {
+    -fx-background-color: #3CB371;
+}
+
+.button--primary-small:pressed {
+    -fx-background-color: #228B22;
+}
+
+/**
+ * Secondary Button Style (e.g., Edit, Share)
+ */
+.button--secondary-small {
+    -fx-background-color: #f0f0f0;
+    -fx-text-fill: #333333;
+    -fx-font-size: 1.0em;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1px;
+    -fx-cursor: hand;
+}
+
+.button--secondary-small:hover {
+    -fx-background-color: #e0e0e0;
+}
+
+.button--secondary-small:pressed {
+    -fx-background-color: #d0d0d0;
+}
+
+/**
+ * Danger Button Style (e.g., Delete)
+ */
+.button--danger-small {
+    -fx-background-color: #dc143c;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 1.0em;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-cursor: hand;
+}
+
+.button--danger-small:hover {
+    -fx-background-color: #b22222;
+}
+
+.button--danger-small:pressed {
+    -fx-background-color: #8b0000;
+}
+
+/**
+ * Comments Container
+ */
+.comments-container {
+    -fx-margin-top: 20px;
+    -fx-padding: 15px;
+    -fx-background-color: #ffffff;
+    -fx-border-radius: 10px;
+    -fx-border-color: #eeeeee;
+    -fx-border-width: 1px;
+}
+
+/**
+ * Comment List View
+ */
+.list-view {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-pref-height: 150px;
+    -fx-margin-bottom: 10px;
+}
+
+.list-view .list-cell {
+    -fx-padding: 10px;
+    -fx-font-size: 0.95em;
+    -fx-text-fill: #444444;
+}
+
+.list-view .list-cell:even {
+    -fx-background-color: #f9f9f9;
+}
+
+.list-view .list-cell:odd {
+    -fx-background-color: #ffffff;
+}
+
+.list-view .list-cell:selected {
+    -fx-background-color: #e0f7fa;
+}
+
+/**
+ * Comment Author
+ */
+.comment-author {
+    -fx-font-size: 1.1em;
+    -fx-font-weight: bold;
+    -fx-color: #2E8B57;
+}
+
+/**
+ * Comment Date
+ */
+.comment-date {
+    -fx-font-size: 0.9em;
+    -fx-color: #888888;
+    -fx-margin-left: 10px;
+}
+
+/**
+ * Comment Content
+ */
+.comment-content {
+    -fx-font-size: 1.0em;
+    -fx-color: #555555;
+    -fx-wrap-text: true;
+    -fx-margin-top: 5px;
+    -fx-max-width: 95%;
+}
+
+/**
+ * Text Field for Author Input
+ */
+.text-field {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-padding: 10px;
+    -fx-font-size: 0.95em;
+}
+
+.text-field:focused {
+    -fx-border-color: #2E8B57;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 5, 0.1, 0, 1);
+}
+
+/**
+ * Text Area for Comment Input
+ */
+.text-area {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-padding: 10px;
+    -fx-font-size: 0.95em;
+    -fx-wrap-text: true;
+}
+
+.text-area .content {
+    -fx-background-color: #ffffff;
+}
+
+.text-area:focused {
+    -fx-border-color: #2E8B57;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 5, 0.1, 0, 1);
+}
+/* Sort buttons */
+.button--sort-small {
+    -fx-font-size: 12px;
+    -fx-padding: 3 8 3 8;
+    -fx-background-color: #e0e0e0;
+    -fx-background-radius: 5;
+}
+
+.button--sort-small:hover {
+    -fx-background-color: #d0d0d0;
+}
+
+/* Comments list */
+.comments-list {
+    -fx-background-color: transparent;
+    -fx-padding: 5;
+}
+
+.comments-list .list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 5 0 5 0;
+}
+
+.comments-list .list-cell:filled:selected {
+    -fx-background-color: #e8f5e9;
+}
+
+/* Comment fields */
+.comment-field {
+    -fx-background-color: #f5f5f5;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 3;
+    -fx-padding: 5;
+}

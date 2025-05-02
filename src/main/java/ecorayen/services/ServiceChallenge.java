@@ -4,17 +4,12 @@ import ecorayen.interfaces.iservices;
 import ecorayen.models.challenge;
 import ecorayen.utils.Myconnection;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class ServiceChallenge implements iservices<challenge> {
 
-    private Connection cnx;
+    private final Connection cnx;
 
     public ServiceChallenge() {
         cnx = Myconnection.getInstance().getConnection();
@@ -40,12 +35,16 @@ public class ServiceChallenge implements iservices<challenge> {
 
     @Override
     public boolean delete(challenge challenge) {
+        return delete(challenge.getId()); // Call the overloaded delete by ID
+    }
+
+    public boolean delete(int id) {
         String qry = "DELETE FROM `challenge` WHERE id = ?";
         try (PreparedStatement pstm = cnx.prepareStatement(qry)) {
-            pstm.setInt(1, challenge.getId());
+            pstm.setInt(1, id);
             return pstm.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("Error deleting challenge: " + e.getMessage());
+            System.err.println("Error deleting challenge by id: " + e.getMessage());
             return false;
         }
     }
@@ -62,9 +61,11 @@ public class ServiceChallenge implements iservices<challenge> {
             pstm.setString(6, challenge.getImage());
             pstm.setInt(7, challenge.getId());
             int affectedRows = pstm.executeUpdate();
+            System.out.println("Updated " + affectedRows + " rows.");
             return affectedRows > 0;
         } catch (SQLException e) {
             System.err.println("Error updating challenge: " + e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }

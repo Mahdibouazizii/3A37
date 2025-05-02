@@ -1,0 +1,165 @@
+/* ==========================================================================
+   Add Challenge Form Styles
+   ========================================================================== */
+
+/* Form Container Styles */
+.form-grid {
+    -fx-background-color: #F7F7F7;
+    -fx-padding: 20px;
+}
+
+/* Header Styles */
+.header-container {
+    -fx-background-color: #1A1D23; /* Midnight Blue */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 0, 2, 0, 1);
+}
+
+.label-header {
+    -fx-text-fill: #F5F5DC; /* Moon Beige */
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+/* Field Label Styles */
+.label-field {
+    -fx-text-fill: #1A1D23; /* Midnight Blue */
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* Input Field Styles */
+.text-field, .text-area, .date-picker {
+    -fx-background-color: white;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: #CCCCCC;
+    -fx-padding: 8px;
+    -fx-font-size: 14px;
+}
+
+.text-field:focused, .text-area:focused, .date-picker:focused {
+    -fx-border-color: #1A1D23; /* Midnight Blue */
+    -fx-effect: dropshadow(gaussian, rgba(26, 29, 35, 0.2), 5, 0.1, 0, 1);
+}
+
+.text-area {
+    -fx-pref-row-count: 3;
+    -fx-wrap-text: true;
+}
+
+/* Button Styles */
+.button {
+    -fx-background-color: #1A1D23; /* Midnight Blue */
+    -fx-text-fill: #F5F5DC; /* Moon Beige */
+    -fx-background-radius: 5;
+    -fx-padding: 8px 16px;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #2A2D33; /* Darker Midnight Blue */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0.1, 0, 1);
+}
+
+.button--primary {
+    -fx-background-color: #4CAF50; /* Green */
+    -fx-text-fill: white;
+}
+
+.button--primary:hover {
+    -fx-background-color: #3E8E41; /* Darker Green */
+}
+
+.button--secondary {
+    -fx-background-color: #2196F3; /* Blue */
+    -fx-text-fill: white;
+}
+
+.button--secondary:hover {
+    -fx-background-color: #0B7DDA; /* Darker Blue */
+}
+
+.button--danger {
+    -fx-background-color: #F44336; /* Red */
+    -fx-text-fill: white;
+}
+
+.button--danger:hover {
+    -fx-background-color: #D32F2F; /* Darker Red */
+}
+
+.button--small {
+    -fx-padding: 4px 8px;
+    -fx-min-width: 30px;
+    -fx-font-size: 12px;
+}
+
+/* Location Container Styles */
+.location-container {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: #CCCCCC;
+    -fx-padding: 10px;
+    -fx-spacing: 5px;
+}
+
+.location-container Label {
+    -fx-text-fill: #555555;
+    -fx-font-size: 13px;
+}
+
+/* Map View Styles */
+.web-view {
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: #CCCCCC;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 3, 0.1, 0, 1);
+}
+
+/* Progress Indicator Styles */
+.progress-indicator {
+    -fx-progress-color: #1A1D23; /* Midnight Blue */
+}
+
+/* Scroll Pane Styles */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical, .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical .thumb, .scroll-bar:horizontal .thumb {
+    -fx-background-color: #CCCCCC;
+    -fx-background-radius: 5em;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+    .form-grid {
+        -fx-padding: 10px;
+    }
+
+    .label-field {
+        -fx-font-size: 12px;
+    }
+
+    .text-field, .text-area, .date-picker {
+        -fx-padding: 6px;
+        -fx-font-size: 12px;
+    }
+
+    .button {
+        -fx-padding: 6px 12px;
+        -fx-font-size: 12px;
+    }
+}

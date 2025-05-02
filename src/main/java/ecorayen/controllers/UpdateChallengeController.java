@@ -6,7 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
+import javafx.event.ActionEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -55,7 +55,7 @@ public class UpdateChallengeController {
     }
 
     @FXML
-    void update(MouseEvent event) {
+    void update(ActionEvent event) {
         if (currentChallenge == null) {
             showAlert(Alert.AlertType.ERROR, "Error", "No challenge selected for update.");
             return;
@@ -90,7 +90,7 @@ public class UpdateChallengeController {
     }
 
     @FXML
-    void cancel(MouseEvent event) {
+    void cancel(ActionEvent event) {
         Stage stage = (Stage) nameField.getScene().getWindow();
         stage.close();
     }

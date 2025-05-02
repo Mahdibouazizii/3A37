@@ -1,22 +1,40 @@
 module ecorayen {
+    // JavaFX Modules
+    requires javafx.controls;
+    requires javafx.fxml;
+    requires javafx.graphics;
+    requires javafx.base;
+    requires javafx.web;
+    requires javafx.media;
+    requires javafx.swing;
+
+    // Database
+    requires java.sql;
+
+    // 3rd-Party Libraries
     requires org.controlsfx.controls;
-    requires com.dlsc.formsfx;
-    requires net.synedra.validatorfx;
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
-    requires eu.hansolo.tilesfx;
-    requires com.almasb.fxgl.all;
-    requires java.sql;
-    requires javafx.fxml; // Add this line for FXML support
-    requires javafx.controls; // Add this line for JavaFX Controls
+    requires io.nayuki.qrcodegen;
 
-    exports ecorayen; // Export the main package if needed
+    // OpenHTMLToPDF (Modern HTML-to-PDF)
+    requires openhtmltopdf.core;    // Automatic module name from JAR
+    requires openhtmltopdf.pdfbox;
+    requires org.json;
+    requires okhttp3;
+    requires jdk.jsobject;  // Automatic module name from JAR
+
+    // Exports
+    exports ecorayen;
     exports ecorayen.interfaces;
     exports ecorayen.models;
     exports ecorayen.services;
     exports ecorayen.utils;
-    exports ecorayen.controllers; // Export the controllers package
+    exports ecorayen.controllers;
 
-    opens ecorayen.controllers to javafx.fxml; // Open the controllers package to JavaFX FXML
-    opens ecorayen to javafx.fxml; // Open the main package to JavaFX FXML if it contains FXML-linked classes
+    // Opens for Reflection (FXML, etc.)
+    opens ecorayen.controllers to javafx.fxml, javafx.swing;
+    opens ecorayen to javafx.fxml;
+    opens ecorayen.models to javafx.base;
+    opens ecorayen.services to javafx.base;
 }

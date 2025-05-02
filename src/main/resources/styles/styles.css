@@ -1,0 +1,113 @@
+/* ==========================================================================
+   Enhanced FXML Additional Styles
+   ========================================================================== */
+
+/**
+ * Global Styles
+ */
+.root {
+    -fx-background-color: #F7F7F7; /* Marble White */
+}
+
+/**
+ * Transparent ScrollPane Styling
+ */
+.transparent-scroll-pane {
+    -fx-background-color: #F7F7F7; /* Marble White */
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+.transparent-scroll-pane >.viewport {
+    -fx-background-color: #F7F7F7;
+}
+
+.transparent-scroll-pane.scroll-bar:vertical,
+.transparent-scroll-pane.scroll-bar:horizontal {
+    -fx-background-color: #F7F7F7;
+}
+
+.transparent-scroll-pane.scroll-bar:vertical.thumb,
+.transparent-scroll-pane.scroll-bar:horizontal.thumb {
+    -fx-background-color: #CCCCCC; /* Light Matching Color */
+    -fx-background-radius: 5em;
+    -fx-min-width: 10px;
+    -fx-min-height: 10px;
+}
+
+/**
+ * Content Container Styles
+ */
+.content-container {
+    -fx-background-color: #F7F7F7;
+    -fx-padding: 10px;
+}
+
+/**
+ * Action Bar Specific Styling
+ */
+.action-bar {
+    -fx-background-color: #F5F5DC; /* Moon Beige - Changed from Midnight Blue */
+    -fx-background-radius: 12 12 0 0;
+    -fx-border-radius: 12 12 0 0;
+    -fx-padding: 0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0.1, 0, -2);
+    -fx-text-fill: #CCCCCC; /* Light Matching Color */
+}
+
+/**
+ * Challenge Card Styles (For items in the FlowPane)
+ */
+.challenge-card {
+    -fx-background-color: #1A1D23; /* Midnight Blue - Applied to card container */
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-border-color: #33383D; /* Darker Midnight Blue variant for border */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 8, 0.1, 0, 2);
+    -fx-min-width: 250px;
+    -fx-max-width: 300px;
+    -fx-min-height: 200px;
+    -fx-padding: 15px;
+    -fx-cursor: hand;
+    -fx-text-fill: #CCCCCC; /* Light Matching Color for text contrast */
+}
+
+.challenge-card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 12, 0.3, 0, 3);
+    -fx-border-color: #555963; /* Slightly lighter Midnight Blue variant on hover */
+    -fx-scale: 1.01;
+    -fx-transition: -fx-scale 0.2s ease-in-out;
+}
+
+/**
+ * Card Content (Inner Content of Challenge Card)
+ * - Assuming you have a separate container for the card's content
+ */
+/**
+ * Card Content (Inner Content of Challenge Card)
+ * - Modified to have Midnight Blue background
+ */
+.challenge-card-content {
+    -fx-background-color: #1A1D23; /* Midnight Blue */
+    -fx-background-radius: 10;
+    -fx-padding: 10px;
+    -fx-text-fill: #CCCCCC; /* Light Matching Color for text contrast */
+    -fx-border-radius: 10;
+    -fx-border-color: #33383D; /* Optional: Darker Midnight Blue variant for border */
+}
+
+/**
+ * Button Styles
+ */
+.button {
+    -fx-background-color: #F5F5DC; /* Moon Beige */
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-text-fill: #1A1D23; /* Midnight Blue for text contrast */
+    -fx-padding: 10 20;
+}
+
+.button:hover {
+    -fx-background-color: #F0F0F0; /* Slightly darker Moon Beige on hover */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 5, 0.1, 0, 1);
+}

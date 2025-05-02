@@ -2,76 +2,110 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="553.0" prefWidth="744.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ecorayen.controllers.ListChallengeController">
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="ecorayen.controllers.ListChallengeController"
+            stylesheets="@../styles/styles.css"
+            style="-fx-background-color: #F7F7F7;">
+
+   <!-- Header Section -->
    <top>
-      <VBox prefHeight="66.0" prefWidth="744.0" style="-fx-background-color: dffff0;" BorderPane.alignment="CENTER">
-         <children>
-            <HBox prefHeight="100.0" prefWidth="744.0">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Challenges" wrappingWidth="150.0">
-                     <font>
-                        <Font size="27.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets bottom="10.0" />
-                     </HBox.margin>
-                  </Text>
-               </children>
-               <padding>
-                  <Insets left="25.0" top="20.0" />
-               </padding>
-            </HBox>
-         </children>
+      <VBox prefHeight="66.0"
+            styleClass="card"
+            style="-fx-background-color: #1A1D23; -fx-background-radius: 12 12 0 0; -fx-border-radius: 12 12 0 0;">
+         <padding>
+            <Insets bottom="10.0" left="25.0" right="25.0" top="20.0"/>
+         </padding>
+         <Text styleClass="label-header"
+               text="Challenges"
+               style="-fx-fill: #CCCCCC; -fx-font-size: 18px; -fx-font-weight: bold;"/>
       </VBox>
    </top>
+
+   <!-- Main Content Area -->
+   <center>
+      <ScrollPane fitToWidth="true"
+                  styleClass="content-pane"
+                  BorderPane.alignment="CENTER"
+                  style="-fx-background-color: transparent; -fx-border-color: transparent;">
+         <content>
+            <FlowPane fx:id="cardContainer"
+                      hgap="20"
+                      vgap="20"
+                      styleClass="card-container"
+                      style="-fx-background-color: transparent; -fx-padding: 20;">
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+               </padding>
+               <!-- Example Challenge Card 1 -->
+               <VBox styleClass="challenge-card"
+                     style="-fx-background-color: #1A1D23; -fx-background-radius: 15; -fx-border-radius: 15; -fx-border-color: #33383D; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 8, 0.1, 0, 2);">
+                  <VBox styleClass="challenge-card-content"
+                        style="-fx-background-color: #1A1D23; -fx-background-radius: 10; -fx-padding: 10; -fx-text-fill: #CCCCCC; -fx-border-radius: 10; -fx-border-color: #33383D;">
+                     <Text text="Challenge Name 1"
+                           style="-fx-fill: #CCCCCC; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+                     <Text text="Challenge Description 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                           style="-fx-fill: #CCCCCC; -fx-font-size: 14px;"/>
+                  </VBox>
+               </VBox>
+               <!-- Example Challenge Card 2 -->
+               <VBox styleClass="challenge-card"
+                     style="-fx-background-color: #1A1D23; -fx-background-radius: 15; -fx-border-radius: 15; -fx-border-color: #33383D; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 8, 0.1, 0, 2);">
+                  <VBox styleClass="challenge-card-content"
+                        style="-fx-background-color: #1A1D23; -fx-background-radius: 10; -fx-padding: 10; -fx-text-fill: #CCCCCC; -fx-border-radius: 10; -fx-border-color: #33383D;">
+                     <Text text="Challenge Name 2"
+                           style="-fx-fill: #CCCCCC; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+                     <Text text="Challenge Description 2. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                           style="-fx-fill: #CCCCCC; -fx-font-size: 14px;"/>
+                  </VBox>
+               </VBox>
+               <!-- Add more challenge cards as needed -->
+            </FlowPane>
+         </content>
+      </ScrollPane>
+   </center>
+
+   <!-- Button Controls Section -->
    <bottom>
-      <HBox alignment="CENTER" prefHeight="50.0" prefWidth="744.0" spacing="20.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="addButton" onAction="#showAddChallengeInterface" text="Add Challenge">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Button>
-            <Button fx:id="updateButton" onAction="#showUpdateChallengeInterface" text="Update Challenge">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Button>
-            <Button fx:id="deleteButton" onAction="#deleteChallenge" text="Delete Challenge">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Button>
-            <Button fx:id="showDetailsButton" onAction="#showChallengeDetails" text="Show Details">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Button>
-         </children>
+      <HBox alignment="CENTER"
+            prefHeight="50.0"
+            spacing="20.0"
+            styleClass="control-bar"
+            BorderPane.alignment="CENTER"
+            style="-fx-background-color: #F5F5DC; -fx-padding: 10;">
+         <padding>
+            <Insets bottom="10.0" top="10.0"/>
+         </padding>
+         <Button fx:id="addButton"
+                 onAction="#showAddChallengeInterface"
+                 styleClass="button--primary"
+                 text="Add Challenge"
+                 style="-fx-background-color: #F5F5DC; -fx-text-fill: #1A1D23; -fx-font-size: 14px; -fx-padding: 10 20; -fx-border-radius: 10; -fx-background-radius: 10;"></Button>
+         <Button fx:id="updateButton"
+                 disable="true"
+                 onAction="#showUpdateChallengeInterface"
+                 styleClass="button--primary"
+                 text="Update Challenge"
+                 style="-fx-background-color: #F5F5DC; -fx-text-fill: #1A1D23; -fx-font-size: 14px; -fx-padding: 10 20; -fx-border-radius: 10; -fx-background-radius: 10;"></Button>
+         <Button fx:id="deleteButton"
+                 onAction="#deleteChallenge"
+                 styleClass="button--danger"
+                 text="Delete Challenge"
+                 style="-fx-background-color: #FF0000; -fx-text-fill: #FFFFFF; -fx-font-size: 14px; -fx-padding: 10 20; -fx-border-radius: 10; -fx-background-radius: 10;"></Button>
+         <Button fx:id="showDetailsButton"
+                 disable="true"
+                 onAction="#showChallengeDetails"
+                 styleClass="button--primary"
+                 text="Show Details"
+                 style="-fx-background-color: #F5F5DC; -fx-text-fill: #1A1D23; -fx-font-size: 14px; -fx-padding: 10 20; -fx-border-radius: 10; -fx-background-radius: 10;"></Button>
       </HBox>
    </bottom>
-   <center>
-      <TableView fx:id="challengeTable" prefHeight="399.0" prefWidth="744.0" BorderPane.alignment="CENTER">
-         <columns>
-            <TableColumn fx:id="idColumn" prefWidth="50.0" text="ID" />
-            <TableColumn fx:id="nameColumn" prefWidth="150.0" text="Name" />
-            <TableColumn fx:id="descriptionColumn" prefWidth="200.0" text="Description" />
-            <TableColumn fx:id="dateStartColumn" prefWidth="100.0" text="Start Date" />
-            <TableColumn fx:id="dateEndColumn" prefWidth="100.0" text="End Date" />
-            <TableColumn fx:id="locationColumn" prefWidth="100.0" text="Location" />
-            <TableColumn fx:id="imageColumn" prefWidth="100.0" text="Image" />
-         </columns>
-         <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-         </padding>
-      </TableView>
-   </center>
 </BorderPane>
