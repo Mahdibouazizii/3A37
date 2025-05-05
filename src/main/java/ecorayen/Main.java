@@ -98,7 +98,7 @@ public class Main {
                             int idToDelete = Integer.parseInt(idToDeleteStr.trim());
                             challenge toDelete = service.getById(idToDelete);
                             if (toDelete != null) {
-                                service.delete(toDelete);
+                                service.delete(toDelete.getId());
                                 System.out.println("✅ Challenge deleted.");
                             } else {
                                 System.out.println("❌ Challenge not found.");
