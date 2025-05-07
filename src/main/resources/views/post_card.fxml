@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<VBox spacing="5.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ecorayen.controllers.PostCardController" style="-fx-border-color: lightgray; -fx-border-width: 1;">
+    <padding><Insets bottom="10.0" left="10.0" right="10.0" top="10.0" /></padding>
+    <ImageView fx:id="postImageView" fitHeight="150.0" fitWidth="200.0" preserveRatio="true" />
+    <Label fx:id="captionLabel" style="-fx-font-weight: bold;" wrapText="true" />
+    <Label fx:id="locationLabel" style="-fx-font-style: italic;" />
+    <Label fx:id="likeCountLabel" />
+    <HBox spacing="5.0" alignment="CENTER">
+        <Button fx:id="viewDetailsButton" mnemonicParsing="false" onAction="#handleViewDetails" text="View Details" />
+        <Button fx:id="likeButton" mnemonicParsing="false" onAction="#handleLike" text="Like" />
+        <Button fx:id="dislikeButton" mnemonicParsing="false" onAction="#handleDislike" text="Dislike" />
+    </HBox>
+</VBox>

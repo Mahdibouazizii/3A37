@@ -5,10 +5,13 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.web.WebView?>
 
+<?import java.net.URL?>
 <BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="ecorayen.controllers.AddChallengeController"
             prefHeight="700.0" prefWidth="800.0" stylesheets="@../styles/add-challenge-styles.css">
-
+    <stylesheets>
+        <URL value="@../styles/showstyles.css"/>
+    </stylesheets>
     <top>
         <VBox alignment="CENTER" styleClass="header-container">
             <padding>

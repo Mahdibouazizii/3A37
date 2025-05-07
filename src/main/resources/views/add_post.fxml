@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.geometry.Insets?>
+
+<GridPane hgap="10.0" vgap="10.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ecorayen.controllers.AddPostController">
+    <padding><Insets bottom="15.0" left="15.0" right="15.0" top="15.0" /></padding>
+
+    <Label text="Caption:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+    <TextField fx:id="captionField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+    <Label text="Image URL:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+    <HBox spacing="10" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <TextField fx:id="imageUrlField" HBox.hgrow="ALWAYS"/>
+        <Button fx:id="uploadButton" text="Upload" onAction="#handleUpload" />
+    </HBox>
+
+    <Label text="Preview:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+    <ImageView fx:id="imageView" fitHeight="100" fitWidth="100" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+    <Label text="Location:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+    <TextField fx:id="locationField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+    <Label text="Post Type:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+    <TextField fx:id="postTypeField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+    <Label text="Aspect Ratio:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+    <TextField fx:id="aspectRatioField" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+    <HBox fx:id="buttonBox" spacing="10.0" alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="6">
+        <Button fx:id="saveButton" text="Save" onAction="#handleSave" />
+        <Button fx:id="cancelButton" text="Cancel" onAction="#handleCancel" />
+    </HBox>
+</GridPane>

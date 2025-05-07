@@ -1,6 +1,7 @@
 package ecorayen.controllers;
 
 import ecorayen.models.badge;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -56,5 +57,17 @@ public class ShowBadgeController {
         assert descriptionLabel != null : "fx:id=\"descriptionLabel\" was not injected: check your FXML file 'show_badge_view.fxml'.";
         assert badgeImageView != null : "fx:id=\"badgeImageView\" was not injected: check your FXML file 'show_badge_view.fxml'.";
         // Any additional initialization logic can go here
+    }
+
+    public void handlePrint(ActionEvent actionEvent) {
+    }
+
+    public void handleEdit(ActionEvent actionEvent) {
+    }
+
+    public void handleDelete(ActionEvent actionEvent) {
+    }
+
+    public void handleShare(ActionEvent actionEvent) {
     }
 }

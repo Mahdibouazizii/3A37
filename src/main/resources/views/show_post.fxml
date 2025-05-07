@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<VBox spacing="20" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ecorayen.controllers.ShowPostController">
+    <padding><Insets bottom="20.0" left="20.0" right="20.0" top="20.0" /></padding>
+
+    <Label fx:id="captionLabel" styleClass="title" wrapText="true" />
+    <ImageView fx:id="postImageView" fitWidth="300" fitHeight="300" preserveRatio="true" />
+    <Label fx:id="locationLabel" styleClass="label" />
+    <Label fx:id="likeCountLabel" styleClass="label" />
+    <Label fx:id="createdAtLabel" styleClass="label" />
+    <Label fx:id="updatedAtLabel" styleClass="label" />
+
+</VBox>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.geometry.Pos?>
+
+<VBox spacing="10.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ecorayen.controllers.DisplayPostsController">
+    <padding><Insets bottom="15.0" left="15.0" right="15.0" top="15.0" /></padding>
+
+    <HBox alignment="CENTER" spacing="10.0">
+        <Button text="Add Post" onAction="#handleAddPost" />
+        <Button text="Update Post" onAction="#handleUpdatePost" />
+    </HBox>
+
+    <TilePane fx:id="postsTilePane" hgap="10.0" vgap="10.0">
+        <padding><Insets bottom="15.0" left="15.0" right="15.0" top="15.0" /></padding>
+    </TilePane>
+</VBox>

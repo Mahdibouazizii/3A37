@@ -39,7 +39,7 @@ public class ShowChallengeController {
     @FXML private Label locationLabel;
     @FXML private ImageView challengeImageView;
     @FXML private VBox qrCodeContainer;
-    @FXML private ListView<comment> commentsListView;
+    @FXML private static ListView<comment> commentsListView;
     @FXML private TextField commentAuthorField;
     @FXML private TextArea commentContentField;
     @FXML private Button sortNewestButton;
@@ -49,7 +49,7 @@ public class ShowChallengeController {
     private challenge currentChallenge;
     private final ServiceChallenge serviceChallenge = new ServiceChallenge();
     private final commentservice commentService = new commentservice();
-    private ArrayList<comment> commentsList = new ArrayList<>();
+    private static ArrayList<comment> commentsList = new ArrayList<>();
 
     // Image display constants
     private static final double FIXED_WIDTH = 300;
@@ -76,7 +76,7 @@ public class ShowChallengeController {
         sortPopularButton.setOnAction(e -> sortComments(CommentSortType.POPULAR));
     }
 
-    private enum CommentSortType {
+    public enum CommentSortType {
         NEWEST, OLDEST, POPULAR
     }
 
@@ -107,12 +107,12 @@ public class ShowChallengeController {
         sortComments(CommentSortType.NEWEST); // Default to newest first
     }
 
-    private void refreshCommentsListView() {
+    private static void refreshCommentsListView() {
         commentsListView.getItems().setAll(commentsList);
         commentsListView.setCellFactory(lv -> new CommentListCell());
     }
 
-    private class CommentListCell extends javafx.scene.control.ListCell<comment> {
+    public static class CommentListCell extends javafx.scene.control.ListCell<comment> {
         private final HBox container = new HBox();
         private final VBox contentBox = new VBox();
         private final Label authorLabel = new Label();
@@ -137,8 +137,21 @@ public class ShowChallengeController {
             likeButton.setStyle("-fx-background-color: #e0e0e0; -fx-padding: 2 5 2 5;");
             dislikeButton.setStyle("-fx-background-color: #e0e0e0; -fx-padding: 2 5 2 5;");
 
-            likeButton.setOnAction(e -> handleLike(getItem()));
-            dislikeButton.setOnAction(e -> handleDislike(getItem()));
+            likeButton.setOnAction(e -> {
+                comment comment = getItem();
+                if (comment != null) {
+                    comment.setLikes(comment.getLikes() + 1);
+                    refreshCommentsListView();
+                }
+            });
+
+            dislikeButton.setOnAction(e -> {
+                comment comment = getItem();
+                if (comment != null) {
+                    comment.setDislikes(comment.getDislikes() + 1);
+                    refreshCommentsListView();
+                }
+            });
 
             likeDislikeBox.getChildren().addAll(
                     likeButton, likesLabel,
@@ -172,20 +185,6 @@ public class ShowChallengeController {
                 dislikesLabel.setText(String.valueOf(comment.getDislikes()));
                 setGraphic(container);
             }
-        }
-    }
-
-    private void handleLike(comment comment) {
-        if (comment != null) {
-            comment.setLikes(comment.getLikes() + 1);
-            refreshCommentsListView();
-        }
-    }
-
-    private void handleDislike(comment comment) {
-        if (comment != null) {
-            comment.setDislikes(comment.getDislikes() + 1);
-            refreshCommentsListView();
         }
     }
 
