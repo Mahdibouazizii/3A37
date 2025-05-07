@@ -29,6 +29,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ShowChallengeController {
 
@@ -39,7 +41,7 @@ public class ShowChallengeController {
     @FXML private Label locationLabel;
     @FXML private ImageView challengeImageView;
     @FXML private VBox qrCodeContainer;
-    @FXML private static ListView<comment> commentsListView;
+    @FXML private ListView<comment> commentsListView;
     @FXML private TextField commentAuthorField;
     @FXML private TextArea commentContentField;
     @FXML private Button sortNewestButton;
@@ -49,7 +51,9 @@ public class ShowChallengeController {
     private challenge currentChallenge;
     private final ServiceChallenge serviceChallenge = new ServiceChallenge();
     private final commentservice commentService = new commentservice();
-    private static ArrayList<comment> commentsList = new ArrayList<>();
+    private ArrayList<comment> commentsList = new ArrayList<>();
+    private Set<Integer> likedComments = new HashSet<>();
+    private Set<Integer> dislikedComments = new HashSet<>();
 
     // Image display constants
     private static final double FIXED_WIDTH = 300;
@@ -107,12 +111,12 @@ public class ShowChallengeController {
         sortComments(CommentSortType.NEWEST); // Default to newest first
     }
 
-    private static void refreshCommentsListView() {
+    private void refreshCommentsListView() {
         commentsListView.getItems().setAll(commentsList);
         commentsListView.setCellFactory(lv -> new CommentListCell());
     }
 
-    public static class CommentListCell extends javafx.scene.control.ListCell<comment> {
+    public class CommentListCell extends javafx.scene.control.ListCell<comment> {
         private final HBox container = new HBox();
         private final VBox contentBox = new VBox();
         private final Label authorLabel = new Label();
@@ -137,21 +141,8 @@ public class ShowChallengeController {
             likeButton.setStyle("-fx-background-color: #e0e0e0; -fx-padding: 2 5 2 5;");
             dislikeButton.setStyle("-fx-background-color: #e0e0e0; -fx-padding: 2 5 2 5;");
 
-            likeButton.setOnAction(e -> {
-                comment comment = getItem();
-                if (comment != null) {
-                    comment.setLikes(comment.getLikes() + 1);
-                    refreshCommentsListView();
-                }
-            });
-
-            dislikeButton.setOnAction(e -> {
-                comment comment = getItem();
-                if (comment != null) {
-                    comment.setDislikes(comment.getDislikes() + 1);
-                    refreshCommentsListView();
-                }
-            });
+            likeButton.setOnAction(e -> handleLikeAction());
+            dislikeButton.setOnAction(e -> handleDislikeAction());
 
             likeDislikeBox.getChildren().addAll(
                     likeButton, likesLabel,
@@ -171,6 +162,68 @@ public class ShowChallengeController {
             container.setSpacing(10);
         }
 
+        private void handleLikeAction() {
+            comment comment = getItem();
+            if (comment != null) {
+                int commentId = comment.getCommentId();
+
+                if (likedComments.contains(commentId)) {
+                    // Already liked - remove like
+                    comment.setLikes(comment.getLikes() - 1);
+                    likedComments.remove(commentId);
+                    likeButton.setStyle("-fx-background-color: #e0e0e0;");
+                } else {
+                    // Not liked yet - add like
+                    comment.setLikes(comment.getLikes() + 1);
+                    likedComments.add(commentId);
+                    likeButton.setStyle("-fx-background-color: #a0e0a0;");
+
+                    // Remove dislike if it exists
+                    if (dislikedComments.contains(commentId)) {
+                        comment.setDislikes(comment.getDislikes() - 1);
+                        dislikedComments.remove(commentId);
+                        dislikeButton.setStyle("-fx-background-color: #e0e0e0;");
+                    }
+                }
+
+                // Update the display
+                likesLabel.setText(String.valueOf(comment.getLikes()));
+                dislikesLabel.setText(String.valueOf(comment.getDislikes()));
+                commentService.update(comment);
+            }
+        }
+
+        private void handleDislikeAction() {
+            comment comment = getItem();
+            if (comment != null) {
+                int commentId = comment.getCommentId();
+
+                if (dislikedComments.contains(commentId)) {
+                    // Already disliked - remove dislike
+                    comment.setDislikes(comment.getDislikes() - 1);
+                    dislikedComments.remove(commentId);
+                    dislikeButton.setStyle("-fx-background-color: #e0e0e0;");
+                } else {
+                    // Not disliked yet - add dislike
+                    comment.setDislikes(comment.getDislikes() + 1);
+                    dislikedComments.add(commentId);
+                    dislikeButton.setStyle("-fx-background-color: #e0a0a0;");
+
+                    // Remove like if it exists
+                    if (likedComments.contains(commentId)) {
+                        comment.setLikes(comment.getLikes() - 1);
+                        likedComments.remove(commentId);
+                        likeButton.setStyle("-fx-background-color: #e0e0e0;");
+                    }
+                }
+
+                // Update the display
+                likesLabel.setText(String.valueOf(comment.getLikes()));
+                dislikesLabel.setText(String.valueOf(comment.getDislikes()));
+                commentService.update(comment);
+            }
+        }
+
         @Override
         protected void updateItem(comment comment, boolean empty) {
             super.updateItem(comment, empty);
@@ -183,6 +236,20 @@ public class ShowChallengeController {
                 contentLabel.setText(comment.getContent());
                 likesLabel.setText(String.valueOf(comment.getLikes()));
                 dislikesLabel.setText(String.valueOf(comment.getDislikes()));
+
+                // Update button styles based on user's previous actions
+                int commentId = comment.getCommentId();
+                if (likedComments.contains(commentId)) {
+                    likeButton.setStyle("-fx-background-color: #a0e0a0;");
+                    dislikeButton.setStyle("-fx-background-color: #e0e0e0;");
+                } else if (dislikedComments.contains(commentId)) {
+                    likeButton.setStyle("-fx-background-color: #e0e0e0;");
+                    dislikeButton.setStyle("-fx-background-color: #e0a0a0;");
+                } else {
+                    likeButton.setStyle("-fx-background-color: #e0e0e0;");
+                    dislikeButton.setStyle("-fx-background-color: #e0e0e0;");
+                }
+
                 setGraphic(container);
             }
         }
@@ -270,6 +337,11 @@ public class ShowChallengeController {
         confirm.showAndWait().ifPresent(response -> {
             if (response == javafx.scene.control.ButtonType.OK) {
                 if (commentService.delete(selectedComment)) {
+                    // Remove from liked/disliked sets if present
+                    int commentId = selectedComment.getCommentId();
+                    likedComments.remove(commentId);
+                    dislikedComments.remove(commentId);
+
                     showAlert(Alert.AlertType.INFORMATION, "Success", "Comment deleted successfully");
                     loadComments();
                 } else {

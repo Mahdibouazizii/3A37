@@ -11,9 +11,11 @@
     <Label fx:id="captionLabel" style="-fx-font-weight: bold;" wrapText="true" />
     <Label fx:id="locationLabel" style="-fx-font-style: italic;" />
     <Label fx:id="likeCountLabel" />
+    <Label fx:id="signatureLabel" text="" visible="false" />
     <HBox spacing="5.0" alignment="CENTER">
         <Button fx:id="viewDetailsButton" mnemonicParsing="false" onAction="#handleViewDetails" text="View Details" />
         <Button fx:id="likeButton" mnemonicParsing="false" onAction="#handleLike" text="Like" />
         <Button fx:id="dislikeButton" mnemonicParsing="false" onAction="#handleDislike" text="Dislike" />
+        <Button fx:id="signButton" mnemonicParsing="false" onAction="#handleSign" text="Sign" />
     </HBox>
 </VBox>
