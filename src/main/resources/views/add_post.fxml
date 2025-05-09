@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.geometry.Insets?>
 
-<GridPane hgap="10.0" vgap="10.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ecorayen.controllers.AddPostController">
+<GridPane hgap="10.0" vgap="10.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ecorayen.controllers.AddPostController" stylesheets="@/styles/add-challenge-styles.css">
     <padding><Insets bottom="15.0" left="15.0" right="15.0" top="15.0" /></padding>
 
     <Label text="Caption:" GridPane.columnIndex="0" GridPane.rowIndex="0" />

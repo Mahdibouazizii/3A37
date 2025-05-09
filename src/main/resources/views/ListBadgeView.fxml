@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ecorayen.controllers.ListBadgeController">
+<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ecorayen.controllers.ListBadgeController" stylesheets="@../styles/styles.css">
     <children>
-        <VBox prefHeight="400.0" prefWidth="600.0">
+        <HBox style="-fx-background-color: #2A2D33; -fx-padding: 10 20; -fx-alignment: center-left;">
+            <Label text="Badges" style="-fx-text-fill: #F5F5DC; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+        </HBox>
+        <TableView fx:id="badgeTable" prefHeight="350.0" prefWidth="600.0">
+            <columns>
+                <TableColumn fx:id="idColumn" prefWidth="75.0" text="ID" />
+                <TableColumn fx:id="nameColumn" prefWidth="150.0" text="Name" />
+                <TableColumn fx:id="descriptionColumn" prefWidth="200.0" text="Description" />
+                <TableColumn fx:id="imagePathColumn" prefWidth="170.0" text="Image Path" />
+            </columns>
+        </TableView>
+        <HBox alignment="CENTER" prefHeight="50.0" prefWidth="600.0" spacing="20.0">
             <children>
-                <TableView fx:id="badgeTable" prefHeight="350.0" prefWidth="600.0">
-                    <columns>
-                        <TableColumn fx:id="idColumn" prefWidth="75.0" text="ID" />
-                        <TableColumn fx:id="nameColumn" prefWidth="150.0" text="Name" />
-                        <TableColumn fx:id="descriptionColumn" prefWidth="200.0" text="Description" />
-                        <TableColumn fx:id="imagePathColumn" prefWidth="170.0" text="Image Path" />
-                    </columns>
-                </TableView>
-                <HBox alignment="CENTER" prefHeight="50.0" prefWidth="600.0" spacing="20.0">
-                    <children>
-                        <Button fx:id="addButton" onAction="#showAddBadgeInterface" text="Add Badge" />
-                        <Button fx:id="updateButton" onAction="#showUpdateBadgeInterface" text="Update Badge" />
-                        <Button fx:id="deleteButton" onAction="#deleteBadge" text="Delete Badge" />
-                        <Button fx:id="showDetailsButton" onAction="#showBadgeDetails" text="Show Details" />
-                    </children>
-                </HBox>
+                <Button fx:id="addButton" onAction="#showAddBadgeInterface" styleClass="button--primary" text="Add Badge" />
+                <Button fx:id="updateButton" onAction="#showUpdateBadgeInterface" styleClass="button--primary" text="Update Badge" />
+                <Button fx:id="deleteButton" onAction="#deleteBadge" styleClass="button--danger" text="Delete Badge" />
+                <Button fx:id="showDetailsButton" onAction="#showBadgeDetails" styleClass="button--secondary" text="Show Details" />
             </children>
-        </VBox>
+        </HBox>
     </children>
-</AnchorPane>
+</VBox>

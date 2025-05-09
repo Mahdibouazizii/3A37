@@ -15,10 +15,15 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="450.0" prefWidth="700.0" spacing="10.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ecorayen.controllers.ParticipationListController" stylesheets="@../styles/universal-styles.css">
+<VBox prefHeight="450.0" prefWidth="700.0" spacing="10.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ecorayen.controllers.ParticipationListController" stylesheets="@../styles/styles.css">
     <padding>
         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
     </padding>
+
+    <HBox style="-fx-background-color: #2A2D33; -fx-padding: 10 20; -fx-alignment: center-left;">
+        <Label text="Participations" style="-fx-text-fill: #F5F5DC; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+    </HBox>
+
     <HBox alignment="CENTER_LEFT" spacing="10.0">
         <RadioButton fx:id="listViewRadioButton" text="List View">
             <toggleGroup>

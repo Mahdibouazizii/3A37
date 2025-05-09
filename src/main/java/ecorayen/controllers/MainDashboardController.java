@@ -71,7 +71,9 @@ public class MainDashboardController {
         loadViewInDialog("/views/showchallenge.fxml", "Challenge Details");
     }
 
-
+    public void showChallengeStats(int challengeId) {
+        loadViewInDialog("/views/challenge stats.fxml", "Challenge Statistics");
+    }
 
     // Similar methods for Posts, Participations, and Badges...
 
