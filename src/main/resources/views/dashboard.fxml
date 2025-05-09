@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="ecorayen.controllers.MainDashboardController">
+
+    <center>
+        <TabPane fx:id="mainTabPane" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab text="Challenges">
+                    <content>
+                        <fx:include fx:id="challengesView" source="ListChallengeView.fxml"/>
+                    </content>
+                </Tab>
+
+                <Tab text="Posts">
+                    <content>
+                        <fx:include fx:id="postsView" source="display_posts.fxml"/>
+                    </content>
+                </Tab>
+
+                <Tab text="Participations">
+                    <content>
+                        <fx:include fx:id="participationsView" source="participation_list_view.fxml"/>
+                    </content>
+                </Tab>
+
+                <Tab text="Badges">
+                    <content>
+                        <fx:include fx:id="badgesView" source="ListBadgeView.fxml"/>
+                    </content>
+                </Tab>
+
+                <Tab text="Statistics">
+                    <content>
+                        <TabPane tabClosingPolicy="UNAVAILABLE">
+                            <tabs>
+                                <Tab text="Challenge Stats">
+                                    <content>
+                                        <fx:include source="challenge stats.fxml"/>
+                                    </content>
+                                </Tab>
+                                <Tab text="Participation Stats">
+                                    <content>
+                                        <fx:include source="stats_participation.fxml"/>
+                                    </content>
+                                </Tab>
+                            </tabs>
+                        </TabPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </center>
+</BorderPane>

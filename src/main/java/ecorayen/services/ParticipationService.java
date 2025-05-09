@@ -14,14 +14,13 @@ public class ParticipationService {
     private final String DB_PASSWORD = ""; // Replace with your DB password
 
     public boolean add(Participation p) {
-        String sql = "INSERT INTO participations (challenge_id, user_id, participation_date_time, score, submission_details) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO participations (challenge_id, participation_date_time, score, submission_details) VALUES (?, ?, ?, ?)";
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, p.getChallengeId());
-            pstmt.setInt(2, p.getUserId()); // Assuming you'll eventually use user IDs
-            pstmt.setObject(3, p.getParticipationDateTime());
-            pstmt.setDouble(4, p.getScore());
-            pstmt.setString(5, p.getSubmissionDetails());
+            pstmt.setObject(2, p.getParticipationDateTime());
+            pstmt.setDouble(3, p.getScore());
+            pstmt.setString(4, p.getSubmissionDetails());
             int affectedRows = pstmt.executeUpdate();
             return affectedRows > 0;
         } catch (SQLException e) {
@@ -32,7 +31,7 @@ public class ParticipationService {
 
     public List<Participation> getAll() {
         List<Participation> participations = new ArrayList<>();
-        String sql = "SELECT id, challenge_id, user_id, participation_date_time, score, submission_details FROM participations";
+        String sql = "SELECT id, challenge_id, participation_date_time, score, submission_details FROM participations";
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -40,7 +39,6 @@ public class ParticipationService {
                 Participation p = new Participation(
                         rs.getInt("id"),
                         rs.getInt("challenge_id"),
-                        rs.getInt("user_id"),
                         rs.getObject("participation_date_time", LocalDateTime.class),
                         rs.getDouble("score"),
                         rs.getString("submission_details")
@@ -54,7 +52,7 @@ public class ParticipationService {
     }
 
     public Optional<Participation> getById(int id) {
-        String sql = "SELECT challenge_id, user_id, participation_date_time, score, submission_details FROM participations WHERE id = ?";
+        String sql = "SELECT challenge_id, participation_date_time, score, submission_details FROM participations WHERE id = ?";
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
@@ -63,7 +61,6 @@ public class ParticipationService {
                 return Optional.of(new Participation(
                         id,
                         rs.getInt("challenge_id"),
-                        rs.getInt("user_id"),
                         rs.getObject("participation_date_time", LocalDateTime.class),
                         rs.getDouble("score"),
                         rs.getString("submission_details")
@@ -76,15 +73,14 @@ public class ParticipationService {
     }
 
     public boolean update(Participation p) {
-        String sql = "UPDATE participations SET challenge_id = ?, user_id = ?, participation_date_time = ?, score = ?, submission_details = ? WHERE id = ?";
+        String sql = "UPDATE participations SET challenge_id = ?, participation_date_time = ?, score = ?, submission_details = ? WHERE id = ?";
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, p.getChallengeId());
-            pstmt.setInt(2, p.getUserId());
-            pstmt.setObject(3, p.getParticipationDateTime());
-            pstmt.setDouble(4, p.getScore());
-            pstmt.setString(5, p.getSubmissionDetails());
-            pstmt.setInt(6, p.getId());
+            pstmt.setObject(2, p.getParticipationDateTime());
+            pstmt.setDouble(3, p.getScore());
+            pstmt.setString(4, p.getSubmissionDetails());
+            pstmt.setInt(5, p.getId());
             int affectedRows = pstmt.executeUpdate();
             return affectedRows > 0;
         } catch (SQLException e) {
@@ -165,7 +161,7 @@ public class ParticipationService {
 
     public List<Participation> getTopNParticipations(int n) {
         List<Participation> topParticipations = new ArrayList<>();
-        String sql = "SELECT id, challenge_id, user_id, participation_date_time, score, submission_details FROM participations ORDER BY score DESC LIMIT ?";
+        String sql = "SELECT id, challenge_id, participation_date_time, score, submission_details FROM participations ORDER BY score DESC LIMIT ?";
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, n);
@@ -174,7 +170,6 @@ public class ParticipationService {
                 Participation p = new Participation(
                         rs.getInt("id"),
                         rs.getInt("challenge_id"),
-                        rs.getInt("user_id"),
                         rs.getObject("participation_date_time", LocalDateTime.class),
                         rs.getDouble("score"),
                         rs.getString("submission_details")
@@ -189,7 +184,7 @@ public class ParticipationService {
 
     public List<Participation> getParticipationsByChallenge(int challengeId) {
         List<Participation> challengeParticipations = new ArrayList<>();
-        String sql = "SELECT id, challenge_id, user_id, participation_date_time, score, submission_details FROM participations WHERE challenge_id = ?";
+        String sql = "SELECT id, challenge_id, participation_date_time, score, submission_details FROM participations WHERE challenge_id = ?";
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, challengeId);
@@ -198,7 +193,6 @@ public class ParticipationService {
                 Participation p = new Participation(
                         rs.getInt("id"),
                         rs.getInt("challenge_id"),
-                        rs.getInt("user_id"),
                         rs.getObject("participation_date_time", LocalDateTime.class),
                         rs.getDouble("score"),
                         rs.getString("submission_details")

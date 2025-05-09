@@ -1,59 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.BarChart?>
-<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<TabPane fx:id="statsTabPane" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ecorayen.controllers.StatsParticipationController">
-    <tabs>
-        <Tab fx:id="overallStatsTab" text="Overall Stats">
-            <VBox spacing="10.0">
-                <padding>
-                    <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                </padding>
-                <Label style="-fx-font-weight: bold;" text="Overall Participation Statistics" />
-                <Label fx:id="totalParticipationsLabel" text="Total Participations: -" />
-                <Label fx:id="averageScoreLabel" text="Average Score: -" />
-            </VBox>
-        </Tab>
-        <Tab fx:id="scoreDistributionTab" text="Score Distribution">
-            <VBox spacing="10.0">
-                <padding>
-                    <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                </padding>
-                <Label style="-fx-font-weight: bold;" text="Score Distribution" />
-                <BarChart fx:id="scoreDistributionChart">
-                    <xAxis>
-                        <CategoryAxis fx:id="scoreCategoryAxis" label="Score Range" />
-                    </xAxis>
-                    <yAxis>
-                        <NumberAxis fx:id="scoreNumberAxis" label="Number of Participations" />
-                    </yAxis>
-                </BarChart>
-            </VBox>
-        </Tab>
-        <Tab fx:id="participationsByChallengeTab" text="By Challenge">
-            <VBox spacing="10.0">
-                <padding>
-                    <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                </padding>
-                <Label style="-fx-font-weight: bold;" text="Participations per Challenge" />
-                <ComboBox fx:id="challengeFilterComboBox" promptText="Filter by Challenge" />
-                <BarChart fx:id="participationsByChallengeChart">
-                    <xAxis>
-                        <CategoryAxis fx:id="challengeCategoryAxis" label="Challenge ID" />
-                    </xAxis>
-                    <yAxis>
-                        <NumberAxis fx:id="challengeNumberAxis" label="Number of Participations" />
-                    </yAxis>
-                </BarChart>
-            </VBox>
-        </Tab>
-    </tabs>
-</TabPane>
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="ecorayen.controllers.StatsParticipationController">
+    <center>
+        <TabPane fx:id="statsTabPane" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab fx:id="overallStatsTab" text="Overall Stats">
+                    <VBox spacing="10.0">
+                        <padding>
+                            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                        </padding>
+                        <Label text="Overall Participation Statistics" />
+                        <Label fx:id="totalParticipationsLabel" text="Total Participations: -" />
+                        <Label fx:id="averageScoreLabel" text="Average Score: -" />
+                        <Label fx:id="highestScoreLabel" text="Highest Score: -" />
+                        <Label fx:id="lowestScoreLabel" text="Lowest Score: -" />
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <Label text="Date Range:" />
+                            <DatePicker fx:id="fromDateFilter" promptText="From Date" />
+                            <DatePicker fx:id="toDateFilter" promptText="To Date" />
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <Label text="Sort By:" />
+                            <ComboBox fx:id="sortComboBox" promptText="Select Sort Option" />
+                        </HBox>
+                    </VBox>
+                </Tab>
+
+                <Tab fx:id="scoreDistributionTab" text="Score Distribution">
+                    <VBox spacing="10.0">
+                        <padding>
+                            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                        </padding>
+                        <Label text="Score Distribution" />
+                        <LineChart fx:id="scoreDistributionChart">
+                            <xAxis>
+                                <NumberAxis fx:id="scoreCategoryAxis" label="Score" />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis fx:id="scoreNumberAxis" label="Number of Participations" />
+                            </yAxis>
+                        </LineChart>
+                    </VBox>
+                </Tab>
+
+                <Tab fx:id="participationsByChallengeTab" text="By Challenge">
+                    <VBox spacing="10.0">
+                        <padding>
+                            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                        </padding>
+                        <Label text="Participations per Challenge" />
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <Label text="Filter by Challenge:" />
+                            <ComboBox fx:id="challengeFilterComboBox" promptText="Select Challenge" />
+                        </HBox>
+                        <LineChart fx:id="participationsByChallengeChart">
+                            <xAxis>
+                                <NumberAxis fx:id="challengeCategoryAxis" label="Challenge ID" />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis fx:id="challengeNumberAxis" label="Number of Participations" />
+                            </yAxis>
+                        </LineChart>
+                    </VBox>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </center>
+</BorderPane>

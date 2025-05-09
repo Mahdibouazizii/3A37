@@ -5,31 +5,28 @@ import java.util.Objects;
 
 public class Participation {
     private int id;
-    private int challengeId;
-    private int userId; // Assuming you might want to track users later
-    private LocalDateTime participationDateTime;
+    private int challenge_id; // Updated to match database
+    private LocalDateTime participation_date_time; // Updated to match database
     private double score;
-    private String submissionDetails;
+    private String submission_details; // Updated to match database
 
     // Constructors
     public Participation() {
     }
 
-    public Participation(int challengeId, int userId, LocalDateTime participationDateTime, double score, String submissionDetails) {
-        this.challengeId = challengeId;
-        this.userId = userId;
-        this.participationDateTime = participationDateTime;
+    public Participation(int challenge_id, LocalDateTime participation_date_time, double score, String submission_details) {
+        this.challenge_id = challenge_id;
+        this.participation_date_time = participation_date_time;
         this.score = score;
-        this.submissionDetails = submissionDetails;
+        this.submission_details = submission_details;
     }
 
-    public Participation(int id, int challengeId, int userId, LocalDateTime participationDateTime, double score, String submissionDetails) {
+    public Participation(int id, int challenge_id, LocalDateTime participation_date_time, double score, String submission_details) {
         this.id = id;
-        this.challengeId = challengeId;
-        this.userId = userId;
-        this.participationDateTime = participationDateTime;
+        this.challenge_id = challenge_id;
+        this.participation_date_time = participation_date_time;
         this.score = score;
-        this.submissionDetails = submissionDetails;
+        this.submission_details = submission_details;
     }
 
     // Getters and Setters
@@ -42,27 +39,19 @@ public class Participation {
     }
 
     public int getChallengeId() {
-        return challengeId;
+        return challenge_id; // Updated getter name
     }
 
-    public void setChallengeId(int challengeId) {
-        this.challengeId = challengeId;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setChallengeId(int challenge_id) { // Updated setter name
+        this.challenge_id = challenge_id;
     }
 
     public LocalDateTime getParticipationDateTime() {
-        return participationDateTime;
+        return participation_date_time; // Updated getter name
     }
 
-    public void setParticipationDateTime(LocalDateTime participationDateTime) {
-        this.participationDateTime = participationDateTime;
+    public void setParticipationDateTime(LocalDateTime participation_date_time) { // Updated setter name
+        this.participation_date_time = participation_date_time;
     }
 
     public double getScore() {
@@ -74,11 +63,11 @@ public class Participation {
     }
 
     public String getSubmissionDetails() {
-        return submissionDetails;
+        return submission_details; // Updated getter name
     }
 
-    public void setSubmissionDetails(String submissionDetails) {
-        this.submissionDetails = submissionDetails;
+    public void setSubmissionDetails(String submission_details) { // Updated setter name
+        this.submission_details = submission_details;
     }
 
     @Override
@@ -86,23 +75,22 @@ public class Participation {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Participation that = (Participation) o;
-        return id == that.id && challengeId == that.challengeId && userId == that.userId && Double.compare(that.score, score) == 0 && Objects.equals(participationDateTime, that.participationDateTime) && Objects.equals(submissionDetails, that.submissionDetails);
+        return id == that.id && challenge_id == that.challenge_id && Double.compare(that.score, score) == 0 && Objects.equals(participation_date_time, that.participation_date_time) && Objects.equals(submission_details, that.submission_details);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, challengeId, userId, participationDateTime, score, submissionDetails);
+        return Objects.hash(id, challenge_id, participation_date_time, score, submission_details);
     }
 
     @Override
     public String toString() {
         return "Participation{" +
                 "id=" + id +
-                ", challengeId=" + challengeId +
-                ", userId=" + userId +
-                ", participationDateTime=" + participationDateTime +
+                ", challenge_id=" + challenge_id +
+                ", participation_date_time=" + participation_date_time +
                 ", score=" + score +
-                ", submissionDetails='" + submissionDetails + '\'' +
+                ", submission_details='" + submission_details + '\'' +
                 '}';
     }
 }

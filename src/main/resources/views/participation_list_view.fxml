@@ -6,6 +6,10 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.HBox?>
@@ -30,6 +34,21 @@
         <Button fx:id="addParticipationButton" onAction="#handleAddParticipationAction" text="Add Participation" />
         <Button fx:id="showStatsButton" onAction="#handleShowStatsAction" text="Show Statistics" />
     </HBox>
-    <ListView fx:id="participationListView" prefHeight="300.0" prefWidth="600.0" visible="false" />
-    <VBox fx:id="participationCardContainer" spacing="10.0" />
+    <ListView fx:id="participationListView" prefHeight="200.0" prefWidth="600.0" visible="false" />
+    <ScrollPane fitToWidth="true" prefHeight="200.0" prefWidth="600.0">
+        <content>
+            <VBox fx:id="participationCardContainer" spacing="10.0" />
+        </content>
+    </ScrollPane>
+    <Separator prefWidth="200.0" />
+    <Label style="-fx-font-size: 1.2em; -fx-font-weight: bold;" text="Leaderboard" />
+    <VBox fx:id="leaderboardContainer" spacing="5.0">
+        <TableView fx:id="leaderboardTableView" prefHeight="200.0" prefWidth="600.0">
+            <columns>
+                <TableColumn fx:id="rankColumn" prefWidth="75.0" text="Rank" />
+                <TableColumn fx:id="userIdColumn" prefWidth="150.0" text="User ID" />
+                <TableColumn fx:id="scoreColumn" prefWidth="150.0" text="Score" />
+            </columns>
+        </TableView>
+    </VBox>
 </VBox>

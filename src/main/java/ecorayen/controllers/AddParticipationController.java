@@ -79,7 +79,6 @@ public class AddParticipationController {
             double score = Double.parseDouble(scoreText);
             Participation newParticipation = new Participation();
             newParticipation.setChallengeId(selectedChallenge.getId());
-            newParticipation.setUserId(1); // Default user ID for now
             newParticipation.setParticipationDateTime(LocalDateTime.now());
             newParticipation.setScore(score);
             newParticipation.setSubmissionDetails(submissionDetails);

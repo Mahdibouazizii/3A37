@@ -1,0 +1,102 @@
+/* General Styles */
+.root {
+    -fx-font-family: Arial, sans-serif;
+    -fx-background-color: #ef550d;
+    -fx-text-fill: #333;
+}
+
+/* TabPane */
+.tab-pane {
+    -fx-background-color: #ef550d;
+}
+
+.tab-header-area {
+    -fx-background-color: transparent;
+}
+
+.tab {
+    -fx-background-color: white;
+}
+
+.tab-label {
+    -fx-text-fill: #333;
+    -fx-font-size: 14px;
+}
+
+.tab:selected {
+    -fx-background-color: #e0e0e0; /* Slightly darker when selected */
+}
+
+/* Labels */
+.heading-1 {
+    -fx-font-size: 24px;
+    -fx-text-fill: #2c3e50;
+    -fx-font-weight: bold;
+}
+
+.heading-2 {
+    -fx-font-size: 20px;
+    -fx-text-fill: #2c3e50;
+    -fx-font-weight: bold;
+}
+
+.label {
+    -fx-font-size: 16px;
+    -fx-text-fill: #333;
+}
+
+.label-secondary {
+    -fx-text-fill: #7f8c8d;
+    -fx-font-size: 14px;
+}
+
+/* DatePicker and ComboBox */
+.date-picker,
+.combo-box {
+    -fx-font-size: 16px;
+    -fx-text-fill: #333;
+    -fx-border-color: #ddd;
+    -fx-border-radius: 5px;
+    -fx-background-color: white;
+}
+
+.date-picker .text-field,
+.combo-box .text-field {
+    -fx-font-size: 16px;
+    -fx-text-fill: #333;
+}
+
+/* LineChart */
+.chart {
+    -fx-background-color: white;
+}
+
+.chart-title {
+    -fx-font-size: 18px;
+    -fx-text-fill: #2c3e50;
+    -fx-font-weight: bold;
+}
+
+.axis-label {
+    -fx-text-fill: #333;
+    -fx-font-size: 16px;
+}
+
+.axis-tick-label {
+    -fx-text-fill: #7f8c8d;
+    -fx-font-size: 14px;
+}
+
+/* Style for the axis tick labels */
+.axis {
+    -fx-tick-label-fill: #7f8c8d;
+    -fx-tick-label-font-size: 14px;
+    -fx-minor-tick-visible: false;
+    -fx-tick-mark-length: 0;
+    -fx-border-color: #ddd;
+}
+
+.axis-label {
+    -fx-text-fill: #333;
+    -fx-font-size: 16px;
+}

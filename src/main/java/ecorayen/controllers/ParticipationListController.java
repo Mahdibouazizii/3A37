@@ -2,13 +2,14 @@ package ecorayen.controllers;
 
 import ecorayen.models.Participation;
 import ecorayen.services.ParticipationService;
-import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -17,68 +18,102 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public class ParticipationListController {
 
-    @FXML private ListView<Participation> participationListView;
-    @FXML private VBox participationCardContainer;
-    @FXML private Button addParticipationButton;
-    @FXML private Button showStatsButton;
-    @FXML private RadioButton listViewRadioButton;
-    @FXML private RadioButton cardViewRadioButton;
-    @FXML private ToggleGroup viewToggleGroup;
-    @FXML private TextField searchTextField;
-    @FXML private Button searchButton;
-    @FXML private ComboBox<String> sortByComboBox;
+    @FXML
+    private ListView<Participation> participationListView;
+    @FXML
+    private VBox participationCardContainer;
+    @FXML
+    private Button addParticipationButton;
+    @FXML
+    private Button showStatsButton;
+    @FXML
+    private RadioButton listViewRadioButton;
+    @FXML
+    private RadioButton cardViewRadioButton;
+    @FXML
+    private ToggleGroup viewToggleGroup;
+    @FXML
+    private TextField searchTextField;
+    @FXML
+    private Button searchButton;
+    @FXML
+    private ComboBox<String> sortByComboBox;
+
+    // Leaderboard UI Elements
+    @FXML
+    private VBox leaderboardContainer; // Container for the leaderboard
+    @FXML
+    private TableView<Participation> leaderboardTableView;
+    @FXML
+    private TableColumn<Participation, Integer> rankColumn;
+    @FXML
+    private TableColumn<Participation, Integer> userIdColumn; // Assuming Participation has a userId
+    @FXML
+    private TableColumn<Participation, Double> scoreColumn;
 
     private final ParticipationService participationService = new ParticipationService();
-    private ObservableList<Participation> allParticipations = FXCollections.observableArrayList();
-    private ObservableList<Participation> filteredParticipations = FXCollections.observableArrayList();
+    private final ObservableList<Participation> allParticipations = FXCollections.observableArrayList();
+    private final ObservableList<Participation> filteredParticipations = FXCollections.observableArrayList();
+    private final ObservableList<Participation> leaderboardData = FXCollections.observableArrayList();
+
+    //  Use Consumer for better type safety
+    private final Consumer<Participation> onDeleteParticipation = this::handleDeleteParticipation;
+    private final Consumer<Participation> onUpdateParticipation = this::handleUpdateParticipation;
 
     @FXML
     public void initialize() {
         loadParticipations();
         setupListView();
-        displayParticipationCards(); // Initial display as cards
-        cardViewRadioButton.setSelected(true); // Set default view
-        filteredParticipations.addAll(allParticipations); // Initially show all
+        setupCardView();
+        setupLeaderboard(); // Initialize the leaderboard
+        updateLeaderboard(); // Populate the leaderboard data
 
-        // Bind filtered list to the List View
+        cardViewRadioButton.setSelected(true);
+        filteredParticipations.addAll(allParticipations);
         participationListView.setItems(filteredParticipations);
 
-        // Add listeners for view switching
         listViewRadioButton.setOnAction(event -> {
             participationListView.setVisible(true);
             participationCardContainer.setVisible(false);
+            leaderboardContainer.setVisible(false); // Hide leaderboard in list view
         });
         cardViewRadioButton.setOnAction(event -> {
             participationListView.setVisible(false);
             participationCardContainer.setVisible(true);
+            leaderboardContainer.setVisible(true); // Show leaderboard in card view
         });
 
-        // Setup search functionality
         searchButton.setOnAction(event -> filterParticipations());
-        searchTextField.setOnAction(event -> filterParticipations()); // Allow search on Enter
+        searchTextField.setOnAction(event -> filterParticipations());
 
-        // Setup sorting options
         sortByComboBox.setItems(FXCollections.observableArrayList("ID", "Challenge ID", "Score", "Date"));
-        sortByComboBox.setValue("ID"); // Default sort
+        sortByComboBox.setValue("ID");
         sortByComboBox.setOnAction(event -> sortParticipations());
     }
 
     private void loadParticipations() {
         allParticipations.setAll(participationService.getAll());
-        filteredParticipations.setAll(allParticipations); // Reset filtered list on reload
-        displayParticipationCards();
+        filteredParticipations.setAll(allParticipations);
+        updateLeaderboard(); // Update leaderboard when participations are loaded
     }
 
     private void setupListView() {
-        participationListView.setCellFactory(param -> new ParticipationListCell(this::handleDeleteParticipation, this::handleUpdateParticipation));
+        participationListView.setCellFactory(param -> new ParticipationListCell(onDeleteParticipation, onUpdateParticipation));
+    }
+
+    private void setupCardView() {
+        participationCardContainer.getChildren().clear();
+        displayParticipationCards();
     }
 
     private void displayParticipationCards() {
         participationCardContainer.getChildren().clear();
-        for (Participation participation : filteredParticipations) { // Use filtered list
+        for (Participation participation : filteredParticipations) {
             VBox card = createParticipationCard(participation);
             participationCardContainer.getChildren().add(card);
         }
@@ -92,19 +127,53 @@ public class ParticipationListController {
         Label scoreLabel = new Label("Score: " + String.format("%.2f", participation.getScore()));
         Label dateLabel = new Label("Date: " + participation.getParticipationDateTime().toString());
         Label detailsLabel = new Label("Details: " + (participation.getSubmissionDetails() == null ? "N/A" : participation.getSubmissionDetails()));
+
         Button deleteButton = new Button("Delete");
-        deleteButton.setOnAction(event -> handleDeleteParticipation(participation));
+        deleteButton.setOnAction(event -> onDeleteParticipation.accept(participation));
         Button updateButton = new Button("Update");
-        updateButton.setOnAction(event -> handleUpdateParticipation(participation));
+        updateButton.setOnAction(event -> onUpdateParticipation.accept(participation));
 
         card.getChildren().addAll(idLabel, challengeIdLabel, scoreLabel, dateLabel, detailsLabel, updateButton, deleteButton);
         return card;
     }
 
+    private void setupLeaderboard() {
+        if (leaderboardTableView != null) {
+            rankColumn.setCellValueFactory(new PropertyValueFactory<>("id")); // Placeholder - adjust based on how you rank
+            userIdColumn.setCellValueFactory(new PropertyValueFactory<>("challengeId")); // Placeholder - adjust based on your User ID field
+            scoreColumn.setCellValueFactory(new PropertyValueFactory<>("score"));
+            leaderboardTableView.setItems(leaderboardData);
+        }
+    }
+
+    private void updateLeaderboard() {
+        // Sort participations by score in descending order
+        List<Participation> sortedParticipations = allParticipations.stream()
+                .sorted(Comparator.comparingDouble(Participation::getScore).reversed())
+                .collect(Collectors.toList());
+
+        // For a basic leaderboard, we can just display the top participations
+        leaderboardData.setAll(sortedParticipations);
+
+        // If you need to display a rank, you might need to process the sorted list
+        // and add a rank property (either in the model or just for display).
+        // Example of adding a simple rank:
+        for (int i = 0; i < leaderboardData.size(); i++) {
+            // Note: You might need to create a wrapper class if Participation doesn't have a rank property
+            // For simplicity, we're just using the index + 1 here.
+            // If you have ties in scores, the ranking logic would be more complex.
+            final int rank = i + 1;
+            // This assumes you have a way to set a temporary rank for display
+            // leaderboardData.get(i).setTemporaryRank(rank);
+        }
+        // If you added a temporary rank, you'd need to adjust the PropertyValueFactory for the rankColumn
+        // rankColumn.setCellValueFactory(new PropertyValueFactory<>("temporaryRank"));
+    }
+
     @FXML
-    public void handleAddParticipationAction() {
+    private void handleAddParticipationAction() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ecorayen/views/add_participation.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/add_participation.fxml"));
             VBox page = loader.load();
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Add New Participation");
@@ -125,13 +194,23 @@ public class ParticipationListController {
 
     private void handleUpdateParticipation(Participation participation) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ecorayen/views/update_participation.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/update_participation.fxml"));
             VBox page = loader.load();
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Update Participation");
             dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(
-                    listViewRadioButton.isSelected() ? participationListView.getScene().getWindow() : updateButton.getScene().getWindow());
+
+            // Determine the owner stage based on the visible view
+            Stage ownerStage = null;
+            if (listViewRadioButton.isSelected() && participationListView.getSelectionModel().getSelectedItem() == participation) {
+                ownerStage = (Stage) participationListView.getScene().getWindow();
+            } else if (cardViewRadioButton.isSelected() && participationCardContainer.isVisible()) {
+                ownerStage = (Stage) participationCardContainer.getScene().getWindow();
+            } else {
+                ownerStage = (Stage) addParticipationButton.getScene().getWindow(); // Fallback
+            }
+            dialogStage.initOwner(ownerStage);
+
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
 
@@ -165,10 +244,10 @@ public class ParticipationListController {
     }
 
     @FXML
-    public void handleShowStatsAction() {
+    private void handleShowStatsAction() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ecorayen/views/stats_participation.fxml"));
-            VBox page = loader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/stats_participation.fxml"));
+            BorderPane page = loader.load(); // Changed TabPane to BorderPane
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Participation Statistics");
             dialogStage.initModality(Modality.WINDOW_MODAL);
@@ -176,8 +255,12 @@ public class ParticipationListController {
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
 
+            // Access the TabPane within the BorderPane
+            TabPane statsTabPane = (TabPane) page.getCenter();
             StatsParticipationController controller = loader.getController();
-            controller.initialize(); // The stats controller will load the data
+            // You might need to pass the TabPane to the controller if it needs direct access
+            // controller.setStatsTabPane(statsTabPane);
+            controller.initialize();
 
             dialogStage.showAndWait();
         } catch (IOException e) {
@@ -196,7 +279,7 @@ public class ParticipationListController {
                         p.getParticipationDateTime().toString().toLowerCase().contains(searchText) ||
                         (p.getSubmissionDetails() != null && p.getSubmissionDetails().toLowerCase().contains(searchText)))
                 .toList());
-        displayParticipationCards(); // Refresh card view
+        displayParticipationCards();
     }
 
     private void sortParticipations() {
@@ -215,9 +298,8 @@ public class ParticipationListController {
                 filteredParticipations.sort(Comparator.comparing(Participation::getParticipationDateTime));
                 break;
         }
-        // No need to reload all, the ObservableList will update the ListView automatically
         if (cardViewRadioButton.isSelected()) {
-            displayParticipationCards(); // Refresh card view if visible
+            displayParticipationCards();
         }
     }
 
@@ -229,16 +311,15 @@ public class ParticipationListController {
         alert.showAndWait();
     }
 
-    // Inner class for the ListCell
     private static class ParticipationListCell extends ListCell<Participation> {
         private final Button deleteButton = new Button("Delete");
         private final Button updateButton = new Button("Update");
         private final HBox container = new HBox(5);
         private Participation currentItem;
-        private final java.util.function.Consumer<Participation> onDelete;
-        private final java.util.function.Consumer<Participation> onUpdate;
+        private final Consumer<Participation> onDelete;
+        private final Consumer<Participation> onUpdate;
 
-        public ParticipationListCell(java.util.function.Consumer<Participation> deleteHandler, java.util.function.Consumer<Participation> updateHandler) {
+        public ParticipationListCell(Consumer<Participation> deleteHandler, Consumer<Participation> updateHandler) {
             this.onDelete = deleteHandler;
             this.onUpdate = updateHandler;
             deleteButton.setOnAction(event -> {
