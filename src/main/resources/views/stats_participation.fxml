@@ -25,21 +25,21 @@
                 <Tab fx:id="overallStatsTab" text="Overall Stats">
                     <VBox spacing="10.0">
                         <padding>
-                            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
                         </padding>
-                        <Label text="Overall Participation Statistics" style="-fx-font-size: 1.2em; -fx-font-weight: bold;" />
-                        <Label fx:id="totalParticipationsLabel" text="Total Participations: -" />
-                        <Label fx:id="averageScoreLabel" text="Average Score: -" />
-                        <Label fx:id="highestScoreLabel" text="Highest Score: -" />
-                        <Label fx:id="lowestScoreLabel" text="Lowest Score: -" />
+                        <Label text="Overall Participation Statistics" style="-fx-font-size: 1.2em; -fx-font-weight: bold;"/>
+                        <Label fx:id="totalParticipationsLabel" text="Total Participations: -"/>
+                        <Label fx:id="averageScoreLabel" text="Average Score: -"/>
+                        <Label fx:id="highestScoreLabel" text="Highest Score: -"/>
+                        <Label fx:id="lowestScoreLabel" text="Lowest Score: -"/>
                         <HBox alignment="CENTER_LEFT" spacing="10.0">
-                            <Label text="Date Range:" />
-                            <DatePicker fx:id="fromDateFilter" promptText="From Date" />
-                            <DatePicker fx:id="toDateFilter" promptText="To Date" />
+                            <Label text="Date Range:"/>
+                            <DatePicker fx:id="fromDateFilter" promptText="From Date"/>
+                            <DatePicker fx:id="toDateFilter" promptText="To Date"/>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" spacing="10.0">
-                            <Label text="Sort By:" />
-                            <ComboBox fx:id="sortComboBox" promptText="Select Sort Option" />
+                            <Label text="Sort By:"/>
+                            <ComboBox fx:id="sortComboBox" promptText="Select Sort Option"/>
                         </HBox>
                     </VBox>
                 </Tab>
@@ -47,15 +47,15 @@
                 <Tab fx:id="scoreDistributionTab" text="Score Distribution">
                     <VBox spacing="10.0">
                         <padding>
-                            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
                         </padding>
-                        <Label text="Score Distribution" style="-fx-font-size: 1.2em; -fx-font-weight: bold;" />
+                        <Label text="Score Distribution" style="-fx-font-size: 1.2em; -fx-font-weight: bold;"/>
                         <LineChart fx:id="scoreDistributionChart">
                             <xAxis>
-                                <NumberAxis fx:id="scoreCategoryAxis" label="Score" />
+                                <NumberAxis fx:id="scoreCategoryAxis" label="Score"/>
                             </xAxis>
                             <yAxis>
-                                <NumberAxis fx:id="scoreNumberAxis" label="Number of Participations" />
+                                <NumberAxis fx:id="scoreNumberAxis" label="Number of Participations"/>
                             </yAxis>
                         </LineChart>
                     </VBox>
@@ -64,19 +64,19 @@
                 <Tab fx:id="participationsByChallengeTab" text="By Challenge">
                     <VBox spacing="10.0">
                         <padding>
-                            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
                         </padding>
-                        <Label text="Participations per Challenge" style="-fx-font-size: 1.2em; -fx-font-weight: bold;" />
+                        <Label text="Participations per Challenge" style="-fx-font-size: 1.2em; -fx-font-weight: bold;"/>
                         <HBox alignment="CENTER_LEFT" spacing="10.0">
-                            <Label text="Filter by Challenge:" />
-                            <ComboBox fx:id="challengeFilterComboBox" promptText="Select Challenge" />
+                            <Label text="Filter by Challenge:"/>
+                            <ComboBox fx:id="challengeFilterComboBox" promptText="Select Challenge"/>
                         </HBox>
                         <LineChart fx:id="participationsByChallengeChart">
                             <xAxis>
-                                <NumberAxis fx:id="challengeCategoryAxis" label="Challenge ID" />
+                                <NumberAxis fx:id="challengeCategoryAxis" label="Challenge ID"/>
                             </xAxis>
                             <yAxis>
-                                <NumberAxis fx:id="challengeNumberAxis" label="Number of Participations" />
+                                <NumberAxis fx:id="challengeNumberAxis" label="Number of Participations"/>
                             </yAxis>
                         </LineChart>
                     </VBox>
