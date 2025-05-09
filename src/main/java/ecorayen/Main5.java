@@ -14,20 +14,25 @@ public class Main5 extends Application {
             // Load the dashboard FXML
             Parent root = FXMLLoader.load(getClass().getResource("/views/dashboard.fxml"));
 
+            // Create the scene
+            Scene scene = new Scene(root);
+
+            // Load the stylesheet
+            scene.getStylesheets().add(getClass().getResource("/styles/universal-styles.css").toExternalForm());
+
             // Configure the main stage
             primaryStage.setTitle("EcoRayen Dashboard");
-            Scene scene = new Scene(root);
             primaryStage.setScene(scene);
 
             // Set minimum window size
-            primaryStage.setMinWidth(1000);
-            primaryStage.setMinHeight(700);
+            primaryStage.setMinWidth(500);
+            primaryStage.setMinHeight(500);
 
             // Show the stage
             primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("Error loading dashboard: " + e.getMessage());
+            System.err.println("Error loading dashboard or stylesheet: " + e.getMessage());
         }
     }
 

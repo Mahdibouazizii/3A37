@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 
 <?import java.net.URL?>
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ecorayen.controllers.ShowBadgeController">
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ecorayen.controllers.ShowBadgeController" stylesheets="@../styles/universal-styles.css">
     <stylesheets>
         <URL value="@../styles/showstyles.css"/>
     </stylesheets>

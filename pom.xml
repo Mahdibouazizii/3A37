@@ -37,19 +37,16 @@
             <artifactId>javafx-fxml</artifactId>
             <version>${javafx.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-web</artifactId>
-            <version>17.0.2</version>
+            <version>${javafx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-swing</artifactId>
             <version>${javafx.version}</version>
         </dependency>
-
-
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-media</artifactId>
@@ -59,19 +56,21 @@
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-graphics</artifactId>
             <version>${javafx.version}</version>
-        </dependency
-        ><dependency>
-        <groupId>mysql</groupId>
-        <artifactId>mysql-connector-java</artifactId>
-        <version>8.0.33</version>
-    </dependency>
+        </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-base</artifactId>
             <version>${javafx.version}</version>
         </dependency>
 
-        <!-- OpenHTMLToPDF (Modern HTML-to-PDF) -->
+        <!-- MySQL Connector -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
+        </dependency>
+
+        <!-- OpenHTMLToPDF -->
         <dependency>
             <groupId>com.openhtmltopdf</groupId>
             <artifactId>openhtmltopdf-core</artifactId>
@@ -82,14 +81,14 @@
             <artifactId>openhtmltopdf-pdfbox</artifactId>
             <version>${openhtmltopdf.version}</version>
         </dependency>
-        <!-- Explicit PDFBox dependency (required by OpenHTMLToPDF) -->
+        <!-- PDFBox -->
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>pdfbox</artifactId>
             <version>${pdfbox.version}</version>
         </dependency>
 
-        <!-- Other Dependencies -->
+        <!-- UI Libraries -->
         <dependency>
             <groupId>org.controlsfx</groupId>
             <artifactId>controlsfx</artifactId>
@@ -100,7 +99,6 @@
             <artifactId>formsfx-core</artifactId>
             <version>${formsfx.version}</version>
         </dependency>
-
         <dependency>
             <groupId>net.synedra</groupId>
             <artifactId>validatorfx</artifactId>
@@ -121,6 +119,8 @@
             <artifactId>tilesfx</artifactId>
             <version>${tilesfx.version}</version>
         </dependency>
+
+        <!-- Networking and JSON -->
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
@@ -131,10 +131,20 @@
             <artifactId>json</artifactId>
             <version>20231013</version>
         </dependency>
+
+        <!-- QR Code Generator -->
         <dependency>
             <groupId>io.nayuki</groupId>
             <artifactId>qrcodegen</artifactId>
             <version>${qrcodegen.version}</version>
+        </dependency>
+
+        <!-- Testing -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -158,7 +168,6 @@
                         <configuration>
                             <mainClass>ecorayen.Main3</mainClass>
                             <options>
-                                <!-- Required for automatic modules -->
                                 <option>--add-reads=ecorayen=ALL-UNNAMED</option>
                             </options>
                         </configuration>
