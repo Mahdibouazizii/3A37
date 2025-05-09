@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 import javafx.scene.layout.HBox;
 import javafx.geometry.Pos;
 
-public class  AddPostController {
+public class AddPostController {
 
     @FXML
     private TextField captionField;
