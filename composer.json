@@ -11,9 +11,20 @@
         "doctrine/doctrine-bundle": "^2.13",
         "doctrine/doctrine-migrations-bundle": "^3.4",
         "doctrine/orm": "^3.3",
+<<<<<<< HEAD
         "phpdocumentor/reflection-docblock": "^5.6",
         "phpstan/phpdoc-parser": "^2.1",
         "sensio/framework-extra-bundle": "*",
+=======
+        "dompdf/dompdf": "^3.1",
+        "endroid/qr-code": "^5.1",
+        "endroid/qr-code-bundle": "^5.0",
+        "knplabs/knp-snappy-bundle": "^1.10",
+        "phpdocumentor/reflection-docblock": "^5.6",
+        "phpstan/phpdoc-parser": "^2.1",
+        "sensio/framework-extra-bundle": "*",
+        "stripe/stripe-php": "^16.6",
+>>>>>>> 7ef3b12 (Initial commit with README.md)
         "symfony/asset": "5.4.*",
         "symfony/console": "5.4.*",
         "symfony/doctrine-messenger": "5.4.*",
@@ -43,14 +54,24 @@
         "symfony/web-link": "5.4.*",
         "symfony/yaml": "5.4.*",
         "twig/extra-bundle": "^2.12|^3.0",
+<<<<<<< HEAD
         "twig/twig": "^2.12|^3.0"
+=======
+        "twig/twig": "^2.12|^3.0",
+        "victor-prdh/recaptcha-bundle": "^1.9"
+>>>>>>> 7ef3b12 (Initial commit with README.md)
     },
     "config": {
         "allow-plugins": {
             "composer/package-versions-deprecated": true,
             "php-http/discovery": true,
             "symfony/flex": true,
+<<<<<<< HEAD
             "symfony/runtime": true
+=======
+            "symfony/runtime": true,
+            "endroid/installer": true
+>>>>>>> 7ef3b12 (Initial commit with README.md)
         },
         "optimize-autoloader": true,
         "preferred-install": {

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Détails de l'Événement – {{ event.nom }}</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .pdf-container {
+            background: #fff;
+            padding: 30px 40px;
+            width: 100%;
+            max-width: 750px;
+            margin: 20px auto;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #34495e;
+            font-size: 15px;
+        }
+
+        .value {
+            font-size: 14px;
+            color: #2d3436;
+            margin-bottom: 10px;
+        }
+
+        .event-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 15px;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 11px;
+            color: #888;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="pdf-container">
+        <h1>Détails de l'Événement</h1>
+
+        <div class="section">
+            <div class="label">📌 Nom :</div>
+            <div class="value">{{ event.nom }}</div>
+
+            <div class="label">📝 Description :</div>
+            <div class="value">{{ event.description }}</div>
+
+            <div class="label">🕒 Date de début :</div>
+            <div class="value">{{ event.heurDebut|date('d/m/Y H:i') }}</div>
+
+            <div class="label">🕗 Date de fin :</div>
+            <div class="value">{{ event.heurFin|date('d/m/Y H:i') }}</div>
+
+            <div class="label">🎟️ Places disponibles :</div>
+            <div class="value">{{ event.nbrplacetottale }}</div>
+        </div>
+
+        {% if event.image %}
+            <img src="{{ absolute_url(asset('uploads/images/' ~ event.image)) }}" class="event-image" alt="Image de l'événement">
+        {% else %}
+            <div class="value"><em>Aucune image disponible pour cet événement.</em></div>
+        {% endif %}
+
+        <div class="footer">
+            PDF généré automatiquement – GreenTech © {{ "now"|date("Y") }}
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,67 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Modifier le Challenge{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="my-4">Modifier le Challenge</h2>
+
+    <div class="card p-4">
+        {# Inclusion du formulaire de modification du challenge avec un label de bouton personnalisé #}
+        {{ form_start(form, {
+            'attr': {
+                'onsubmit': 'return validateEventForm(event)',  # Assurez-vous que validateEventForm est défini dans un script JS
+                'novalidate': 'novalidate'  # Désactivation de la validation HTML5 par défaut
+            }
+        }) }}
+
+        <div class="mb-3">
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name, {
+                'attr': {
+                    'class': 'form-control',
+                    'placeholder': 'Entrez le nom du challenge'
+                }
+            }) }}
+            <div class="text-danger" id="error-{{ form.name.vars.full_name }}"></div>
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.description) }}
+            {{ form_widget(form.description, {
+                'attr': {
+                    'class': 'form-control',
+                    'placeholder': 'Entrez la description du challenge'
+                }
+            }) }}
+            <div class="text-danger" id="error-{{ form.description.vars.full_name }}"></div>
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.imageFile) }}
+            {{ form_widget(form.imageFile, {
+                'attr': {
+                    'class': 'form-control'
+                }
+            }) }}
+            <div class="text-danger" id="error-{{ form.imageFile.vars.full_name }}"></div>
+        </div>
+
+        {# Bouton de mise à jour du challenge #}
+        <button type="submit" class="btn btn-success w-100 mt-3">
+            Mettre à jour
+        </button>
+
+        {{ form_end(form) }}
+    </div>
+
+    <div class="mt-3">
+        <a href="{{ path('app_challenge_index') }}" class="btn btn-secondary">Retour à la liste</a>
+    </div>
+
+    <div class="mt-3">
+        {# Formulaire de suppression du challenge #}
+        {{ include('admin/challenge/_delete_form.html.twig') }}
+    </div>
+</div>
+{% endblock %}

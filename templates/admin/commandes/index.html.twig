@@ -1,0 +1,48 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Liste des Commandes{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h3 class="page-title">Liste des Commandes</h3>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Toutes les Commandes</h4>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Utilisateur</th>
+                        <th>Adresse</th>
+                        <th>Type de Paiement</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for commande in commandes %}
+                        <tr>
+                            <td>{{ commande.id }}</td>
+                            <td>{{ commande.user.username }}</td>
+                            <td>{{ commande.adresse }}</td>
+                            <td>{{ commande.typePaiement }}</td>
+                            <td>{{ commande.createdAt|date('d/m/Y H:i') }}</td>
+                            <td>
+                            <a href="{{ path('admin_commande_details', { 'id': commande.id }) }}" class="btn btn-info btn-sm">Voir détails</a>
+                            </td>
+
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center">Aucune commande trouvée.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

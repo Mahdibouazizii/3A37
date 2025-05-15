@@ -25,6 +25,38 @@
     }
 </style>
 
+<<<<<<< HEAD
+=======
+<script>
+    // Fonction de recherche dynamique des produits
+    function filterProducts() {
+        let input = document.getElementById("searchInput").value.toLowerCase();
+        let cards = document.querySelectorAll(".product-card");
+
+        cards.forEach(card => {
+            let productName = card.querySelector(".card-title").innerText.toLowerCase();
+            card.style.display = productName.includes(input) ? "block" : "none";
+        });
+    }
+
+    // Fonction pour trier les produits par prix (croissant ou décroissant)
+    function sortProducts() {
+        let sortValue = document.getElementById("sortSelect").value;
+        let container = document.getElementById("productContainer");
+        let products = Array.from(container.getElementsByClassName("product-card"));
+
+        products.sort((a, b) => {
+            let priceA = parseFloat(a.getAttribute("data-price"));
+            let priceB = parseFloat(b.getAttribute("data-price"));
+
+            return sortValue === "asc" ? priceA - priceB : priceB - priceA;
+        });
+
+        products.forEach(product => container.appendChild(product));  // Réorganise les produits
+    }
+</script>
+
+>>>>>>> 7ef3b12 (Initial commit with README.md)
 <!-- ads slider -->
 <!-- Check if there are products with a promo percentage -->
 {% set produitsEnPromo = produits|filter(p => p.promoPercentage is not null and p.promoPercentage > 0) %}
@@ -74,6 +106,21 @@
 
 <div class="container mt-5">
     <h1 class="text-center mb-4">Nos Produits</h1>
+<<<<<<< HEAD
+=======
+    <div class="container">
+        <input type="text" id="searchInput" class="form-control mb-3" placeholder="Rechercher un produit..." onkeyup="filterProducts()">
+    </div>
+
+    <!-- Barre de recherche et tri -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <select id="sortSelect" class="form-select w-25" onchange="sortProducts()">
+            <option value="default">Trier par</option>
+            <option value="asc">Prix croissant</option>
+            <option value="desc">Prix décroissant</option>
+        </select>
+    </div>
+>>>>>>> 7ef3b12 (Initial commit with README.md)
 
     <!-- Add New Product Button (if admin) -->
     {% if 'ROLE_ADMIN' in app.user.roles %}
@@ -82,6 +129,7 @@
         </div>
     {% endif %}
 
+<<<<<<< HEAD
     <div class="row">
         {% for produit in produits %}
             <div class="col-md-4 mb-4">
@@ -92,6 +140,17 @@
                     {% else %}
                         <img src="{{ asset('images/default-product.jpg') }}" class="card-img-top" alt="Produit par défaut" style="height: 200px; object-fit: cover;">
                     {% endif %}
+=======
+    <div class="row" id="productContainer">
+        {% for produit in produits %}
+            <div class="col-md-4 mb-4 product-card" data-price="{{ produit.prix }}">
+                <div class="card shadow-sm">
+                    <!-- Product Image -->
+                    <img src="{{ produit.image ? asset('uploads/produits/' ~ produit.image) : asset('images/default-product.jpg') }}" 
+                         class="card-img-top" 
+                         alt="{{ produit.nom }}" 
+                         style="height: 200px; object-fit: cover;">
+>>>>>>> 7ef3b12 (Initial commit with README.md)
 
                     <div class="card-body">
                         <h5 class="card-title">{{ produit.nom }}</h5>
@@ -120,4 +179,8 @@
         {% endfor %}
     </div>
 </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7ef3b12 (Initial commit with README.md)
 {% endblock %}

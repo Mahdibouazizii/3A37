@@ -17,6 +17,10 @@ use Symfony\Bundle\SecurityBundle\Attribute\IsGranted;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use App\Entity\Commande;
 use App\Entity\CommandeProduit;
+<<<<<<< HEAD
+=======
+use App\Controller\TextareaType;
+>>>>>>> 7ef3b12 (Initial commit with README.md)
 
 use App\Form\CommandeType;
 
@@ -44,6 +48,7 @@ class ProduitController extends AbstractController
         ]);
     }
 
+<<<<<<< HEAD
     #[Route('/add-to-cart/{id}', name: 'add_to_cart')]
     public function addToCart(Produit $produit, SessionInterface $session): Response
     {
@@ -135,13 +140,22 @@ public function placeOrder(Request $request, SessionInterface $session, EntityMa
         'cart' => $cart,
     ]);
 }
+=======
+    
+
+    
+>>>>>>> 7ef3b12 (Initial commit with README.md)
 
     
     #[Route('/new', name: 'produit_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         // Check if the user has ROLE_ADMIN
+<<<<<<< HEAD
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
+=======
+        $this->denyAccessUnlessGranted('admin');
+>>>>>>> 7ef3b12 (Initial commit with README.md)
     
         $produit = new Produit();
         $form = $this->createForm(ProduitType::class, $produit);
@@ -251,6 +265,12 @@ public function placeOrder(Request $request, SessionInterface $session, EntityMa
         return $this->redirectToRoute('produit_show', ['id' => $produit->getId()]);
     }
 
+<<<<<<< HEAD
+=======
+  
+
+
+>>>>>>> 7ef3b12 (Initial commit with README.md)
 
 
 

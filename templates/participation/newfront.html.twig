@@ -1,0 +1,30 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Créer une Nouvelle Participation{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Créer une Nouvelle Participation</h1>
+
+    {# ✅ Messages flash : erreur ou succès #}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label == 'error' ? 'danger' : 'success' }} text-center">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {# ✅ Formulaire d'ajout de participation #}
+    <div class="card p-4 shadow">
+        {{ include('participation/_form.html.twig') }}
+    </div>
+
+    {# ✅ Lien retour #}
+    <div class="text-center mt-3">
+        <a href="{{ path('app_event_index_front') }}" class="btn btn-secondary w-100">
+            Retour à la liste des événements
+        </a>
+    </div>
+</div>
+{% endblock %}

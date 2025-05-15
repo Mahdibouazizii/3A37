@@ -5,7 +5,12 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+<<<<<<< HEAD
 
+=======
+use App\Controller\ValidatorInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+>>>>>>> 7ef3b12 (Initial commit with README.md)
 #[ORM\Entity]
 class Produit
 {
@@ -15,21 +20,45 @@ class Produit
     private ?int $id = null;
 
     #[ORM\Column(type: "string", length: 255)]
+<<<<<<< HEAD
     private ?string $nom = null;
 
     #[ORM\Column(type: "text")]
+=======
+    #[Assert\NotBlank(message: "Le nom du produit est obligatoire.")]
+    private ?string $nom = null;
+
+    #[ORM\Column(type: "text")]
+    #[Assert\NotBlank(message: "La description ne peut pas être vide.")]
+    #[Assert\Length(min: 10, minMessage: "La description doit contenir au moins 10 caractères.")]
+>>>>>>> 7ef3b12 (Initial commit with README.md)
     private ?string $description = null;
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
     private ?string $image = null;
 
     #[ORM\Column(type: "decimal", precision: 10, scale: 2)]
+<<<<<<< HEAD
     private ?float $prix = null;
 
     #[ORM\Column(type: "integer")]
     private ?int $stock = null;
 
     #[ORM\Column(type: "decimal", precision: 10, scale: 2)]
+=======
+    #[Assert\NotNull(message: "Le prix est requis.")]
+    #[Assert\Positive(message: "Le prix doit être un nombre positif.")]
+    private ?float $prix = null;
+
+    #[ORM\Column(type: "integer")]
+    #[Assert\NotNull(message: "Le stock est requis.")]
+    #[Assert\PositiveOrZero(message: "Le stock doit être un entier positif ou zéro.")]
+    private ?int $stock = null;
+
+    #[ORM\Column(type: "decimal", precision: 10, scale: 2)]
+    #[Assert\NotNull(message: "Le poids est requis.")]
+    #[Assert\Positive(message: "Le poids doit être un nombre positif.")]
+>>>>>>> 7ef3b12 (Initial commit with README.md)
     private ?float $poids = null;
 
     #[ORM\Column(type: "integer", nullable: true)]

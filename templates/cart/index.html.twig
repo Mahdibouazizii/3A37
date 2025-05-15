@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+<<<<<<< HEAD
 {% block title %}Mon Panier{% endblock %}
 
 {% block content %}
@@ -63,4 +64,121 @@
         </div>
     {% endif %}
 </div>
+=======
+{% block title %}Votre Panier{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Votre Panier</h2>
+
+    {% if cart is empty %}
+        <div class="alert alert-warning text-center">Votre panier est vide.</div>
+        <div class="text-center">
+            <a href="{{ path('produit_index') }}" class="btn btn-primary">Continuer vos achats</a>
+        </div>
+    {% else %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Image</th>
+                        <th>Produit</th>
+                        <th>Prix Unitaire</th>
+                        <th>Quantité</th>
+                        <th>Total</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="cart-items">
+                    {% set total = 0 %}
+                    {% for item in cart %}
+                        {% set total = total + (item.price * item.quantity) %}
+                        <tr data-item-id="{{ item.id }}">
+                            <td>
+                                <img src="{{ asset('uploads/images/' ~ item.image) }}" alt="{{ item.name }}" class="img-thumbnail" style="width: 100px;">
+                            </td>
+                            <td>{{ item.name }}</td>
+                            <td class="unit-price">{{ item.price|number_format(2, '.', ',') }} €</td>
+                            <td>
+                                <form class="update-cart-form d-flex align-items-center" data-id="{{ item.id }}">
+                                    <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="form-control me-2 quantity-input" style="width: 70px;">
+                                    <button type="submit" class="btn btn-sm btn-secondary update-btn">Modifier</button>
+                                </form>
+                            </td>
+                            <td class="total-price">{{ (item.price * item.quantity)|number_format(2, '.', ',') }} €</td>
+                            <td>
+                                <a href="{{ path('remove_from_cart', {'id': item.id}) }}" class="btn btn-danger btn-sm remove-from-cart">
+                                    <i class="fas fa-trash-alt"></i> Supprimer
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" class="text-right"><strong>Total:</strong></td>
+                        <td><strong id="cart-total">{{ total|number_format(2, '.', ',') }} €</strong></td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="text-end mt-4">
+            <a href="{{ path('produit_index') }}" class="btn btn-outline-primary me-3">
+                <i class="fas fa-shopping-bag"></i> Continuer vos achats
+            </a>
+            <a href="{{ path('place_order') }}" class="btn btn-success">
+                <i class="fas fa-check"></i> Passer la commande
+            </a>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".update-cart-form").forEach(form => {
+        form.addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent full page reload
+
+            let itemId = this.dataset.id;
+            let quantityInput = this.querySelector(".quantity-input");
+            let quantity = parseInt(quantityInput.value);
+
+            if (quantity < 1) {
+                alert("Quantité invalide !");
+                return;
+            }
+
+            fetch("{{ path('update_cart', {'id': 'ITEM_ID'}) }}".replace('ITEM_ID', itemId), {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "X-Requested-With": "XMLHttpRequest"
+                },
+                body: "quantity=" + quantity
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // ✅ Update row total
+                    let row = document.querySelector(`tr[data-item-id='${itemId}']`);
+                    let unitPrice = parseFloat(row.querySelector(".unit-price").innerText.replace(" €", "").replace(",", "."));
+                    let newTotal = (unitPrice * quantity).toFixed(2);
+
+                    row.querySelector(".total-price").innerText = newTotal.replace(".", ",") + " €";
+
+                    // ✅ Update cart total
+                    document.getElementById("cart-total").innerText = data.newTotal.replace(".", ",") + " €";
+                } else {
+                    alert(data.error);
+                }
+            })
+            .catch(error => console.error("Erreur:", error));
+        });
+    });
+});
+</script>
+
+>>>>>>> 7ef3b12 (Initial commit with README.md)
 {% endblock %}

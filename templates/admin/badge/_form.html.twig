@@ -1,0 +1,23 @@
+{{ form_start(form, {'attr': {'class': 'row g-3'}}) }} {# Add a grid layout class to the form #}
+
+    <div class="col-md-6">
+        {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }} {# Style form rows #}
+    </div>
+
+    <div class="col-md-6">
+        {{ form_row(form.description, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="col-md-6">
+        {{ form_row(form.challenge, {'attr': {'class': 'form-select'}}) }} {# Use form-select for dropdown #}
+    </div>
+
+    <div class="col-md-6">
+        {{ form_row(form.imageFile, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="col-12">
+        <button class="btn btn-primary">{{ button_label|default('Save') }}</button> {# Style the button #}
+    </div>
+
+{{ form_end(form) }}

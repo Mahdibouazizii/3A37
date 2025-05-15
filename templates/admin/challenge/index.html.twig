@@ -1,0 +1,158 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Gestion des Challenges{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="my-4 d-flex justify-content-between align-items-center">
+        Gestion des Challenges
+        <a href="{{ path('app_challenge_new') }}" class="btn btn-success">+ Créer un Nouveau Challenge</a>
+    </h2>
+
+   
+    <div class="row">
+        <div class="event-grid" id="challenge-grid">
+            {% for challenge in challenges %}
+                <div class="card" data-month="{{ challenge.dateStart ? challenge.dateStart|date('m') : 'all' }}">
+{% if challenge.image %}
+                    <img src="{{ asset('uploads/images/' ~ challenge.image) }}" alt="Image de Challenge">
+                    {% else %}
+                        <p>Aucune image disponible</p>
+                    {% endif %}
+
+                    <h2>{{ challenge.name }}</h2>
+                    <p>{{ challenge.description }}</p>
+                    <p><strong>Type :</strong> {{ challenge.type }}</p> <!-- 👈 Ajouté ici -->
+
+                    <div class="date-container">
+                        <div class="date-box">
+                            <strong>Date de Début</strong><br>
+                            {{ challenge.dateStart ? challenge.dateStart|date('d/m/Y H:i') : 'N/A' }}
+                        </div>
+                    </div>
+
+                    <div class="actions">
+                        <a class="btn btn-primary" href="{{ path('app_challenge_show', {'id': challenge.id}) }}">Voir</a>
+                        <a class="btn btn-edit" href="{{ path('app_challenge_edit', {'id': challenge.id}) }}">Modifier</a>
+                    </div>
+                </div>
+            {% else %}
+                <p>Aucun challenge trouvé</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Canvas pour le Graphique -->
+<div id="chart-container" style="display: none; text-align: center; margin-top: 5px;">
+    <canvas id="challengeChart" width="300" height="300"></canvas>
+</div>
+
+
+<style>
+    /* Add custom styles for the layout */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 20px;
+    }
+
+    h2 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .stats-container, .month-filter-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .stats-container button, .month-filter-container select {
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+    }
+
+    .event-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+    }
+
+    .card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        width: 300px;
+        text-align: center;
+        padding: 15px;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+    }
+
+    .card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+
+    .card h2 {
+        font-size: 20px;
+        margin: 10px 0;
+    }
+
+    .date-container {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        font-size: 14px;
+        color: #555;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .actions .btn {
+        text-decoration: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+        color: white;
+        transition: background 0.3s ease;
+    }
+
+    .actions .btn:hover {
+        opacity: 0.8;
+    }
+
+    .btn-edit {
+        background-color: #ffc107;
+    }
+
+    #chart-container {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+    }
+</style>
+{% endblock %}

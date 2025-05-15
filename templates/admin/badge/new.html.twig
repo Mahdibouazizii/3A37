@@ -1,0 +1,135 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}New Badge{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h2 class="my-4">Create New Badge</h2>
+
+        <div class="card p-4">
+            {{ form_start(form, {
+                'attr': {
+                    'onsubmit': 'return validateBadgeForm(event)',
+                    'novalidate': 'novalidate'  # Disables default HTML5 validation
+                }
+            }) }}
+
+            <div class="mb-3">
+                {{ form_label(form.name) }}
+                {{ form_widget(form.name, {
+                    'attr': {
+                        'class': 'form-control',
+                        'id': form.name.vars.id,
+                        'placeholder': 'Enter badge name'
+                    }
+                }) }}
+                <div class="text-danger" id="error-{{ form.name.vars.full_name }}"></div>
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.description) }}
+                {{ form_widget(form.description, {
+                    'attr': {
+                        'class': 'form-control',
+                        'id': form.description.vars.id,
+                        'placeholder': 'Enter badge description'
+                    }
+                }) }}
+                <div class="text-danger" id="error-{{ form.description.vars.full_name }}"></div>
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.imageFile) }}  <!-- change image to imageFile -->
+                {{ form_widget(form.imageFile, {
+                    'attr': {
+                        'class': 'form-control',
+                        'id': form.imageFile.vars.id
+                    }
+                }) }}
+                <div class="text-danger" id="error-{{ form.imageFile.vars.full_name }}"></div>  <!-- change image to imageFile -->
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">
+                {{ button_label|default('Save') }}
+            </button>
+
+            {{ form_end(form) }}
+        </div>
+
+        <div class="mt-3">
+            <a href="{{ path('app_badge_index') }}" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+
+    {% block badge_form_validation %}
+    <script>
+        function validateBadgeForm(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            let isValid = true;
+
+            // Reset errors
+            document.querySelectorAll('.text-danger').forEach(el => el.textContent = '');
+
+            // Validate each field
+            let nameInput = document.getElementById('{{ form.name.vars.id }}');
+            if (!nameInput.value.trim()) {
+                isValid = false;
+                document.getElementById('error-{{ form.name.vars.full_name }}').textContent =
+                    "The badge name cannot be empty.";
+            }
+
+            let descriptionInput = document.getElementById('{{ form.description.vars.id }}');
+            if (!descriptionInput.value.trim()) {
+                isValid = false;
+                document.getElementById('error-{{ form.description.vars.full_name }}').textContent =
+                    "The description cannot be empty.";
+            }
+
+            let imageInput = document.getElementById('{{ form.imageFile.vars.id }}');
+            if (imageInput.files.length > 0) {
+                let allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+                if (!allowedExtensions.test(imageInput.value)) {
+                    isValid = false;
+                    document.getElementById('error-{{ form.imageFile.vars.full_name }}').textContent =
+                        "Invalid file format. Use JPG or PNG.";
+                }
+            }
+
+            // If everything is valid, submit the form
+            if (isValid) {
+                event.target.submit(); // Submit the form
+            }
+
+            return false; // Prevent default form submission
+        }
+    </script>
+    {% endblock %}
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900" />
+    <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.2.0" rel="stylesheet" />
+{% endblock %}
+
+{% block javascripts %}
+    <script src="../assets/js/core/popper.min.js"></script>
+    <script src="../assets/js/core/bootstrap.min.js"></script>
+    <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <script>
+        var win = navigator.platform.indexOf('Win') > -1;
+        if (win && document.querySelector('#sidenav-scrollbar')) {
+            var options = {
+                damping: '0.5'
+            }
+            Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+        }
+    </script>
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script src="../assets/js/material-dashboard.min.js?v=3.2.0"></script>
+{% endblock %}
+    

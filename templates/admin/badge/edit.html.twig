@@ -1,0 +1,67 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Edit Badge{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="my-4">Edit Badge</h2>
+
+    <div class="card p-4">
+        {# Including the badge update form with custom button label #}
+        {{ form_start(form, {
+            'attr': {
+                'onsubmit': 'return validateBadgeForm(event)',  # Make sure validateBadgeForm is defined in a JS script
+                'novalidate': 'novalidate'  # Disable default HTML5 validation
+            }
+        }) }}
+
+        <div class="mb-3">
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name, {
+                'attr': {
+                    'class': 'form-control',
+                    'placeholder': 'Enter badge name'
+                }
+            }) }}
+            <div class="text-danger" id="error-{{ form.name.vars.full_name }}"></div>
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.description) }}
+            {{ form_widget(form.description, {
+                'attr': {
+                    'class': 'form-control',
+                    'placeholder': 'Enter badge description'
+                }
+            }) }}
+            <div class="text-danger" id="error-{{ form.description.vars.full_name }}"></div>
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.imageFile) }}
+            {{ form_widget(form.imageFile, {
+                'attr': {
+                    'class': 'form-control'
+                }
+            }) }}
+            <div class="text-danger" id="error-{{ form.imageFile.vars.full_name }}"></div>
+        </div>
+
+        {# Update badge button #}
+        <button type="submit" class="btn btn-success w-100 mt-3">
+            Update Badge
+        </button>
+
+        {{ form_end(form) }}
+    </div>
+
+    <div class="mt-3">
+        <a href="{{ path('app_badge_index') }}" class="btn btn-secondary">Back to List</a>
+    </div>
+
+    <div class="mt-3">
+        {# Badge deletion form #}
+        {{ include('admin/badge/_delete_form.html.twig') }}
+    </div>
+</div>
+{% endblock %}

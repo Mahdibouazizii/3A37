@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Challenge{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg mb-4">
+                <div class="row no-gutters">
+                    <div class="col-md-5">
+                        {% if challenge.image %}
+                            <img src="{{ asset('uploads/images/' ~ challenge.image) }}" class="card-img" alt="{{ challenge.name }}" style="object-fit: cover; height: 100%; width: 100%; border-radius: 8px;">
+                        {% else %}
+                            <img src="{{ asset('images/default_event.jpg') }}" class="card-img" alt="Default Event Image" style="object-fit: cover; height: 100%; width: 100%; border-radius: 8px;">
+                        {% endif %}
+                    </div>
+                    <div class="col-md-7">
+                        <div class="card-body">
+                            <h2 class="card-title" style="color: #FFB200;">{{ challenge.name }}</h2>
+                            <p class="card-text"><strong>Description:</strong> {{ challenge.description }}</p>
+                            <p class="card-text"><strong>Date start:</strong> {{ challenge.dateStart ? challenge.dateStart|date('Y-m-d H:i:s') : 'N/A' }}</p>
+                            <p class="card-text"><strong>Type:</strong> {{ challenge.type }}</p>
+                            <div class="d-flex justify-content-center mt-3">
+                                <a href="{{ path('app_challenge_index_front') }}" class="btn btn-warning btn-lg d-flex align-items-center">
+                                    ⬅ Back to List
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .btn-warning {
+        background-color: #FFB200;
+        border: none;
+        color: white;
+        padding: 12px 20px;
+        font-size: 16px;
+        border-radius: 50px;
+    }
+
+    .btn-warning:hover {
+        background-color: #FFA500;
+    }
+
+    .btn-warning:focus {
+        box-shadow: 0 0 0 0.25rem rgba(255, 82, 0, 0.5);
+    }
+
+    .card-body {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 30px;
+        border-radius: 10px;
+        text-align: left;
+    }
+
+    .card-title {
+        margin: 10px 0;
+        color: #2c3e50;
+        font-size: 1.8rem;
+    }
+
+    .card-text {
+        font-size: 1rem;
+        color: #333;
+    }
+
+    .row.no-gutters {
+        display: flex;
+        flex-wrap: nowrap;
+    }
+
+    .image-container img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 5px;
+    }
+</style>
+{% endblock %}

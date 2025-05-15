@@ -35,6 +35,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: "string", length: 255, nullable: true)]
     private ?string $profilePicture = null;
 
+<<<<<<< HEAD
     #[ORM\Column(type: "json")]
 private array $roles = ['ROLE_USER'];
 
@@ -59,6 +60,19 @@ public function __construct()
 }
 
 
+=======
+    // ⚠️ le rôle est maintenant une string simple, plus un json
+    #[ORM\Column(type: "string", length: 20)]
+    private string $roles = 'user';
+
+    #[ORM\Column(type: "boolean", options: ["default" => false])]
+    private bool $isBanned = false;
+
+    public function __construct()
+    {
+        $this->roles = 'user'; // valeur par défaut
+    }
+>>>>>>> 7ef3b12 (Initial commit with README.md)
 
     public function getId(): ?int
     {
@@ -131,6 +145,7 @@ public function __construct()
         return $this;
     }
 
+<<<<<<< HEAD
     public function getRoles(): array
     {
         return !empty($this->roles) ? array_unique($this->roles) : ['ROLE_USER'];
@@ -146,6 +161,53 @@ public function __construct()
 
  
 
+=======
+    // Symfony attend un tableau ['ROLE_USER'] ou ['ROLE_ADMIN']
+    public function getRoles(): array
+    {
+        return match ($this->roles) {
+            'admin' => ['ROLE_ADMIN'],
+            default => ['ROLE_USER'],
+        };
+    }
+
+    public function setRoles(array $roles): self
+    {
+        if (in_array('ROLE_ADMIN', $roles)) {
+            $this->roles = 'admin';
+        } else {
+            $this->roles = 'user';
+        }
+        return $this;
+    }
+
+    public function getRawRole(): string
+    {
+        return $this->roles;
+    }
+
+    public function setRawRole(string $role): self
+    {
+        $this->roles = $role;
+        return $this;
+    }
+
+    public function getDisplayRole(): string
+    {
+        return $this->roles;
+    }
+
+    public function isBanned(): bool
+    {
+        return $this->isBanned;
+    }
+
+    public function setIsBanned(bool $isBanned): self
+    {
+        $this->isBanned = $isBanned;
+        return $this;
+    }
+>>>>>>> 7ef3b12 (Initial commit with README.md)
 
     public function eraseCredentials(): void {}
 
@@ -156,7 +218,11 @@ public function __construct()
 
     public function getSalt(): ?string
     {
+<<<<<<< HEAD
         return null; // ✅ Not needed for modern password encoders
+=======
+        return null;
+>>>>>>> 7ef3b12 (Initial commit with README.md)
     }
 
     public function getUsername(): string

@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 {# templates/admin/produits/new.html.twig #}
+=======
+>>>>>>> 7ef3b12 (Initial commit with README.md)
 {% extends 'admin/base.html.twig' %}
 
 {% block title %}
@@ -21,7 +24,10 @@
   <div class="card p-4">
     {{ form_start(form, {
       attr: {
+<<<<<<< HEAD
         # Attach our custom JS validation:
+=======
+>>>>>>> 7ef3b12 (Initial commit with README.md)
         onsubmit: 'return validateProduitForm(event)',
         enctype: 'multipart/form-data',
         novalidate: 'novalidate'
@@ -30,6 +36,7 @@
 
       <div class="mb-3">
         {{ form_label(form.nom, 'Nom du Produit') }}
+<<<<<<< HEAD
         {{ form_widget(form.nom, {
           attr: {
             class: 'form-control',
@@ -37,10 +44,16 @@
           }
         }) }}
         <div class="text-danger" id="nomError" style="font-size: 0.875rem; margin-top: 5px;"></div>
+=======
+        {{ form_widget(form.nom, { attr: { class: 'form-control', id: 'nom', required: 'required' } }) }}
+        {{ form_errors(form.nom) }}
+        <div class="text-danger" id="nomError"></div>
+>>>>>>> 7ef3b12 (Initial commit with README.md)
       </div>
 
       <div class="mb-3">
         {{ form_label(form.description, 'Description') }}
+<<<<<<< HEAD
         {{ form_widget(form.description, {
           attr: {
             class: 'form-control',
@@ -48,10 +61,16 @@
           }
         }) }}
         <div class="text-danger" id="descriptionError" style="font-size: 0.875rem; margin-top: 5px;"></div>
+=======
+        {{ form_widget(form.description, { attr: { class: 'form-control', id: 'description', required: 'required' } }) }}
+        {{ form_errors(form.description) }}
+        <div class="text-danger" id="descriptionError"></div>
+>>>>>>> 7ef3b12 (Initial commit with README.md)
       </div>
 
       <div class="mb-3">
         {{ form_label(form.prix, 'Prix (TND)') }}
+<<<<<<< HEAD
         {{ form_widget(form.prix, {
           attr: {
             class: 'form-control',
@@ -59,10 +78,16 @@
           }
         }) }}
         <div class="text-danger" id="prixError" style="font-size: 0.875rem; margin-top: 5px;"></div>
+=======
+        {{ form_widget(form.prix, { attr: { class: 'form-control', id: 'prix', type: 'number', step: '0.01', required: 'required' } }) }}
+        {{ form_errors(form.prix) }}
+        <div class="text-danger" id="prixError"></div>
+>>>>>>> 7ef3b12 (Initial commit with README.md)
       </div>
 
       <div class="mb-3">
         {{ form_label(form.stock, 'Stock') }}
+<<<<<<< HEAD
         {{ form_widget(form.stock, {
           attr: {
             class: 'form-control',
@@ -70,10 +95,16 @@
           }
         }) }}
         <div class="text-danger" id="stockError" style="font-size: 0.875rem; margin-top: 5px;"></div>
+=======
+        {{ form_widget(form.stock, { attr: { class: 'form-control', id: 'stock', type: 'number', required: 'required' } }) }}
+        {{ form_errors(form.stock) }}
+        <div class="text-danger" id="stockError"></div>
+>>>>>>> 7ef3b12 (Initial commit with README.md)
       </div>
 
       <div class="mb-3">
         {{ form_label(form.image, 'Image du Produit') }}
+<<<<<<< HEAD
         {{ form_widget(form.image, {
           attr: {
             class: 'form-control',
@@ -81,10 +112,16 @@
           }
         }) }}
         <div class="text-danger" id="imageError" style="font-size: 0.875rem; margin-top: 5px;"></div>
+=======
+        {{ form_widget(form.image, { attr: { class: 'form-control', id: 'image' } }) }}
+        {{ form_errors(form.image) }}
+        <div class="text-danger" id="imageError"></div>
+>>>>>>> 7ef3b12 (Initial commit with README.md)
       </div>
 
       <div class="mb-3">
         {{ form_label(form.poids, 'Poids (kg)') }}
+<<<<<<< HEAD
         {{ form_widget(form.poids, {
           attr: {
             class: 'form-control',
@@ -92,6 +129,11 @@
           }
         }) }}
         <div class="text-danger" id="poidsError" style="font-size: 0.875rem; margin-top: 5px;"></div>
+=======
+        {{ form_widget(form.poids, { attr: { class: 'form-control', id: 'poids', type: 'number', step: '0.01', required: 'required' } }) }}
+        {{ form_errors(form.poids) }}
+        <div class="text-danger" id="poidsError"></div>
+>>>>>>> 7ef3b12 (Initial commit with README.md)
       </div>
 
       <button type="submit" class="btn btn-primary w-100">
@@ -109,6 +151,7 @@
     <a href="{{ path('admin_produits') }}" class="btn btn-secondary">Retour à la Liste</a>
   </div>
 
+<<<<<<< HEAD
 {% endblock %}
 
 {% block produit_form_validation %}
@@ -211,4 +254,68 @@ function validateProduitForm(event) {
   return false; // Prevent form submission by default
 }
 </script>
+=======
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector("form");
+
+    const nomEl = document.getElementById("nom");
+    const descEl = document.getElementById("description");
+    const prixEl = document.getElementById("prix");
+    const stockEl = document.getElementById("stock");
+    const imageEl = document.getElementById("image");
+    const poidsEl = document.getElementById("poids");
+
+    function validateInput(field, errorEl, validator) {
+      field.addEventListener("input", function () {
+        const errorMessage = validator(field.value.trim());
+        errorEl.textContent = errorMessage || "";
+      });
+    }
+
+    validateInput(nomEl, document.getElementById("nomError"), (value) => 
+      value.length < 3 ? "Le nom doit contenir au moins 3 caractères." : ""
+    );
+
+    validateInput(descEl, document.getElementById("descriptionError"), (value) => 
+      value.length < 10 ? "La description doit contenir au moins 10 caractères." : ""
+    );
+
+    validateInput(prixEl, document.getElementById("prixError"), (value) => 
+      !value || isNaN(value) || parseFloat(value) <= 0 ? "Le prix doit être un nombre positif." : ""
+    );
+
+    validateInput(stockEl, document.getElementById("stockError"), (value) => 
+      !value || isNaN(value) || parseInt(value) < 0 ? "Le stock doit être un entier positif ou zéro." : ""
+    );
+
+    validateInput(poidsEl, document.getElementById("poidsError"), (value) => 
+      !value || isNaN(value) || parseFloat(value) <= 0 ? "Le poids doit être un nombre positif." : ""
+    );
+
+    imageEl.addEventListener("change", function () {
+      const errorEl = document.getElementById("imageError");
+      errorEl.textContent = "";
+
+      {% if produit is not defined or not produit.id %}
+        if (imageEl.files.length === 0) {
+          errorEl.textContent = "Veuillez sélectionner une image.";
+          return;
+        }
+      {% endif %}
+
+      const allowedTypes = ["image/jpeg", "image/png"];
+      if (imageEl.files.length > 0 && !allowedTypes.includes(imageEl.files[0].type)) {
+        errorEl.textContent = "Veuillez télécharger une image au format JPEG ou PNG.";
+      }
+    });
+
+    form.addEventListener("submit", function (event) {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+      }
+    });
+  });
+  </script>
+>>>>>>> 7ef3b12 (Initial commit with README.md)
 {% endblock %}

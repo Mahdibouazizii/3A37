@@ -10,6 +10,11 @@ use App\Entity\Produit;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Bundle\SecurityBundle\Attribute\IsGranted;
 use App\Form\ProduitType;
+<<<<<<< HEAD
+=======
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Form\FormError;
+>>>>>>> 7ef3b12 (Initial commit with README.md)
 class AdminDashboardController extends AbstractController
 {
     #[Route('/admin/dashboard', name: 'admin_dashboard')]
@@ -56,6 +61,7 @@ class AdminDashboardController extends AbstractController
 
 //add new product 
 #[Route('/admin/produits/new', name: 'admin_produit_new', methods: ['GET', 'POST'])]
+<<<<<<< HEAD
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         // Check if the user has ROLE_ADMIN
@@ -66,6 +72,26 @@ class AdminDashboardController extends AbstractController
         $form->handleRequest($request);
     
         if ($form->isSubmitted() && $form->isValid()) {
+=======
+public function new(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator): Response
+{
+    // Check if the user has ROLE_ADMIN
+    $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+    $produit = new Produit();
+    $form = $this->createForm(ProduitType::class, $produit);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted()) {
+        // Perform validation
+        $errors = $validator->validate($produit);
+
+        if (count($errors) > 0) {
+            foreach ($errors as $error) {
+                $form->addError(new FormError($error->getMessage()));
+            }
+        } elseif ($form->isValid()) {
+>>>>>>> 7ef3b12 (Initial commit with README.md)
             $imageFile = $form->get('image')->getData();
             if ($imageFile) {
                 $newFilename = uniqid().'.'.$imageFile->guessExtension();
@@ -76,6 +102,7 @@ class AdminDashboardController extends AbstractController
                     );
                     $produit->setImage($newFilename);
                 } catch (FileException $e) {
+<<<<<<< HEAD
                     // Handle upload error
                 }
             }
@@ -91,6 +118,25 @@ class AdminDashboardController extends AbstractController
             'produit' => $produit,     
         ]);
     }
+=======
+                    $form->addError(new FormError("Erreur lors du téléchargement de l'image."));
+                }
+            }
+
+            $entityManager->persist($produit);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('admin_produits');
+        }
+    }
+
+    return $this->render('admin/produits/new.html.twig', [
+        'form' => $form->createView(),
+        'produit' => $produit,
+    ]);
+}
+
+>>>>>>> 7ef3b12 (Initial commit with README.md)
 // ✅ Show all products in Admin Panel
 #[Route('/admin/produits', name: 'admin_produits')]
 public function produits(EntityManagerInterface $entityManager): Response

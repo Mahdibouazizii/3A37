@@ -18,7 +18,11 @@ public function login(AuthenticationUtils $authenticationUtils): Response
         // The user has already passed the user checker
         // because they're recognized as authenticated here
         // so they're definitely NOT banned
+<<<<<<< HEAD
         return in_array('ROLE_ADMIN', $this->getUser()->getRoles())
+=======
+        return in_array('admin', $this->getUser()->getRoles())
+>>>>>>> 7ef3b12 (Initial commit with README.md)
             ? $this->redirectToRoute('admin_dashboard')
             : $this->redirectToRoute('homepage');
     }

@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Commandes{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Mes Commandes</h2>
+
+    {% if commandes is empty %}
+        <div class="alert alert-warning text-center">Vous n'avez pas encore passé de commande.</div>
+    {% else %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="table-dark">
+    <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Adresse</th>
+        <th>Type de Paiement</th>
+        <th>Status</th>
+        <th>Produits</th>
+        <th>Total</th>
+    </tr>
+</thead>
+<tbody>
+    {% for commande in commandes %}
+        <tr>
+            <td>#{{ commande.id }}</td>
+            <td>{{ commande.createdAt|date('d/m/Y H:i') }}</td>
+            <td>{{ commande.adresse }}</td>
+            <td>{{ commande.typePaiement }}</td>
+            <td>
+                {% if commande.status == 'Pending' %}
+                    <span class="badge bg-warning">Pending</span>
+                {% elseif commande.status == 'Validated' %}
+                    <span class="badge bg-success">Validated</span>
+                {% else %}
+                    <span class="badge bg-secondary">{{ commande.status }}</span>
+                {% endif %}
+            </td>
+            <td>
+                <ul>
+                    {% for cp in commande.commandeProduits %}
+                        <li>{{ cp.produit.nom }} - x{{ cp.quantity }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>{{ commande.commandeProduits|reduce((total, cp) => total + (cp.produit.prix * cp.quantity), 0) }} TND</td>
+        </tr>
+    {% endfor %}
+</tbody>
+
+            </table>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

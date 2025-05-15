@@ -18,6 +18,7 @@ class CommandeType extends AbstractType
                 'label' => 'Adresse de livraison',
                 'attr' => ['class' => 'form-control'],
             ])
+<<<<<<< HEAD
             ->add('typePaiement', ChoiceType::class, [
                 'label' => 'Type de paiement',
                 'choices' => [
@@ -28,6 +29,9 @@ class CommandeType extends AbstractType
                 'expanded' => true, // Radio buttons
                 'multiple' => false,
             ]);
+=======
+            ;
+>>>>>>> 7ef3b12 (Initial commit with README.md)
     }
 
     public function configureOptions(OptionsResolver $resolver): void

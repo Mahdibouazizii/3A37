@@ -1,0 +1,115 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Challenges{% endblock %}
+
+{% block content %}
+    <style>
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .search-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .search-container input {
+            padding: 10px;
+            font-size: 1rem;
+            width: 100%;
+            max-width: 400px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .challenge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .challenge-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.2s ease-in-out;
+            text-align: center;
+        }
+
+        .challenge-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .challenge-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .challenge-info {
+            padding: 15px;
+        }
+
+        .challenge-info h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .challenge-info p {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        /* Styling only for the "Voir plus" button */
+        .btn-view-more {
+            display: inline-block;
+            text-decoration: none;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .btn-view-more:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
+    <h1 style="text-align: center;">Challenges</h1>
+
+    
+    <div class="container">
+        <div class="challenge-grid" id="challengeGrid">
+            {% for challenge in challenges %}
+                <div class="challenge-card">
+                    {% if challenge.image %}
+                        <img src="{{ asset('uploads/' ~ challenge.image) }}" alt="{{ challenge.name }}" class="challenge-image">
+                    {% else %}
+                        <img src="{{ asset('uploads/default.jpg') }}" alt="Default Image" class="challenge-image">
+                    {% endif %}
+
+                    <div class="challenge-info">
+                        <h3>{{ challenge.name }}</h3>
+                        <p>{{ challenge.description }}</p>
+                        <p><strong>Date:</strong> {{ challenge.dateStart ? challenge.dateStart|date('Y-m-d H:i:s') : 'N/A' }}</p>
+                        <p><strong>Type:</strong> {{ challenge.type }}</p>
+                        
+                        <!-- "Voir plus" button linking to app_challenge_show_front -->
+                        <a href="{{ path('app_challenge_show_front', { id: challenge.id }) }}" class="btn-view-more">Voir plus</a>
+                            <a class="btn btn-participer" href="{{ path('app_participation_new_front', {'id': challenge.id}) }}">Participer</a>
+
+                    </div>
+                </div>
+            {% else %}
+                <p style="text-align: center; width: 100%;">Aucun challenge trouvé.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

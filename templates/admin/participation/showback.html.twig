@@ -1,0 +1,28 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Détails de la Participation #{{ participation.id }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h3 class="page-title">Détails de la Participation</h3>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Participation #{{ participation.id }}</h4>
+        
+        <ul class="list-group mb-4">
+            <li class="list-group-item"><strong>Âge:</strong> {{ participation.age }}</li>
+            <li class="list-group-item"><strong>Nombre de places:</strong> {{ participation.nbrplace }}</li>
+            <li class="list-group-item"><strong>Emplacement:</strong> {{ participation.statut }}</li>
+            <li class="list-group-item"><strong>User ID:</strong> {{ participation.iduser.id }}</li>
+            <li class="list-group-item"><strong>Event ID:</strong> {{ participation.idevenement.id }}</li>
+        </ul>
+
+        <div class="text-end mt-4">
+            <a href="{{ path('app_participation_index_back') }}" class="btn btn-secondary">⬅ Retour</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

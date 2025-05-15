@@ -1,0 +1,117 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Créer un événement{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h2 class="my-4">Créer un nouvel événement</h2>
+
+        <div class="card p-4">
+            {{ form_start(form, {
+                'attr': {
+                    'onsubmit': 'return validateEventForm(event)',
+                    'novalidate': 'novalidate'  # Désactivation de la validation HTML5 par défaut
+                }
+            }) }}
+
+            <div class="mb-3">
+                {{ form_label(form.nom) }}
+                {{ form_widget(form.nom, {
+                    'attr': {
+                        'class': 'form-control',
+                        'id': form.nom.vars.id,
+                        'placeholder': 'Enter event name'
+                    }
+                }) }}
+                <div class="text-danger" id="error-{{ form.nom.vars.full_name }}"></div>
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.description) }}
+                {{ form_widget(form.description, {
+                    'attr': {
+                        'class': 'form-control',
+                        'id': form.description.vars.id,
+                        'placeholder': 'Enter event description'
+                    }
+                }) }}
+                <div class="text-danger" id="error-{{ form.description.vars.full_name }}"></div>
+            </div>
+            <div class="mb-3">
+                {{ form_label(form.nbrplacetottale) }}
+                {{ form_widget(form.nbrplacetottale, {
+                    'attr': {
+                        'class': 'form-control',
+                        'id': form.nbrplacetottale.vars.id,
+                        'placeholder': 'Nombre de places disponibles'
+                    }
+                }) }}
+                <div class="text-danger" id="error-{{ form.nbrplacetottale.vars.full_name }}"></div>
+            </div>
+
+
+            <div class="mb-3">
+                {{ form_label(form.image) }}
+                {{ form_widget(form.image, {
+                    'attr': {
+                        'class': 'form-control',
+                        'id': form.image.vars.id
+                    }
+                }) }}
+                <div class="text-danger" id="error-{{ form.image.vars.full_name }}"></div>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">
+                {{ button_label|default('Save') }}
+            </button>
+
+            {{ form_end(form) }}
+        </div>
+
+        <div class="mt-3">
+            <a href="{{ path('app_event_index_back') }}" class="btn btn-secondary">Retour à la liste</a>
+        </div>
+    </div>
+
+    {% block event_form_validation %}
+    <script>
+        function validateEventForm(event) {
+            event.preventDefault(); // Empêche l'envoi par défaut
+
+            let isValid = true;
+            // Réinitialisation des erreurs
+            document.querySelectorAll('.text-danger').forEach(el => el.textContent = '');
+
+            // Validation de chaque champ du formulaire
+            let nomInput = document.getElementById('{{ form.nom.vars.id }}');
+            if (!nomInput.value.trim()) {
+                isValid = false;
+                document.getElementById('error-{{ form.nom.vars.full_name }}').textContent =
+                    "Nom de l'événement ne peut pas être vide.";
+            }
+
+            let descriptionInput = document.getElementById('{{ form.description.vars.id }}');
+            if (!descriptionInput.value.trim()) {
+                isValid = false;
+                document.getElementById('error-{{ form.description.vars.full_name }}').textContent =
+                    "La description ne peut pas être vide.";
+            }
+
+            let imageInput = document.getElementById('{{ form.image.vars.id }}');
+            if (imageInput.files.length > 0) {
+                let allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+                if (!allowedExtensions.test(imageInput.value)) {
+                    isValid = false;
+                    document.getElementById('error-{{ form.image.vars.full_name }}').textContent =
+                        "Format de fichier invalide. Utilisez JPG ou PNG.";
+                }
+            }
+
+            if (isValid) {
+                event.target.submit(); // Soumet le formulaire si tout est valide
+            }
+            return false; // Empêche la soumission par défaut
+        }
+    </script>
+    {% endblock %}
+{% endblock %}

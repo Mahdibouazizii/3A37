@@ -3,11 +3,44 @@
 {% block title %}Passer la Commande{% endblock %}
 
 {% block content %}
+<<<<<<< HEAD
+=======
+{% if stockWarnings is not empty %}
+    <div class="d-flex justify-content-center">
+        <div class="alert alert-danger alert-dismissible fade show text-center w-50" role="alert" style="font-size: 0.9rem;">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <div>
+                <h5 class="alert-heading">Stock insuffisant !</h5>
+                <p>Certains produits ne sont pas disponibles en quantité suffisante :</p>
+                <ul class="mb-2 text-start">
+                    {% for warning in stockWarnings %}
+                        <li>
+                            <strong>{{ warning.name }}</strong>
+                            <br>
+                            <small class="text-muted">
+                                Stock disponible: <span class="badge bg-warning text-dark">{{ warning.available_stock }}</span>,
+                                Quantité demandée: <span class="badge bg-primary">{{ warning.requested_quantity }}</span>
+                            </small>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <p class="mb-0"><strong>Veuillez ajuster votre commande avant de continuer.</strong></p>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+{% endif %}
+
+
+
+
+>>>>>>> 7ef3b12 (Initial commit with README.md)
 <div class="container mt-4">
     <h2>Finaliser la Commande</h2>
 
     <div class="row">
         <div class="col-md-6">
+<<<<<<< HEAD
             {{ form_start(form) }}
                 <div class="mb-3">
                     {{ form_label(form.adresse) }}
@@ -19,6 +52,30 @@
                 </div>
                 <button type="submit" class="btn btn-success">Confirmer la Commande</button>
             {{ form_end(form) }}
+=======
+            {{ form_start(form, {'attr': {'id': 'orderForm'}}) }}
+                <div class="mb-3">
+                    {{ form_label(form.adresse) }}
+                    {{ form_widget(form.adresse, {'attr': {'class': 'form-control', 'id': 'commande_adresse'}}) }}
+                </div>
+                <div id="map" style="height: 300px;"></div>
+
+                <!-- Hidden input to store payment type -->
+                <input type="hidden" name="commande[typePaiement]" id="commande_typePaiement">
+
+                <input type="hidden" name="_token" value="{{ csrf_token('place_order') }}">
+
+                <!-- Buttons to select payment method -->
+                <button type="submit" class="btn btn-success" id="cashOnDeliveryButton">
+                    Paiement à la livraison
+                </button>
+            {{ form_end(form) }}
+
+            <!-- Separate button for Stripe payment -->
+            <button id="stripeCheckoutButton" class="btn btn-primary mt-2">
+                Payer avec Carte Bancaire
+            </button>
+>>>>>>> 7ef3b12 (Initial commit with README.md)
         </div>
 
         <div class="col-md-6">
@@ -26,11 +83,132 @@
             <ul class="list-group">
                 {% for id, item in cart %}
                     <li class="list-group-item d-flex justify-content-between align-items-center">
+<<<<<<< HEAD
                         {{ item.produit.nom }} - {{ item.quantity }} x {{ item.produit.prix }} TND
                     </li>
+=======
+                        {{ item.name }} - {{ item.quantity }} x {{ item.price }} TND
+                    </li>
+                {% else %}
+                    <li class="list-group-item">Votre panier est vide.</li>
+>>>>>>> 7ef3b12 (Initial commit with README.md)
                 {% endfor %}
             </ul>
         </div>
     </div>
 </div>
+<<<<<<< HEAD
+=======
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    var adresseInput = document.getElementById('commande_adresse');
+
+    var map = L.map('map').setView([36.8065, 10.1815], 13); // Default location: Tunis
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    var marker = L.marker([36.8065, 10.1815], { draggable: true }).addTo(map);
+
+    function updateAddress(lat, lng) {
+        console.log(`Fetching address for: Lat=${lat}, Lng=${lng}`);
+
+        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log("API Response:", data);
+
+                if (data && data.display_name) {
+                    adresseInput.value = `${data.display_name}`;
+                } else {
+                    adresseInput.value = `Lat: ${lat}, Lng: ${lng}`; // Fallback
+                    console.warn("No address found, using fallback coordinates.");
+                }
+                console.log("Updated address field:", adresseInput.value);
+            })
+            .catch(error => {
+                console.error('Erreur lors de la récupération de l\'adresse:', error);
+                adresseInput.value = `Lat: ${lat}, Lng: ${lng}`; // Fallback
+            });
+    }
+
+    // ✅ Function to get user's location
+    function getUserLocation() {
+        if ("geolocation" in navigator) {
+            alert("Veuillez activer votre GPS pour sélectionner automatiquement votre adresse.");
+
+            navigator.geolocation.getCurrentPosition(
+                function (position) {
+                    var lat = position.coords.latitude;
+                    var lng = position.coords.longitude;
+
+                    console.log(`User location: Lat=${lat}, Lng=${lng}`);
+
+                    marker.setLatLng([lat, lng]);
+                    map.setView([lat, lng], 15);
+                    updateAddress(lat, lng);
+                },
+                function (error) {
+                    console.error("Erreur de localisation:", error);
+                    alert("Impossible d'obtenir votre localisation. Veuillez vérifier vos paramètres GPS.");
+                }
+            );
+        } else {
+            alert("La géolocalisation n'est pas prise en charge par votre navigateur.");
+        }
+    }
+
+    // ✅ Automatically get location when page loads
+    getUserLocation();
+
+    // ✅ Update address when marker is moved
+    marker.on('dragend', function () {
+        var position = marker.getLatLng();
+        updateAddress(position.lat, position.lng);
+    });
+});
+</script>
+
+
+<script>
+document.getElementById('cashOnDeliveryButton').addEventListener('click', function(event) {
+    document.getElementById('commande_typePaiement').value = "Paiement à la livraison";
+});
+
+document.getElementById('stripeCheckoutButton').addEventListener('click', function(event) {
+    event.preventDefault();
+
+    let adresseField = document.getElementById('commande_adresse');
+    
+    if (!adresseField || adresseField.value.trim() === '') {
+        alert('Veuillez entrer une adresse avant de procéder.');
+        return;
+    }
+
+    fetch("{{ path('create_checkout_session') }}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
+        },
+        body: JSON.stringify({
+            adresse: adresseField.value,
+            typePaiement: "Carte Bancaire"
+        })
+    }).then(response => response.json())
+      .then(data => {
+          if (data.checkoutUrl) {
+              window.location.href = data.checkoutUrl; // Redirect to Stripe Checkout
+          } else {
+              alert('Erreur lors de la création de la session Stripe.');
+          }
+      }).catch(error => {
+          console.error('Erreur:', error);
+          alert('Une erreur est survenue. Veuillez réessayer.');
+      });
+});
+</script>
+
+>>>>>>> 7ef3b12 (Initial commit with README.md)
 {% endblock %}

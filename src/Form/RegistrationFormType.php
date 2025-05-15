@@ -11,6 +11,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+<<<<<<< HEAD
+=======
+use VictorPrdh\RecaptchaBundle\Form\ReCaptchaType;
+>>>>>>> 7ef3b12 (Initial commit with README.md)
 
 class RegistrationFormType extends AbstractType
 {
@@ -38,7 +42,12 @@ class RegistrationFormType extends AbstractType
                         'mimeTypesMessage' => 'Please upload a valid image file.',
                     ])
                 ],
+<<<<<<< HEAD
             ]);
+=======
+            ])
+            ->add("recaptcha", RecaptchaType::class);
+>>>>>>> 7ef3b12 (Initial commit with README.md)
     }
 
     public function configureOptions(OptionsResolver $resolver): void

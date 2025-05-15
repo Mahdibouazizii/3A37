@@ -1,0 +1,59 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Event Details{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="my-4">Détails de l'Événement</h2>
+
+    <div class="card p-4">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Nom</th>
+                    <td>{{ event.nom }}</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ event.description }}</td>
+                </tr>
+                <tr>
+                    <th>Heure de Début</th>
+                    <td>{{ event.heurDebut ? event.heurDebut|date('Y-m-d H:i:s') : 'N/A' }}</td>
+                </tr>
+                <tr>
+                    <th>Heure de Fin</th>
+                    <td>{{ event.heurFin ? event.heurFin|date('Y-m-d H:i:s') : 'N/A' }}</td>
+                </tr>
+                <tr>
+                    <th>Places Totales</th>
+                    <td>{{ event.nbrplacetottale }}</td>
+                </tr>
+            </tbody>
+            <th>Image</th>
+        </table>
+        <tr>
+                    
+                    <td>
+                        <div class="image-container" style="max-width: 400px;">
+                            {% if event.image %}
+                                <img src="/uploads/images/{{ event.image }}" alt="Image de l'Événement" class="img-fluid rounded">
+                            {% else %}
+                                <p>Aucune image disponible</p>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+    </div>
+
+    <div class="mt-3 d-flex gap-2">
+        <a href="{{ path('app_event_index_back') }}" class="btn btn-secondary">⬅ Retour</a>
+        <a href="{{ path('app_event_edit', {'id': event.id}) }}" class="btn btn-primary">✏️ Modifier</a>
+        <a href="{{ path('event_pdf', {'id': event.id}) }}" class="btn btn-info">📄 Télécharger PDF</a>
+    </div>
+
+    <div class="mt-3">
+        {{ include('admin/event/_delete_form.html.twig') }}
+    </div>
+</div>
+{% endblock %}
